@@ -99,7 +99,7 @@ class Header extends Component {
                     <div className="container">
                         <div className="row row-header justify-content-center">
                             <div className="col-12 col-md-6">
-                                <h2>Welcome to KDM's Lab Application</h2>
+                                <h2>Welcome to KDM Lab Application</h2>
                                 {this.props.auth.isAuthenticated ?
                                        <div className="navbar-text" style = {{color:'blue'}}>{this.props.auth.user.email}</div> 
                                     : null
