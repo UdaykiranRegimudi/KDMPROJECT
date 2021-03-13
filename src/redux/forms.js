@@ -8,3 +8,13 @@ export const InitialJob = {
     assignto: '',
     description: ''
 }
+
+export const InitialOrder = {
+    orderid: '',
+    customer: '',
+    service: '',
+    lablocation: '',
+    status: '',
+    assignto: '',
+    description: ''
+}

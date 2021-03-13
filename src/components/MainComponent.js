@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Home from './HomeComponent';
+import Order from './OrderComponent';
 import Job from './JobComponent';
 import Listjob from './ListjobComponent';
 import Jobdetail from './JobdetailComponent';
 import Header from './HeaderComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { postJob, loginUser, logoutUser, fetchJobs, postJobupdate, fetchJobupdates, fetchUserMaster, fetchCustomerMaster, fetchServicesMaster } from '../redux/ActionCreators';
+import { postJob, loginUser, logoutUser, postOrder, fetchOrders, fetchJobs, postJobupdate, fetchJobupdates, fetchUserMaster, fetchCustomerMaster, fetchServicesMaster } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -16,6 +17,7 @@ const mapStateToProps = state => {
   console.log(state.customerMaster);
   console.log(state.userMaster);
   console.log(state.jobupdates);
+  console.log(state.orders);
   console.log(state.jobs);
   console.log(state.auth);
 
@@ -24,6 +26,7 @@ const mapStateToProps = state => {
       customerMaster: state.customerMaster,
       userMaster: state.userMaster,
       jobupdates: state.jobupdates,
+      orders: state.orders,
       jobs: state.jobs,
       auth: state.auth
     }
@@ -33,6 +36,9 @@ const mapDispatchToProps = (dispatch) => (
   {
   loginUser: (creds) => dispatch(loginUser(creds)),
   logoutUser: () => dispatch(logoutUser()),
+  postOrder: (order) => dispatch(postOrder(order)),
+  fetchOrders: () => {dispatch(fetchOrders())},
+  resetOrderForm: () => { dispatch(actions.reset('order'))},
   postJob: (job) => dispatch(postJob(job)),
   fetchJobs: () => {dispatch(fetchJobs())},
   resetJobForm: () => { dispatch(actions.reset('job'))},
@@ -49,6 +55,8 @@ class Main extends Component {
 
   componentDidMount() {
     console.log("In Main Component componentDidMount")
+    console.log("In Main Component componentDidMount, calling fetchOrders")
+    this.props.fetchOrders();
     console.log("In Main Component componentDidMount, calling fetchJobs")
     this.props.fetchJobs();
     console.log("In Main Component componentDidMount, calling fetchJobUpdates")
@@ -115,6 +123,8 @@ class Main extends Component {
             <Switch>
              <Route path="/home" component={HomePage} />
              {console.log("In Main After Route")}
+             <PrivateRoute exact path="/order" component={() => <Order userMaster={this.props.userMaster} customerMaster={this.props.customerMaster} servicesMaster={this.props.servicesMaster} resetOrderForm={this.props.resetOrderForm} postOrder={this.props.postOrder} /> } />
+              {console.log("In Main After Private Route order component")}
               <PrivateRoute exact path="/job" component={() => <Job userMaster={this.props.userMaster} customerMaster={this.props.customerMaster} servicesMaster={this.props.servicesMaster} resetJobForm={this.props.resetJobForm} postJob={this.props.postJob} /> } />
               {console.log("In Main After Private Route job component")}
               <PrivateRoute exact path="/listjob" component={() => <Listjob jobs={this.props.jobs} />} />

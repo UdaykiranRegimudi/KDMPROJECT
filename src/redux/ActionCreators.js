@@ -333,3 +333,97 @@ export const addServicesMaster = (servicesMaster) => ({
     type: ActionTypes.ADD_SERVICESMASTER,
     payload: servicesMaster
 });
+
+
+
+
+export const fetchOrders = () => (dispatch) => {
+
+    if (!auth.currentUser) {
+        console.log('No user logged in!');
+        return;
+    }
+
+    var user = auth.currentUser;
+    console.log("currentuser", user);
+
+    console.log("Entering fetch jobs");
+    dispatch(ordersLoading(true));
+
+    console.log("assigned user");
+ //return firestore.collection('order').get()
+    return firestore.collection('order').where('assignto', '==', user.email).get()
+    .then(snapshot => {
+        let orders = [];
+        snapshot.forEach(doc => {
+            const data = doc.data()
+            const _id = doc.id
+            orders.push({_id, ...data });
+        });
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>printing list orders after db call")
+        console.log(orders)
+
+        return orders;
+    })
+  
+.then(orders => dispatch(addOrders(orders)))
+    .catch(error => dispatch(ordersFailed(error.message)));
+}
+
+export const ordersLoading = () => ({
+    type: ActionTypes.ORDERS_LOADING
+});
+
+export const ordersFailed = (errmess) => ({
+    type: ActionTypes.ORDERS_FAILED,
+    payload: errmess
+});
+
+export const addOrders = (orders) => ({
+    type: ActionTypes.ADD_ORDERS,
+    payload: orders
+});
+
+
+
+
+export const postOrder = (order) => (dispatch) => {
+
+    if (!auth.currentUser) {
+        console.log('No user logged in!');
+        return;
+    }
+
+    console.log(order)
+
+    console.log("************ <action creators postOrder>")
+    console.log(order.customer)
+    console.log(order.service)
+    console.log("service length")
+    console.log(order.service.length)
+    var batch = firestore.batch()
+    firestore.collection('orders').add(order)
+
+    .then(docRef => {
+        console.log("Order docRefId")
+        console.log(docRef)
+
+        order.service.forEach((servItem) => {
+            console.log("printing doc in order.service")
+            console.log(servItem)
+            var jobDoc = {
+                serviceId: servItem
+            }    
+            var jobDocRef = firestore.collection('orders').doc(docRef.id).collection('jobs').doc()
+            batch.set(jobDocRef, jobDoc)
+        });
+            batch.commit()
+     })
+        .then(() => {
+            console.log("job order successfully created!");
+            console.log("Order");
+            alert('Order creation successful with orderId:'+ order.orderid); })
+           
+    .catch(error =>  { console.log('Order', error.message); alert('Your order could not be posted\nError: '+error.message); 
+    });
+    };

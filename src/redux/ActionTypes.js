@@ -5,6 +5,10 @@ export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
+export const ORDERS_LOADING = 'ORDERS_LOADING';
+export const ORDERS_FAILED = 'ORDERS_FAILED';
+export const ADD_ORDERS = 'ADD_ORDERS';
+
 export const JOBS_LOADING = 'JOBS_LOADING';
 export const JOBS_FAILED = 'JOBS_FAILED';
 export const ADD_JOBS = 'ADD_JOBS';
