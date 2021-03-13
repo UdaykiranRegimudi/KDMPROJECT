@@ -232,104 +232,104 @@ export const addJobupdate = (jobupdate) => ({
 
 
 
-export const fetchRefdatausers = () => (dispatch) => {
+export const fetchUserMaster = () => (dispatch) => {
     console.log("Entering fetch reference user data");
-    dispatch(refdatausersLoading(true));
+    dispatch(userMasterLoading(true));
 
-    return firestore.collection('refdatausers').get()
+    return firestore.collection('userMaster').get()
         .then(snapshot => {
-            let refdatausers = [];
+            let userMaster = [];
             snapshot.forEach(doc => {
                 const data = doc.data()
                 const _id = doc.id
-                refdatausers.push({_id, ...data });
+                userMaster.push({_id, ...data });
             });
-            return refdatausers;
+            return userMaster;
         })
-        .then(refdatausers => dispatch(addRefdatausers(refdatausers)))
-        .catch(error => dispatch(refdatausersFailed(error.message)));
+        .then(userMaster => dispatch(addUserMaster(userMaster)))
+        .catch(error => dispatch(userMasterFailed(error.message)));
 }
 
-export const refdatausersLoading = () => ({
-    type: ActionTypes.REFDATAUSERS_LOADING
+export const userMasterLoading = () => ({
+    type: ActionTypes.USERMASTER_LOADING
 });
 
-export const refdatausersFailed = (errmess) => ({
-    type: ActionTypes.REFDATAUSERS_FAILED,
+export const userMasterFailed = (errmess) => ({
+    type: ActionTypes.USERMASTER_FAILED,
     payload: errmess
 });
 
-export const addRefdatausers = (refdatausers) => ({
-    type: ActionTypes.ADD_REFDATAUSERS,
-    payload: refdatausers
+export const addUserMaster = (userMaster) => ({
+    type: ActionTypes.ADD_USERMASTER,
+    payload: userMaster
 });
 
 
 
 
-export const fetchRefdataCustomers = () => (dispatch) => {
+export const fetchCustomerMaster = () => (dispatch) => {
     console.log("Entering fetch reference customer data");
-    dispatch(refdataCustomersLoading(true));
+    dispatch(customerMasterLoading(true));
 
-    return firestore.collection('refdataCustomers').get()
+    return firestore.collection('customerMaster').get()
         .then(snapshot => {
-            let refdataCustomers = [];
+            let customerMaster = [];
             snapshot.forEach(doc => {
                 const data = doc.data()
                 const _id = doc.id
-                refdataCustomers.push({_id, ...data });
+                customerMaster.push({_id, ...data });
             });
-            return refdataCustomers;
+            return customerMaster;
         })
-        .then(refdataCustomers => dispatch(addRefdataCustomers(refdataCustomers)))
-        .catch(error => dispatch(refdataCustomersFailed(error.message)));
+        .then(customerMaster => dispatch(addCustomerMaster(customerMaster)))
+        .catch(error => dispatch(customerMasterFailed(error.message)));
 }
 
-export const refdataCustomersLoading = () => ({
-    type: ActionTypes.REFDATACUSTOMERS_LOADING
+export const customerMasterLoading = () => ({
+    type: ActionTypes.CUSTOMERMASTER_LOADING
 });
 
-export const refdataCustomersFailed = (errmess) => ({
-    type: ActionTypes.REFDATACUSTOMERS_FAILED,
+export const customerMasterFailed = (errmess) => ({
+    type: ActionTypes.CUSTOMERMASTER_FAILED,
     payload: errmess
 });
 
-export const addRefdataCustomers = (refdataCustomers) => ({
-    type: ActionTypes.ADD_REFDATACUSTOMERS,
-    payload: refdataCustomers
+export const addCustomerMaster = (customerMaster) => ({
+    type: ActionTypes.ADD_CUSTOMERMASTER,
+    payload: customerMaster
 });
 
 
 
 
-export const fetchRefdataServices = () => (dispatch) => {
+export const fetchServicesMaster = () => (dispatch) => {
     console.log("Entering fetch reference service data");
-    dispatch(refdataServicesLoading(true));
+    dispatch(servicesMasterLoading(true));
 
-    return firestore.collection('refdataServices').get()
+    return firestore.collection('servicesMaster').get()
         .then(snapshot => {
-            let refdataServices = [];
+            let servicesMaster = [];
             snapshot.forEach(doc => {
                 const data = doc.data()
                 const _id = doc.id
-                refdataServices.push({_id, ...data });
+                servicesMaster.push({_id, ...data });
             });
-            return refdataServices;
+            return servicesMaster;
         })
-        .then(refdataServices => dispatch(addRefdataServices(refdataServices)))
-        .catch(error => dispatch(refdataServicesFailed(error.message)));
+        .then(servicesMaster => dispatch(addServicesMaster(servicesMaster)))
+        .catch(error => dispatch(servicesMasterFailed(error.message)));
 }
 
-export const refdataServicesLoading = () => ({
-    type: ActionTypes.REFDATASERVICES_LOADING
+export const servicesMasterLoading = () => ({
+    type: ActionTypes.SERVICESMASTER_LOADING
 });
 
-export const refdataServicesFailed = (errmess) => ({
-    type: ActionTypes.REFDATASERVICES_FAILED,
+export const servicesMasterFailed = (errmess) => ({
+    type: ActionTypes.SERVICESMASTER_FAILED,
     payload: errmess
 });
 
-export const addRefdataServices = (refdataServices) => ({
-    type: ActionTypes.ADD_REFDATASERVICES,
-    payload: refdataServices
+export const addServicesMaster = (servicesMaster) => ({
+    type: ActionTypes.ADD_SERVICESMASTER,
+    payload: servicesMaster
 });

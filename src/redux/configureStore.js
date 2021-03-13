@@ -6,9 +6,9 @@ import logger from 'redux-logger';
 import { InitialJob } from './forms';
 import { Jobs } from './jobs';
 import { Jobupdates } from './jobupdates';
-import { Refdatausers } from './refdatausers';
-import { RefdataCustomers } from './refdataCustomers';
-import { RefdataServices } from './refdataServices';
+import { UserMaster } from './userMaster';
+import { CustomerMaster } from './customerMaster';
+import { ServicesMaster } from './servicesMaster';
 
 export const ConfigureStore = () => {
     console.log("In Configure Store.js Create Store")
@@ -17,9 +17,9 @@ export const ConfigureStore = () => {
         combineReducers({
             jobs: Jobs,
             jobupdates: Jobupdates,
-            refdatausers: Refdatausers,
-            refdataCustomers: RefdataCustomers,
-            refdataServices: RefdataServices,
+            userMaster: UserMaster,
+            customerMaster: CustomerMaster,
+            servicesMaster: ServicesMaster,
             auth: Auth,
             ...createForms({
                 job: InitialJob

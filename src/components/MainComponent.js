@@ -6,23 +6,23 @@ import Jobdetail from './JobdetailComponent';
 import Header from './HeaderComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { postJob, loginUser, logoutUser, fetchJobs, postJobupdate, fetchJobupdates, fetchRefdatausers, fetchRefdataCustomers, fetchRefdataServices } from '../redux/ActionCreators';
+import { postJob, loginUser, logoutUser, fetchJobs, postJobupdate, fetchJobupdates, fetchUserMaster, fetchCustomerMaster, fetchServicesMaster } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const mapStateToProps = state => {
   console.log("In mapStateToProps function");
-  console.log(state.refdataServices);
-  console.log(state.refdataCustomers);
-  console.log(state.refdatausers);
+  console.log(state.servicesMaster);
+  console.log(state.customerMaster);
+  console.log(state.userMaster);
   console.log(state.jobupdates);
   console.log(state.jobs);
   console.log(state.auth);
 
     return {
-      refdataServices: state.refdataServices,
-      refdataCustomers: state.refdataCustomers,
-      refdatausers: state.refdatausers,
+      servicesMaster: state.servicesMaster,
+      customerMaster: state.customerMaster,
+      userMaster: state.userMaster,
       jobupdates: state.jobupdates,
       jobs: state.jobs,
       auth: state.auth
@@ -38,9 +38,9 @@ const mapDispatchToProps = (dispatch) => (
   resetJobForm: () => { dispatch(actions.reset('job'))},
   postJobupdate: (docrefId, jobId, status, assignto, jobupdate) => dispatch(postJobupdate(docrefId, jobId, status, assignto, jobupdate)),
   fetchJobupdates: () => {dispatch(fetchJobupdates())},
-  fetchRefdatausers: () => {dispatch(fetchRefdatausers())},
-  fetchRefdataCustomers: () => {dispatch(fetchRefdataCustomers())},
-  fetchRefdataServices: () => {dispatch(fetchRefdataServices())}
+  fetchUserMaster: () => {dispatch(fetchUserMaster())},
+  fetchCustomerMaster: () => {dispatch(fetchCustomerMaster())},
+  fetchServicesMaster: () => {dispatch(fetchServicesMaster())}
 
 }
 );
@@ -54,11 +54,11 @@ class Main extends Component {
     console.log("In Main Component componentDidMount, calling fetchJobUpdates")
     this.props.fetchJobupdates();
     console.log("In Main Component componentDidMount, calling fetchRefdatausers")
-    this.props.fetchRefdatausers();
+    this.props.fetchUserMaster();
     console.log("In Main Component componentDidMount, calling fetchRefdataCustomers")
-    this.props.fetchRefdataCustomers();
+    this.props.fetchCustomerMaster();
     console.log("In Main Component componentDidMount, calling fetchRefdataServices")
-    this.props.fetchRefdataServices();
+    this.props.fetchServicesMaster();
     
 }
 
@@ -89,7 +89,7 @@ class Main extends Component {
           jobupdates={this.props.jobupdates.jobupdates.filter((jobupdate) => jobupdate.docrefId === match.params.docrefId)}
           jobupdatesErrMess={this.props.jobupdates.errMess}
           postJobupdate={this.props.postJobupdate}
-          refdatausers={this.props.refdatausers} />
+          userMaster={this.props.userMaster} />
       );
     }
 
@@ -115,7 +115,7 @@ class Main extends Component {
             <Switch>
              <Route path="/home" component={HomePage} />
              {console.log("In Main After Route")}
-              <PrivateRoute exact path="/job" component={() => <Job refdatausers={this.props.refdatausers} refdataCustomers={this.props.refdataCustomers} refdataServices={this.props.refdataServices} resetJobForm={this.props.resetJobForm} postJob={this.props.postJob} /> } />
+              <PrivateRoute exact path="/job" component={() => <Job userMaster={this.props.userMaster} customerMaster={this.props.customerMaster} servicesMaster={this.props.servicesMaster} resetJobForm={this.props.resetJobForm} postJob={this.props.postJob} /> } />
               {console.log("In Main After Private Route job component")}
               <PrivateRoute exact path="/listjob" component={() => <Listjob jobs={this.props.jobs} />} />
               {console.log("In Main After Private Route listjob component")}

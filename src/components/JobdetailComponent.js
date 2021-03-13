@@ -39,7 +39,7 @@ import { Fade } from 'react-animation-components';
             );
     }
 
-    function RenderJobupdates({docrefId, jobId, jobupdates, postJobupdate, refdatausers}) {
+    function RenderJobupdates({docrefId, jobId, jobupdates, postJobupdate, userMaster}) {
         console.log("************* Render job updates - printing doc ref id")
         console.log(docrefId)
         console.log("************* Render job updates - printing job id")
@@ -73,7 +73,7 @@ import { Fade } from 'react-animation-components';
                     {console.log(docrefId)}
                     {console.log("************* <passing to job update form> - printing job id")}
                     {console.log(jobId)}
-                    <JobupdateForm docrefId={docrefId} jobId={jobId} postJobupdate={postJobupdate} refdatausers={refdatausers} />
+                    <JobupdateForm docrefId={docrefId} jobId={jobId} postJobupdate={postJobupdate} userMaster={userMaster} />
                     </div>
                 </div>
             );
@@ -148,7 +148,7 @@ import { Fade } from 'react-animation-components';
                             <Label htmlFor="assignto">Assign To</Label>
                             <Control.select model=".assignto" id="assignto" className="form-control">
                             <option value="" selected disabled>Choose here</option>
-                            {this.props.refdatausers.refdatausers.map(userProfile => <option>{userProfile.userid}</option>)}
+                            {this.props.userMaster.userMaster.map(userProfile => <option>{userProfile.userId}</option>)}
 
                             </Control.select>
                             </Col>
@@ -213,7 +213,7 @@ import { Fade } from 'react-animation-components';
                             postJobupdate={props.postJobupdate}
                             docrefId={props.job._id}
                             jobId={props.job.jobid}
-                            refdatausers={props.refdatausers} />
+                            userMaster={props.userMaster} />
                              {console.log("*********jobid")}
                         {console.log(props.job.jobid)}
                     </div>

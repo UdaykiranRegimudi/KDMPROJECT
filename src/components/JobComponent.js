@@ -67,7 +67,7 @@ class Job extends Component {
                                     <Control.select model=".customer" id="customer" name="customer"
                                         className="form-control">
                                         <option value="" selected disabled>Choose here</option>
-                                        {this.props.refdataCustomers.refdataCustomers.map(customerProfile => <option>{customerProfile.custName}</option>)}
+                                        {this.props.customerMaster.customerMaster.map(customerProfile => <option>{customerProfile.customerName}</option>)}
                                     
                                     </Control.select>
                                 </Col>
@@ -78,7 +78,7 @@ class Job extends Component {
                                     <Control.select model=".service" id="service" name="service"
                                         className="form-control">
                                         <option value="" selected disabled>Choose here</option>
-                                       {this.props.refdataServices.refdataServices.map(service => <option>{service.servName}</option>)}
+                                       {this.props.servicesMaster.servicesMaster.map(service => <option>{service.serviceType}</option>)}
 
                                     </Control.select>
                                 </Col>
@@ -115,7 +115,7 @@ class Job extends Component {
                                     <Control.select model=".assignto" id="assignto" name="assignto"
                                         className="form-control"> 
                                         <option value="" selected disabled>Choose here</option>
-                                        {this.props.refdatausers.refdatausers.map(userProfile => <option>{userProfile.userid}</option>)}
+                                        {this.props.userMaster.userMaster.map(userProfile => <option>{userProfile.userId}</option>)}
                                    
                                     </Control.select>
                                 </Col>
