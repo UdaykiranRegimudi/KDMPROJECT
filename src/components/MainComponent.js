@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Home from './HomeComponent';
 import Order from './OrderComponent';
+import ListOrder from './ListOrderComponent';
 import Job from './JobComponent';
 import Listjob from './ListjobComponent';
 import Jobdetail from './JobdetailComponent';
@@ -125,6 +126,8 @@ class Main extends Component {
              {console.log("In Main After Route")}
              <PrivateRoute exact path="/order" component={() => <Order userMaster={this.props.userMaster} customerMaster={this.props.customerMaster} servicesMaster={this.props.servicesMaster} resetOrderForm={this.props.resetOrderForm} postOrder={this.props.postOrder} /> } />
               {console.log("In Main After Private Route order component")}
+              <PrivateRoute exact path="/listorder" component={() => <ListOrder orders={this.props.orders} />} />
+              {console.log("In Main After Private Route listorder component")}
               <PrivateRoute exact path="/job" component={() => <Job userMaster={this.props.userMaster} customerMaster={this.props.customerMaster} servicesMaster={this.props.servicesMaster} resetJobForm={this.props.resetJobForm} postJob={this.props.postJob} /> } />
               {console.log("In Main After Private Route job component")}
               <PrivateRoute exact path="/listjob" component={() => <Listjob jobs={this.props.jobs} />} />

@@ -52,10 +52,15 @@ class Header extends Component {
                         </NavbarBrand>
                         
                         <Collapse isOpen={this.state.isNavOpen} navbar>
-                        <Nav className="mr-auto col-sm-3 offset-2 col-md-6 navbar">
+                        <Nav className="mr-auto col-12 col-md-10 navbar">
                                 <NavItem>
                                     <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/order">
                                     <span className="fa fa-address-card fa-lg"></span> <strong> Create Order</strong>
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/listorder">
+                                    <span className="fa fa-list fa-lg"></span> <strong> List Orders</strong>
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>

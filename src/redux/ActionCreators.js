@@ -33,6 +33,7 @@ export const loginUser = (creds) => (dispatch) => {
         var user = auth.currentUser;
         localStorage.setItem('user', JSON.stringify(user));
         // Dispatch the success action
+        dispatch(fetchOrders());
         dispatch(fetchJobs());
         dispatch(receiveLogin(user));
     })
@@ -352,7 +353,7 @@ export const fetchOrders = () => (dispatch) => {
 
     console.log("assigned user");
  //return firestore.collection('order').get()
-    return firestore.collection('order').where('assignto', '==', user.email).get()
+    return firestore.collection('orders').where('assignto', '==', user.email).get()
     .then(snapshot => {
         let orders = [];
         snapshot.forEach(doc => {
@@ -422,7 +423,9 @@ export const postOrder = (order) => (dispatch) => {
         .then(() => {
             console.log("job order successfully created!");
             console.log("Order");
-            alert('Order creation successful with orderId:'+ order.orderid); })
+            alert('Order creation successful with orderId:'+ order.orderid);
+            dispatch(fetchOrders())
+        })
            
     .catch(error =>  { console.log('Order', error.message); alert('Your order could not be posted\nError: '+error.message); 
     });
