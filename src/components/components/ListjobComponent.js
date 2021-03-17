@@ -3,14 +3,14 @@ import { Card, CardBody, CardText} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 
-    function RenderOrder({ order, onClick }) {
+    function RenderJob({ job, onClick }) {
         return(
             <Card>
-                <Link to={`/listorder/${order.orderid}`} >
+                <Link to={`/listjob/${job._id}`} >
                 <CardBody className="jobcard justify-content-left">
                         {console.log("==========document ref")}
-                        {console.log(order._id)}
-                         <CardText>OrderId:{order.orderid}--{order.customer}--{order.service}--{order.description}</CardText>
+                        {console.log(job._id)}
+                         <CardText>JobId:{job.jobid}--{job.customer}--{job.service}--{job.description}</CardText>
                  </CardBody>
                 </Link>
             </Card>
@@ -19,21 +19,21 @@ import { Loading } from './LoadingComponent';
 
 
 
-    const ListOrder = (props) => {
-        console.log("In ListOrder Component entry");
+    const Listjob = (props) => {
+        console.log("In Listjob Component entry");
 
-        const listorder = props.orders.orders.map((order) => {
-            console.log("Entering ListOrder const Customer is: " + order.customer)
+        const listjob = props.jobs.jobs.map((job) => {
+            console.log("Entering Listjob const Customer is: " + job.customer)
 
             return (
-                <div key={order._id} className="col-12 col-md-8 m-1">
+                <div key={job._id} className="col-12 col-md-8 m-1">
                     
-                    <RenderOrder order={order} />
+                    <RenderJob job={job} />
                 </div>
             );
         });
 
-        if (props.orders.isLoading) {
+        if (props.jobs.isLoading) {
             return(
                 <div className="container">
                     <div className="row">
@@ -42,11 +42,11 @@ import { Loading } from './LoadingComponent';
                 </div>
             );
         }
-        else if (props.orders.errMess) {
+        else if (props.jobs.errMess) {
             return(
                 <div className="container">
                     <div className="row">
-                        <h4>{props.orders.errMess}</h4>
+                        <h4>{props.jobs.errMess}</h4>
                     </div>
                 </div>
             );
@@ -55,7 +55,7 @@ import { Loading } from './LoadingComponent';
             return (
                 <div className="container">
                     <div className="row col-12 justify-content-center">
-                            <h3>List Orders</h3>
+                            <h3>List Jobs</h3>
                     </div>
                     <div className="row">
                     <div className="col-12">   
@@ -63,10 +63,10 @@ import { Loading } from './LoadingComponent';
                     </div>
                     </div>
                     <div className="row justify-content-center">
-                        {listorder}
+                        {listjob}
                     </div>
                 </div>
             );
     }
 
-export default ListOrder;
+export default Listjob;
