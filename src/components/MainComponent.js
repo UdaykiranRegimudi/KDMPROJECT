@@ -3,13 +3,13 @@ import Home from './HomeComponent';
 import Order from './OrderComponent';
 import ListOrder from './ListOrderComponent';
 import OrderDetail from './OrderDetailComponent';
-import Job from './JobComponent';
+import OrderJobDetail from './OrderJobDetailComponent';
 import Listjob from './ListjobComponent';
 import Jobdetail from './JobdetailComponent';
 import Header from './HeaderComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { postJob, loginUser, logoutUser, postOrder, fetchOrders, fetchJobs,fetchOrderJobs, postJobupdate, fetchJobupdates, fetchUserMaster, fetchCustomerMaster, fetchServicesMaster } from '../redux/ActionCreators';
+import { postJob, loginUser, logoutUser, postOrder, fetchOrders, fetchJobs,fetchOrderJobs, postJobupdate, postOrderJobUpdate, fetchJobupdates, fetchUserMaster, fetchCustomerMaster, fetchServicesMaster } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -48,6 +48,7 @@ const mapDispatchToProps = (dispatch) => (
   fetchOrderJobs: () => {dispatch(fetchOrderJobs())},
   resetJobForm: () => { dispatch(actions.reset('job'))},
   postJobupdate: (docrefId, jobId, status, assignto, jobupdate) => dispatch(postJobupdate(docrefId, jobId, status, assignto, jobupdate)),
+  postOrderJobUpdate: (orderJobDocRefId, jobId, status, assignto, jobupdate) => dispatch(postOrderJobUpdate(orderJobDocRefId, jobId, status, assignto, jobupdate)),
   fetchJobupdates: () => {dispatch(fetchJobupdates())},
   fetchUserMaster: () => {dispatch(fetchUserMaster())},
   fetchCustomerMaster: () => {dispatch(fetchCustomerMaster())},
@@ -125,6 +126,24 @@ class Main extends Component {
       );
     }
 
+
+
+    const OrderJobWithId = ({match}) => {
+      console.log("++++++++++In OrderJobwithID match")
+      console.log("this.props.orderJobs.orderJobs")
+      console.log(this.props.orderJobs.orderJobs)
+      return(
+        <OrderJobDetail orderJob={this.props.orderJobs.orderJobs.filter((orderJob) => orderJob._id === match.params.orderJobDocRefId)[0]}
+          isLoading={this.props.orderJobs.isLoading}
+          errMess={this.props.orderJobs.errMess}
+          jobupdates={this.props.jobupdates.jobupdates.filter((jobupdate) => jobupdate.docrefId === match.params.orderJobDocRefId)}
+          jobupdatesErrMess={this.props.jobupdates.errMess}
+          postOrderJobUpdate={this.props.postOrderJobUpdate}
+          userMaster={this.props.userMaster}
+           />
+      );
+    }
+
    
 
 
@@ -155,16 +174,14 @@ class Main extends Component {
               {console.log("In Main After Private Route order component")}
               <PrivateRoute exact path="/listorder" component={() => <ListOrder orders={this.props.orders} />} />
               {console.log("In Main After Private Route listorder component")}
-              <PrivateRoute exact path="/job" component={() => <Job userMaster={this.props.userMaster} customerMaster={this.props.customerMaster} servicesMaster={this.props.servicesMaster} resetJobForm={this.props.resetJobForm} postJob={this.props.postJob} /> } />
-              {console.log("In Main After Private Route job component")}
               <PrivateRoute exact path="/listjob" component={() => <Listjob jobs={this.props.jobs} />} />
               {console.log("In Main After Private Route listjob component")}
               <PrivateRoute exact path="/listjob/:docrefId" component={JobWithId} />
               {console.log("In Main After Private Route listjob jobid component")}
               <PrivateRoute exact path="/listorder/:orderId" component={OrderWithId} />
               {console.log("In Main After Private Route orderdetail component")}
-              <PrivateRoute exact path="/listorder/:orderId" component={OrderWithId} />
-              {console.log("In Main After Private Route orderdetail component")}
+              <PrivateRoute exact path="/listorder-job/:orderJobDocRefId" component={OrderJobWithId} />
+              {console.log("In Main After Private Route order-job detail component")}
               <Redirect to="/home" />
             </Switch>
           </CSSTransition>

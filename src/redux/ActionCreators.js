@@ -146,7 +146,7 @@ export const postJobupdate= (docrefId, jobId, status, assignto, jobupdate) => (d
 
     /*=========================*/
     console.log("Calling job document update");
-        firestore.collection("job").doc(docrefId).update({
+        firestore.collection("jobs").doc(docrefId).update({
             "status": status,
             "assignto": assignto
         })
@@ -187,16 +187,75 @@ export const postJobupdate= (docrefId, jobId, status, assignto, jobupdate) => (d
                 }
             });
     })
-    .catch(error => { console.log('Post job updates ', error.message);
+        .catch(error => { console.log('Post job updates ', error.message);
         alert('Your job updates could not be posted\nError: '+ error.message); })
-
-
 
 }
 
 
 
 
+export const postOrderJobUpdate= (orderJobDocRefId, jobId, status, assignto, jobupdate) => (dispatch) => {
+
+    if (!auth.currentUser) {
+        console.log('No user logged in!');
+        return;
+    }
+
+    console.log("************ <action creators postOrderJobUpdate> orderJobDocRefId, jobId, status, assignto, jobupdate")
+    console.log(orderJobDocRefId)
+    console.log(jobId)
+    console.log(status)
+    console.log(assignto)
+
+    /*=========================*/
+    console.log("Calling orderJobUpdate document update");
+        firestore.collection("jobs").doc(orderJobDocRefId).update({
+            "status": status,
+            "assignto": assignto
+        })
+        .then(() => {
+            console.log("Document successfully updated!");
+        });
+    /*========================= */
+
+    return firestore.collection('jobupdates').add({
+        author: {
+            '_id': auth.currentUser.uid,
+            'firstname' : auth.currentUser.displayName ? auth.currentUser.displayName : auth.currentUser.email
+        },
+       // docrefId: docrefId,
+        jobId: jobId,
+        status: status,
+        assignto: assignto,
+        jobupdate: jobupdate,
+        createdAt: firebasestore.FieldValue.serverTimestamp(),
+        updatedAt: firebasestore.FieldValue.serverTimestamp()
+    })
+    .then(docRef => {
+        console.log("docRef of new jobupdate")
+        console.log(docRef)
+        firestore.collection('jobupdates').doc(docRef.id).get()
+            .then(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    const _id = doc.id;
+                    let jobupdate = {_id, ...data};
+                    console.log("Calling dispatch addJobupdate")
+                    console.log(jobupdate)
+                    dispatch(addJobupdate(jobupdate))
+                    dispatch(fetchOrderJobs())
+                    dispatch(fetchJobs())
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+            });
+    })
+       .catch(error => { console.log('Post job updates ', error.message);
+        alert('Your job updates could not be posted\nError: '+ error.message); })
+
+}
 
 
 
@@ -414,9 +473,10 @@ export const postOrder = (order) => (dispatch) => {
             console.log("printing doc in order.service")
             console.log(servItem)
             var jobDoc = {
-                serviceId: servItem,
+                serviceType: servItem,
                 orderDocRefId: docRef,
-                orderId: order.orderid
+                orderId: order.orderid,
+                jobId: order.orderId-docRef
             }    
             var jobDocRef = firestore.collection('jobs').doc()
             batch.set(jobDocRef, jobDoc)

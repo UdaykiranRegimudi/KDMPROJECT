@@ -63,11 +63,7 @@ class Header extends Component {
                                     <span className="fa fa-list fa-lg"></span> <strong> List Orders</strong>
                                     </NavLink>
                                 </NavItem>
-                                <NavItem>
-                                    <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/job">
-                                    <span className="fa fa-address-card fa-lg"></span> <strong> Create Job</strong>
-                                    </NavLink>
-                                </NavItem>
+                               
                             
                                 <NavItem>
                                     <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/listjob">

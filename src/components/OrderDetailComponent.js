@@ -54,8 +54,9 @@ import { Loading } from './LoadingComponent';
                             {orderJobs.map((orderJob) => {
                                 return(
                                 <Fade in key={orderJob.orderId}>
-                            <Link to={`/listorderjob/${orderJob.orderId}`} >
-                                <p>-- {orderJob.orderId} {orderJob.serviceId}</p>
+                                <Link to={`/listorder-job/${orderJob._id}`}>
+                                <p> {orderJob.orderId} --{orderJob.serviceType}
+                                    --{orderJob.status} -- {orderJob.assignto}</p>
                                 </Link>
                                     </Fade> )                              
                             })}
