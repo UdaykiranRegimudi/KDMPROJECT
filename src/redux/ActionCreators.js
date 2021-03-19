@@ -36,6 +36,7 @@ export const loginUser = (creds) => (dispatch) => {
         dispatch(fetchOrders());
         dispatch(fetchOrderJobs());
         dispatch(fetchJobs());
+        dispatch(fetchJobupdates());
         dispatch(receiveLogin(user));
     })
     
