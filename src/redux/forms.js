@@ -15,6 +15,6 @@ export const InitialOrder = {
     service: '',
     lablocation: '',
     status: '',
-    assignto: '',
+    createdby: '',
     description: ''
 }

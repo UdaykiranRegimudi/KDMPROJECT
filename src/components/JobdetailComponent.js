@@ -19,19 +19,14 @@ import { Fade } from 'react-animation-components';
                                            <dt className="col-6">Doc Ref:</dt>
                                             <dd className="col-6">{job._id}</dd>
                                             <dt className="col-6">Job Id:</dt>
-                                            <dd className="col-6">{job.jobid}</dd>
-                                            <dt className="col-6">Customer: </dt>
-                                            <dd className="col-6">{job.customer}</dd>
+                                            <dd className="col-6">{job.jobId}</dd>                                            
                                             <dt className="col-6">Service: </dt>
-                                            <dd className="col-6">{job.service}</dd>
-                                            <dt className="col-6">Location: </dt>
-                                            <dd className="col-6">{job.lablocation}</dd>
+                                            <dd className="col-6">{job.serviceId}</dd>                                           
                                             <dt className="col-6">Status: </dt>
                                             <dd className="col-6">{job.status}</dd>
                                             <dt className="col-6">Assign To: </dt>
                                             <dd className="col-6">{job.assignto}</dd>
-                                            <dt className="col-6">Description: </dt>
-                                            <dd className="col-6">{job.description}</dd>
+                                           
                                 </dl>
                             </CardBody>
                         </Card>
@@ -195,10 +190,10 @@ import { Fade } from 'react-animation-components';
             return (
                 <div className="container">
                     <div className="row col-12">
-                            <Link to='/listjob'><h3>List Jobs</h3></Link>
+                            <Link to='/listjob'><h4>List Jobs</h4></Link>
                     </div>
                     <div className="row col-12 justify-content-center">
-                             <h4>JobId: {props.job.jobid}</h4> 
+                             <h4>JobId: {props.job.jobId}</h4> 
                     </div>
                     <div className="row">
                         <div className="col-12">   
@@ -212,10 +207,10 @@ import { Fade } from 'react-animation-components';
                         <RenderJobupdates jobupdates={props.jobupdates}
                             postJobupdate={props.postJobupdate}
                             docrefId={props.job._id}
-                            jobId={props.job.jobid}
+                            jobId={props.job.jobId}
                             userMaster={props.userMaster} />
                              {console.log("*********jobid")}
-                        {console.log(props.job.jobid)}
+                        {console.log(props.job.jobId)}
                     </div>
                 </div>
             );

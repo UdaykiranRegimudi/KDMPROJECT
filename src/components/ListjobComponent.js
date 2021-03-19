@@ -10,7 +10,7 @@ import { Loading } from './LoadingComponent';
                 <CardBody className="jobcard justify-content-left">
                         {console.log("==========document ref")}
                         {console.log(job._id)}
-                         <CardText>JobId:{job.jobid}--{job.customer}--{job.service}--{job.description}</CardText>
+                         <CardText>JobId:{job.jobId}--{job.serviceId}--{job.status}--{job.assignto}</CardText>
                  </CardBody>
                 </Link>
             </Card>
@@ -55,7 +55,7 @@ import { Loading } from './LoadingComponent';
             return (
                 <div className="container">
                     <div className="row col-12 justify-content-center">
-                            <h3>List Jobs</h3>
+                            <h4>List Jobs</h4>
                     </div>
                     <div className="row">
                     <div className="col-12">   

@@ -55,7 +55,7 @@ import { Loading } from './LoadingComponent';
             return (
                 <div className="container">
                     <div className="row col-12 justify-content-center">
-                            <h3>List Orders</h3>
+                            <h4>List Orders</h4>
                     </div>
                     <div className="row">
                     <div className="col-12">   

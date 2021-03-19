@@ -16,12 +16,16 @@ import { Fade } from 'react-animation-components';
                              <dl className="row p-1">                                    
                                             <dt className="col-6">Doc Ref:</dt>
                                             <dd className="col-6">{orderJob._id}</dd>
-                                            <dt className="col-6">Related Order Id:</dt>
-                                            <dd className="col-6">{orderJob.orderId}</dd>
                                             <dt className="col-6"> Job Id:</dt>
-                                            <dd className="col-6">{orderJob.jobId}</dd>   
+                                            <dd className="col-6">{orderJob.jobId}</dd>
+                                            <dt className="col-6">Related Order Id:</dt>
+                                            <dd className="col-6">{orderJob.orderId}</dd>                                               
                                             <dt className="col-6">Service: </dt>
-                                            <dd className="col-6">{orderJob.serviceType}</dd>
+                                            <dd className="col-6">{orderJob.serviceId}</dd>
+                                            <dt className="col-6">Status: </dt>
+                                            <dd className="col-6">{orderJob.status}</dd>
+                                            <dt className="col-6">Assigned to: </dt>
+                                            <dd className="col-6">{orderJob.assignto}</dd>
                                 </dl>
                             </CardBody>
                         </Card>
@@ -32,8 +36,8 @@ import { Fade } from 'react-animation-components';
     function RenderOrderJobUpdates({orderJobDocRefId, jobId, jobupdates, postOrderJobUpdate, userMaster}) {
         console.log("************* Render job updates - printing doc ref id")
         console.log(orderJobDocRefId)
-        console.log("************* Render job updates - printing job id")
-        console.log(jobId)
+       // console.log("************* Render job updates - printing job id")
+       // console.log(jobId)
 
         if (jobupdates!= null)
             return(
@@ -62,7 +66,6 @@ import { Fade } from 'react-animation-components';
                     {console.log("************* <passing to job update form> - printing doc ref id")}
                     {console.log(orderJobDocRefId)}
                     {console.log("************* <passing to job update form> - printing job id")}
-                    {console.log(jobId)}
                     <JobupdateForm orderJobDocRefId={orderJobDocRefId} jobId={jobId} postOrderJobUpdate={postOrderJobUpdate} userMaster={userMaster} />
                     </div>
                 </div>
@@ -103,8 +106,8 @@ import { Fade } from 'react-animation-components';
             
             console.log("in Jobdetail handle submit----printing docrefId")
             console.log(this.props.orderJobDocRefId)
-            console.log("in Jobdetail handle submit----printing jobid")
-            console.log(this.props.jobId)
+           // console.log("in Jobdetail handle submit----printing jobid")
+           // console.log(this.props.jobId)
             console.log("in Jobdetail passing to postJobupdate")
             this.props.postOrderJobUpdate(this.props.orderJobDocRefId, this.props.jobId, values.status, values.assignto, values.jobupdate);
             
@@ -186,10 +189,10 @@ import { Fade } from 'react-animation-components';
                 <div className="container">
                     <div className="row col-12">
                     <Link to={`/listorder/${props.orderJob.orderId}`} >
-                           <h3>Go back to Order</h3></Link>
+                           <h4>Go back to Order</h4></Link>
                     </div>
                     <div className="row col-12 justify-content-center">
-                    <h4>JobId: {props.orderJob.jobId}</h4>  
+                    <h4>JobId: {props.orderJob.jobId}</h4>   
                     </div>
                     <div className="row">
                         <div className="col-12">   
@@ -201,8 +204,8 @@ import { Fade } from 'react-animation-components';
                             {console.log("*********docrefid")}
                             {console.log(props.orderJob._id)}
                          <RenderOrderJobUpdates jobupdates={props.jobupdates}
-                            jobId={props.orderJob.jobId}
                             orderJobDocRefId={props.orderJob._id}
+                            jobId={props.orderJob.jobId}
                             postOrderJobUpdate={props.postOrderJobUpdate}
                             userMaster={props.userMaster}
                               />

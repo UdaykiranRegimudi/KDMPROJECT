@@ -94,9 +94,9 @@ class Main extends Component {
 
     const JobWithId = ({match}) => {
       console.log("++++++++++In JobwithID match")
-      console.log("jobupdate.jobId")
+      //console.log("jobupdate.jobId")
       //console.log(jobupdates.jobId)
-      console.log("match.params.jobId")
+     // console.log("match.params.jobId")
      // console.log(jobId)
       return(
         <Jobdetail job={this.props.jobs.jobs.filter((job) => job._id === match.params.docrefId)[0]}

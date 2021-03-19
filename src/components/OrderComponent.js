@@ -76,7 +76,7 @@ class Order extends Component {
                                         className="form-control">
                                         <option value="" selected disabled>Choose here</option>
                                        {this.props.servicesMaster.servicesMaster.map(service => <option>{service.serviceType}</option>)}
-
+                                        
                                     </Control.select>
                                 </Col>
                             </Row>
@@ -99,17 +99,14 @@ class Order extends Component {
                                         className="form-control">
                                         <option value="" selected disabled>Choose here</option>
                                         <option>Assigned</option>
-                                        <option>Accepted</option>
-                                        <option>Waiting for</option>
-                                        <option>Inprogress</option>
                                         <option>Completed</option>
                                     </Control.select>
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="assignto" md={2}>Assign To:</Label>
+                                <Label htmlFor="createdby" md={2}>Created By:</Label>
                                 <Col md={10}>
-                                    <Control.select model=".assignto" id="assignto" name="assignto"
+                                    <Control.select model=".createdby" id="createdby" name="createdby"
                                         className="form-control"> 
                                         <option value="" selected disabled>Choose here</option>
                                         {this.props.userMaster.userMaster.map(userProfile => <option>{userProfile.userId}</option>)}

@@ -6,7 +6,7 @@ import { Loading } from './LoadingComponent';
 
     function RenderOrderDetail({order}) {
             return(
-                <div className="col-12 col-md-5 m-1">
+                <div className="col-12 col-md-5">
                         <Card>
                         <CardHeader className="job-header text-center"><strong>Order Details</strong></CardHeader>
                             <CardBody className="justify-content-left">
@@ -25,8 +25,8 @@ import { Loading } from './LoadingComponent';
                                             <dd className="col-6">{order.lablocation}</dd>
                                             <dt className="col-6">Status: </dt>
                                             <dd className="col-6">{order.status}</dd>
-                                            <dt className="col-6">Assign To: </dt>
-                                            <dd className="col-6">{order.assignto}</dd>
+                                            <dt className="col-6">Created By: </dt>
+                                            <dd className="col-6">{order.createdby}</dd>
                                             <dt className="col-6">Description: </dt>
                                             <dd className="col-6">{order.description}</dd>
                                 </dl>
@@ -36,27 +36,29 @@ import { Loading } from './LoadingComponent';
             );
     }
 
-  function RenderOrderJobs({docrefId, orderId, orderJobs}) {
+  function RenderOrderJobs({docrefId, orderId, jobId, orderJobs}) {
         console.log("************* Render order updates - printing doc ref id")
         console.log(docrefId)
         console.log("************* Render order updates - printing order id")
+        console.log(jobId)
         console.log(orderId)
 
       
             return(
             
-                <div className="col-12 col-md-5 m-1">
+                <div className="col-12 col-md-6">
                     <div className="text-center">
                     <h5>Related Jobs</h5>
                     </div>
+                    <br></br>
                     <div>
                    
                             {orderJobs.map((orderJob) => {
                                 return(
                                 <Fade in key={orderJob.orderId}>
                                 <Link to={`/listorder-job/${orderJob._id}`}>
-                                <p> {orderJob.orderId} --{orderJob.serviceType}
-                                    --{orderJob.status} -- {orderJob.assignto}</p>
+                                <ul><li> JobId: {orderJob.jobId} -- Service: {orderJob.serviceId} --
+                                 Status: {orderJob.status} -- Assign to: {orderJob.assignto} </li></ul>
                                 </Link>
                                     </Fade> )                              
                             })}
@@ -91,7 +93,7 @@ import { Loading } from './LoadingComponent';
             return (
                 <div className="container">
                     <div className="row col-12">
-                            <Link to='/listOrder'><h3>List Orders</h3></Link>
+                            <Link to='/listOrder'><h4>List Orders</h4></Link>
                     </div>
                     <div className="row col-12 justify-content-center">
                              <h4>OrderId: {props.order.orderid}</h4> 

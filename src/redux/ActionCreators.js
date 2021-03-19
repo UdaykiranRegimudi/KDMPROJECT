@@ -181,6 +181,8 @@ export const postJobupdate= (docrefId, jobId, status, assignto, jobupdate) => (d
                     console.log(jobupdate)
                     dispatch(addJobupdate(jobupdate))
                     dispatch(fetchJobs())
+                    dispatch(fetchOrderJobs())
+                    dispatch(fetchJobupdates())
                 } else {
                     // doc.data() will be undefined in this case
                     console.log("No such document!");
@@ -224,7 +226,7 @@ export const postOrderJobUpdate= (orderJobDocRefId, jobId, status, assignto, job
             '_id': auth.currentUser.uid,
             'firstname' : auth.currentUser.displayName ? auth.currentUser.displayName : auth.currentUser.email
         },
-       // docrefId: docrefId,
+        orderJobDocRefId: orderJobDocRefId,
         jobId: jobId,
         status: status,
         assignto: assignto,
@@ -246,6 +248,7 @@ export const postOrderJobUpdate= (orderJobDocRefId, jobId, status, assignto, job
                     dispatch(addJobupdate(jobupdate))
                     dispatch(fetchOrderJobs())
                     dispatch(fetchJobs())
+                    dispatch(fetchJobupdates())
                 } else {
                     // doc.data() will be undefined in this case
                     console.log("No such document!");
@@ -413,7 +416,7 @@ export const fetchOrders = () => (dispatch) => {
 
     console.log("assigned user");
  //return firestore.collection('order').get()
-    return firestore.collection('orders').where('assignto', '==', user.email).get()
+    return firestore.collection('orders').where('createdby', '==', user.email).get()
     .then(snapshot => {
         let orders = [];
         snapshot.forEach(doc => {
@@ -469,21 +472,30 @@ export const postOrder = (order) => (dispatch) => {
         console.log("Order docRefId")
         console.log(docRef)
 
-        order.service.forEach((servItem) => {
+        var servCount = 1;
+
+            order.service.forEach((servItem) => {
+            
+            console.log("servCount")  
+            console.log(servCount)
             console.log("printing doc in order.service")
             console.log(servItem)
+
             var jobDoc = {
-                serviceType: servItem,
+                serviceId: servItem,
                 orderDocRefId: docRef,
                 orderId: order.orderid,
-                jobId: order.orderId-docRef
-            }    
+                jobId: order.orderid + "-" + servCount
+            }  
+            
+            servCount++
             var jobDocRef = firestore.collection('jobs').doc()
             batch.set(jobDocRef, jobDoc)
         });
             batch.commit()
      })
-        .then(() => {
+
+     .then(() => {
             console.log("job order successfully created!");
             console.log("Order");
             alert('Order creation successful with orderId:'+ order.orderid);
