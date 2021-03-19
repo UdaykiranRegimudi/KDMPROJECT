@@ -336,7 +336,7 @@ export const fetchCustomerMaster = () => (dispatch) => {
     console.log("Entering fetch reference customer data");
     dispatch(customerMasterLoading(true));
 
-    return firestore.collection('customerMaster').get()
+    return firestore.collection('customerMaster').orderBy("customerName", "asc").get()
         .then(snapshot => {
             let customerMaster = [];
             snapshot.forEach(doc => {
@@ -371,7 +371,7 @@ export const fetchServicesMaster = () => (dispatch) => {
     console.log("Entering fetch reference service data");
     dispatch(servicesMasterLoading(true));
 
-    return firestore.collection('servicesMaster').get()
+    return firestore.collection('servicesMaster').orderBy("serviceType", "asc").get()
         .then(snapshot => {
             let servicesMaster = [];
             snapshot.forEach(doc => {
