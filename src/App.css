@@ -132,7 +132,13 @@ address{
 }
 
   
-  .container {
+.container {
    
     margin-top: 1rem;
+  }
+
+.table, th, td {  
+    border: 1px solid black;
+     text-align: left;  
+     padding: 5px;  
   }

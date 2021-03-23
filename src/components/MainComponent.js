@@ -164,6 +164,7 @@ class Main extends Component {
         <Header auth={this.props.auth} 
           loginUser={this.props.loginUser} 
           logoutUser={this.props.logoutUser}
+          userMaster={this.props.userMaster}
           />   
         <TransitionGroup>
           <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>

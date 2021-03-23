@@ -1,26 +1,21 @@
-import { Card, CardHeader, CardBody, CardText } from 'reactstrap';
-import { Fade } from 'react-animation-components';
+import { Card, CardHeader, CardBody} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 
 
-    function RenderOrderDetail({order}) {
+ function RenderOrderDetail({order}) {
             return(
                 <div className="col-12 col-md-5">
                         <Card>
                         <CardHeader className="job-header text-center"><strong>Order Details</strong></CardHeader>
                             <CardBody className="justify-content-left">
-                             <dl className="row p-1">
-                                
-                                            
+                             <dl className="row p-1">  
                                             <dt className="col-6">Doc Ref:</dt>
                                             <dd className="col-6">{order._id}</dd> 
                                             <dt className="col-6">Order Id:</dt>
                                             <dd className="col-6">{order.orderid}</dd>
                                             <dt className="col-6">Customer: </dt>
                                             <dd className="col-6">{order.customer}</dd>
-                                            <dt className="col-6">Service: </dt>
-                                            <dd className="col-6">{order.service}</dd>
                                             <dt className="col-6">Location: </dt>
                                             <dd className="col-6">{order.lablocation}</dd>
                                             <dt className="col-6">Status: </dt>
@@ -43,33 +38,39 @@ import { Loading } from './LoadingComponent';
         console.log(jobId)
         console.log(orderId)
 
-      
-            return(
-            
-                <div className="col-12 col-md-6">
+            return(       
+                <div className="col-12 col-md-11">
+                         <br></br>            
                     <div className="text-center">
-                    <h5>Related Jobs</h5>
-                    </div>
-                    <br></br>
-                    <div>
-                   
-                            {orderJobs.map((orderJob) => {
-                                return(
-                                <Fade in key={orderJob.orderId}>
-                                <Link to={`/listorder-job/${orderJob._id}`}>
-                                <ul><li> JobId: {orderJob.jobId} -- Service: {orderJob.serviceId} --
-                                 Status: {orderJob.status} -- Assign to: {orderJob.assignto} </li></ul>
-                                </Link>
-                                    </Fade> )                              
-                            })}
-                        
-                   </div>
-                </div>
+                        <h5>Related Jobs</h5>
+                         <br></br>
+                      </div>
+                         <table>                      
+                            <thead className="job-header">                                        
+                            <tr>
+                                <th>JobId</th>
+                                <th>Service</th>
+                                <th>Status</th>
+                                <th>Assign to</th>
+                            </tr>                                    
+                            </thead>
+                            <tbody>
+                             {
+                                 orderJobs.map((orderJob) => (
+                                    <tr key={orderJob.orderId}>            
+                                        <td>{orderJob.jobId}</td>
+                                        <td>{orderJob.serviceId}</td>
+                                        <td>{orderJob.status}</td>
+                                        <td>{orderJob.assignto}</td>
+                                    </tr>   
+                                   ))             
+                                }   
+                            </tbody>
+                        </table>
+                     </div>    
             );
-       
     }
 
-   
     const OrderDetail = (props) => {
         if (props.isLoading) {
             return(
@@ -124,3 +125,4 @@ import { Loading } from './LoadingComponent';
     }
 
 export default OrderDetail;
+

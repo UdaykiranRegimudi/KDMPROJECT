@@ -187,11 +187,36 @@ export const postOrder = (order) => (dispatch) => {
         return;
     }
     console.log(order)
+
     /* Get orderId counter */
-    /* Update counter by 1 */
+
+    var orderNum;
+
+    firestore.collection('counters').doc('orderCounter').get()
+    .then((doc) => {
+        console.log("orderCounter")
+        console.log(doc.data().orderNum)
+        orderNum = doc.data().orderNum
+        return orderNum
+    })
+    .catch(error => {console.log(error.message)});
+
+    console.log("orderCounter before batch")
+    console.log(orderNum)
 
     var batch = firestore.batch()
-    firestore.collection('orders').add(order)
+    firestore.collection('orders').add({
+
+        orderid: order.orderid,
+        customer: order.customer,
+        service: order.service,
+        lablocation: order.lablocation,
+        status: order.status,
+        description: order.description,
+        createdby: auth.currentUser.email,
+        createdAt: firebasestore.FieldValue.serverTimestamp()   
+
+    })
     .then(docRef => {
         console.log("Order docRefId")
         console.log(docRef)
@@ -203,7 +228,8 @@ export const postOrder = (order) => (dispatch) => {
                 serviceId: servItem,
                 orderDocRefId: docRef,
                 orderId: order.orderid,
-                jobId: order.orderid + "-" + servCount
+                jobId: order.orderid + "-" + servCount,
+                createdAt: firebasestore.FieldValue.serverTimestamp()
             }  
             
             servCount++
@@ -214,9 +240,9 @@ export const postOrder = (order) => (dispatch) => {
      })
 
      .then(() => {
-            console.log("job order successfully created!");
+            console.log("Order successfully created!");
             console.log("Order");
-            alert('Order creation successful with orderId:'+ order.orderid);
+            alert('Order creation successful \nOrderId : ' + order.orderid);
             dispatch(fetchOrders())
             dispatch(fetchOrderJobs())
             dispatch(fetchJobs())
@@ -246,22 +272,70 @@ export const fetchOrders = () => (dispatch) => {
 
     console.log("assigned user");
     //return firestore.collection('order').get()
-    return firestore.collection('orders').where('createdby', '==', user.email).get()
-    .then(snapshot => {
-        let orders = [];
-        snapshot.forEach(doc => {
-            const data = doc.data()
-            const _id = doc.id
-            orders.push({_id, ...data });
-        });
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>printing list orders after db call")
-        console.log(orders)
 
-        return orders;
-    })
-  
-    .then(orders => dispatch(addOrders(orders)))
-    .catch(error => dispatch(ordersFailed(error.message)));
+   
+    if (user.email === "subhashini.kunchala@kdmengineers.com")
+    { 
+       /* Query for last 7 days (604800000 in millisec) 
+        1 hr = 3600000 millisec
+        10 hrs = 36000000
+        24 hrs or 1 day = 86400000
+        7 days = 604800000
+       */
+            var fromDateObj = new Date(Date.now() - 604800000)
+            console.log("fromDateObj")
+            console.log(fromDateObj)
+            return firestore.collection('orders').where('createdAt', '>' , fromDateObj).orderBy("createdAt", "desc").get()
+
+       /* Query for last 7 days
+            const fromDateObj = firebase.firestore.Timestamp.fromDate(Date.now - 604800000)
+            console.log("fromDateObj")
+            console.log(fromDateObj)
+            return firestore.collection('orders').where('createdAt', '>' , fromDateObj).get()
+        */
+        //  return firestore.collection('orders').where('createdAt', '>' , fromDateObj).orderBy("createdAt", "desc").limit(20).get()
+       
+        
+        // return firestore.collection('orders').orderBy("createdAt", "desc").limit(20).get()
+
+        // return firestore.collection('orders').orderBy("orderid", "desc").limit(20).get()
+
+        .then(snapshot => {
+            let orders = [];
+            snapshot.forEach(doc => {
+                const data = doc.data()
+                const _id = doc.id
+                orders.push({_id, ...data });
+            });
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>printing list orders after db call")
+            console.log(orders)
+
+            return orders;
+        })
+        .then(orders => dispatch(addOrders(orders)))
+        .catch(error => dispatch(ordersFailed(error.message)));
+    }
+    else
+    {
+        return firestore.collection('orders').where('createdby', '==', user.email).get()
+        .then(snapshot => {
+            let orders = [];
+            snapshot.forEach(doc => {
+                const data = doc.data()
+                const _id = doc.id
+                orders.push({_id, ...data });
+            });
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>printing list orders after db call")
+            console.log(orders)
+
+            return orders;
+        })
+        .then(orders => {
+            dispatch(addOrders(orders))
+            //testing sendEmail()
+            sendEmail("sireelaks@gmail.com")})
+        .catch(error => dispatch(ordersFailed(error.message)));
+    }
 }
 
 export const ordersLoading = () => ({
@@ -566,4 +640,12 @@ export const postJob = (job) => (dispatch) => {
     
 };
 /************************************ PostJob **************************************/
+/************************************ Test function **************************************/
+export const sendEmail = (anyObj) => {
+    console.log("In sendEmail")
+    console.log(anyObj)
+}
 
+
+
+/************************************ Test function - End **************************************/

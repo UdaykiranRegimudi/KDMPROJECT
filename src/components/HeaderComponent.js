@@ -53,24 +53,51 @@ class Header extends Component {
                         
                         <Collapse isOpen={this.state.isNavOpen} navbar>
                         <Nav className="mr-auto col-12 col-md-10 navbar">
-                                <NavItem>
-                                    <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/order">
-                                    <span className="fa fa-address-card fa-lg"></span> <strong> Create Order</strong>
-                                    </NavLink>
+                              <NavItem>
+                                { this.props.auth.isAuthenticated ?
+                                    this.props.auth.user.email === "ramesh.lingoji@kdmengineers.com" || 
+                                    this.props.auth.user.email === "sireesha.kattula@kdmengineers.com" || 
+                                    this.props.auth.user.email === "lakshmana.kattula@kdmengineers.com" ||
+                                    this.props.auth.user.email === "vijaya.kattula@kdmengineers.com" ? 
+                                        <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/order">
+                                        <span className="fa fa-address-card fa-lg"></span> <strong> Create Order</strong>
+                                        </NavLink>
+                                    : null
+                                : null
+                                }
+                                   
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/listorder">
-                                    <span className="fa fa-list fa-lg"></span> <strong> List Orders</strong>
-                                    </NavLink>
+                                { this.props.auth.isAuthenticated ?
+                                     this.props.auth.user.email === "ramesh.lingoji@kdmengineers.com" || 
+                                     this.props.auth.user.email === "subhashini.kunchala@kdmengineers.com" || 
+                                     this.props.auth.user.email === "sireesha.kattula@kdmengineers.com" ||
+                                     this.props.auth.user.email === "lakshmana.kattula@kdmengineers.com" ||
+                                     this.props.auth.user.email === "vijaya.kattula@kdmengineers.com" ?
+                                        <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/listorder">
+                                        <span className="fa fa-list fa-lg"></span> <strong> List Orders</strong>
+                                        </NavLink>
+                                     : null
+                                : null
+                                 }
+
                                 </NavItem>
-                               
-                            
                                 <NavItem>
-                                    <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/listjob">
-                                    <span className="fa fa-list fa-lg"></span> <strong> List Jobs</strong>
-                                    </NavLink>
+                                { this.props.auth.isAuthenticated ? 
+                                    this.props.auth.user.email === "sireesha.kattula@kdmengineers.com" ||
+                                    this.props.auth.user.email === "lakshmana.kattula@kdmengineers.com" ||
+                                    this.props.auth.user.email === "vijaya.kattula@kdmengineers.com" ||
+                                    this.props.auth.user.email === "drbsrao@kdmengineers.com" ?
+                                        <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/listjob">
+                                        <span className="fa fa-list fa-lg"></span> <strong> List Jobs</strong>
+                                        </NavLink>
+                                    : null
+                                : null
+                                 }
+
                                 </NavItem>
                             </Nav>
+
 
                             <Nav navbar>
                                 <NavItem>

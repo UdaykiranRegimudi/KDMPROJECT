@@ -103,17 +103,7 @@ class Order extends Component {
                                     </Control.select>
                                 </Col>
                             </Row>
-                            <Row className="form-group">
-                                <Label htmlFor="createdby" md={2}>Created By:</Label>
-                                <Col md={10}>
-                                    <Control.select model=".createdby" id="createdby" name="createdby"
-                                        className="form-control"> 
-                                        <option value="" selected disabled>Choose here</option>
-                                        {this.props.userMaster.userMaster.map(userProfile => <option>{userProfile.userId}</option>)}
-                                   
-                                    </Control.select>
-                                </Col>
-                            </Row>
+                            
                             <Row className="form-group">
                                 <Label htmlFor="description" md={2}>Description:</Label>
                                 <Col md={10}>
