@@ -22,7 +22,7 @@ import { Loading } from './LoadingComponent';
     const ListOrder = (props) => {
         console.log("In ListOrder Component entry");
 
-        const listorder = props.orders.orders.map((order) => {
+        /*const listorder = props.orders.orders.map((order) => {
             console.log("Entering ListOrder const Customer is: " + order.customer)
 
             return (
@@ -31,7 +31,7 @@ import { Loading } from './LoadingComponent';
                     <RenderOrder order={order} />
                 </div>
             );
-        });
+        });*/
 
         if (props.orders.isLoading) {
             return(
@@ -55,7 +55,7 @@ import { Loading } from './LoadingComponent';
             return (
                 <div className="container">
                     <div className="row col-12 justify-content-center">
-                            <h4>List Orders</h4>
+                            <h3>List Orders</h3>
                     </div>
                     <div className="row">
                     <div className="col-12">   
@@ -63,10 +63,37 @@ import { Loading } from './LoadingComponent';
                     </div>
                     </div>
                     <div className="row justify-content-center">
-                        {listorder}
+                     {/*   {listorder} */}
+
+                    <div className="row col-12 col-md-12">
+                        <table className="table">  
+                            <thead className="order-header">
+                                <th>Order Id</th>
+                                <th>Customer</th>
+                                <th>Services</th>
+                                <th>Lab Location</th>
+                                <th>Created By</th>
+                            </thead>
+                            <tbody>
+                              {
+                                 props.orders.orders.map((order) => (
+                                    <tr key={order._id}>            
+                                        <td><Link to={`/listorder/${order.orderid}`} >{order.orderid} </Link></td>
+                                        <td>{order.customer}</td>
+                                        <td>{order.service}</td>
+                                        <td>{order.lablocation}</td>
+                                        <td>{order.createdby}</td>
+                                    </tr>   
+                                   ))             
+                                }   
+                            </tbody>
+
+                        </table>
+
+                        </div>
                     </div>
                 </div>
-            );
+            );       
     }
 
 export default ListOrder;
