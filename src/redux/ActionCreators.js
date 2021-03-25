@@ -208,11 +208,17 @@ export const postOrder = (order) => (dispatch) => {
     firestore.collection('orders').add({
 
         orderid: order.orderid,
-        customer: order.customer,
+        companyaddress: order.companyaddress,
+        companyemail: order.companyemail,
+        companymobile: order.companymobile,
+        customerreference: order.customerreference,
+        references: order.references,
+        subject: order.subject,
+        source: order.source,
         service: order.service,
         lablocation: order.lablocation,
         status: order.status,
-        description: order.description,
+       // description: order.description,
         createdby: auth.currentUser.email,
         createdAt: firebasestore.FieldValue.serverTimestamp()   
 

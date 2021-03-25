@@ -11,10 +11,14 @@ export const InitialJob = {
 
 export const InitialOrder = {
     orderid: '',
-    customer: '',
+    companyaddress: '',
+    companyemail: '',
+    companymobile: '',
+    customerreference: '',
+    references: '',
+    subject: '',
+    source: '',
     service: '',
     lablocation: '',
-    status: '',
-    createdby: '',
-    description: ''
+    status: ''   
 }
