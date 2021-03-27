@@ -5,7 +5,7 @@ import { Loading } from './LoadingComponent';
 
  function RenderOrderDetail({order}) {
             return(
-                <div className="col-12 col-md-5">
+                <div className="col-12 col-md-11">
                         <Card>
                         <CardHeader className="job-header text-center"><strong>Order Details</strong></CardHeader>
                             <CardBody className="justify-content-left">
@@ -14,16 +14,32 @@ import { Loading } from './LoadingComponent';
                                             <dd className="col-6">{order._id}</dd> 
                                             <dt className="col-6">Order Id:</dt>
                                             <dd className="col-6">{order.orderid}</dd>
-                                            <dt className="col-6">Customer: </dt>
-                                            <dd className="col-6">{order.customer}</dd>
+                                             <dt className="col-6">Company Address: </dt>
+                                            <dd className="col-6">{order.companyaddress}</dd>
+                                            <dt className="col-6">Company Email: </dt>
+                                            <dd className="col-6">{order.companyemail}</dd>
+                                            <dt className="col-6">Company Mobile: </dt>
+                                            <dd className="col-6">{order.companymobile}</dd>
+                                            <dt className="col-6">Customer Reference: </dt>
+                                            <dd className="col-6">{order.customerreference}</dd>
+                                            <dt className="col-6">References: </dt>
+                                            <dd className="col-6">{order.references}</dd>
+                                            <dt className="col-6">Source: </dt>
+                                            <dd className="col-6">{order.source}</dd>
+                                             <dt className="col-6">Subject: </dt>
+                                            <dd className="col-6">{order.subject}</dd>
                                             <dt className="col-6">Location: </dt>
                                             <dd className="col-6">{order.lablocation}</dd>
                                             <dt className="col-6">Status: </dt>
                                             <dd className="col-6">{order.status}</dd>
                                             <dt className="col-6">Created By: </dt>
                                             <dd className="col-6">{order.createdby}</dd>
-                                            <dt className="col-6">Description: </dt>
+                                            <dt className="col-6">Created At: </dt>
+                                            <dd className="col-6">{order.createdAt.toString()}</dd>
+                                            <dt className="col-6">Additional Info: </dt>
                                             <dd className="col-6">{order.description}</dd>
+                                            <dt className="col-6">Service: </dt>
+                                            <dd className="col-6">{order.service}</dd>
                                 </dl>
                             </CardBody>
                         </Card>

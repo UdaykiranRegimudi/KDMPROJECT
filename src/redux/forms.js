@@ -20,5 +20,6 @@ export const InitialOrder = {
     source: '',
     service: '',
     lablocation: '',
-    status: ''   
+    status: '',
+    description: ''
 }

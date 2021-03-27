@@ -79,7 +79,7 @@ import { Loading } from './LoadingComponent';
                              {/*   <th>Source / Brand</th> */}
                                 <th>Services</th>
                                 <th>Lab Location</th>
-                                <th>Created By</th>
+                               {/* <th>Created By</th> */}
                             </thead>
                             <tbody>
                               {
@@ -95,7 +95,7 @@ import { Loading } from './LoadingComponent';
                                    {/*     <td>{order.source}</td> */}
                                         <td>{order.service}</td>
                                         <td>{order.lablocation}</td>
-                                        <td>{order.createdby}</td>
+                                      {/*  <td>{order.createdby}</td> */}
                                     </tr>   
                                    ))             
                                 }   

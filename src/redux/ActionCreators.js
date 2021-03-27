@@ -218,7 +218,7 @@ export const postOrder = (order) => (dispatch) => {
         service: order.service,
         lablocation: order.lablocation,
         status: order.status,
-       // description: order.description,
+        description: order.description,
         createdby: auth.currentUser.email,
         createdAt: firebasestore.FieldValue.serverTimestamp()   
 
@@ -323,7 +323,8 @@ export const fetchOrders = () => (dispatch) => {
     }
     else
     {
-        return firestore.collection('orders').where('createdby', '==', user.email).get()
+       //return firestore.collection('orders').where('createdby', '==', user.email).orderBy("createdAt", "desc").get()
+       return firestore.collection('orders').where('createdby', '==', user.email).get()
         .then(snapshot => {
             let orders = [];
             snapshot.forEach(doc => {
