@@ -111,20 +111,28 @@ class Main extends Component {
 
 
 
-    const OrderWithId = ({match}) => {
+   const OrderWithId = ({match}) => {
       console.log("++++++++++In OrderwithID match")
+      console.log(match)
+      console.log({match})
       console.log("this.props.orderJobs.orderJobs")
       console.log(this.props.orderJobs.orderJobs)
+      console.log("In OrderWithId --- this.props.orders.orders")
+
+      console.log(this.props.orders.orders)
+      console.log(this.props.orders.orders)
+
       return(
-        <OrderDetail order={this.props.orders.orders.filter((order) => order.orderid === match.params.orderId)[0]}
+        <OrderDetail order={this.props.orders.orders.filter((order) => order.orderId === decodeURIComponent(match.params.orderId))[0]}
           isLoading={this.props.orders.isLoading}
           errMess={this.props.orders.errMess}
-          orderJobs={this.props.orderJobs.orderJobs.filter((orderJob) => orderJob.orderId === match.params.orderId)}
+          orderJobs={this.props.orderJobs.orderJobs.filter((orderJob) => orderJob.orderId === decodeURIComponent(match.params.orderId))}
           orderJobsErrMess={this.props.orderJobs.errMess}
           userMaster={this.props.userMaster}
            />
       );
     }
+
 
 
 
@@ -179,7 +187,7 @@ class Main extends Component {
               {console.log("In Main After Private Route listjob component")}
               <PrivateRoute exact path="/listjob/:docrefId" component={JobWithId} />
               {console.log("In Main After Private Route listjob jobid component")}
-              <PrivateRoute exact path="/listorder/:orderId" component={OrderWithId} />
+              <PrivateRoute path="/listorder/:orderId" component={OrderWithId} />
               {console.log("In Main After Private Route orderdetail component")}
               <PrivateRoute exact path="/listorder-job/:orderJobDocRefId" component={OrderJobWithId} />
               {console.log("In Main After Private Route order-job detail component")}

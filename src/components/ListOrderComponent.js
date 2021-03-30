@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card, CardBody, CardText} from 'reactstrap';
+//import { Card, CardBody, CardText} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 
-    function RenderOrder({ order, onClick }) {
+   /* function RenderOrder({ order, onClick }) {
         return(
             <Card>
                 <Link to={`/listorder/${order.orderid}`} >
@@ -17,7 +17,7 @@ import { Loading } from './LoadingComponent';
             </Card>
         );
     }
-
+*/
 
 
     const ListOrder = (props) => {
@@ -70,32 +70,26 @@ import { Loading } from './LoadingComponent';
                         <table className="table">  
                             <thead className="order-header">
                                 <th>Order Id</th>
-                                <th>Company Address</th>
-                                <th>Company Email</th>
-                                <th>Company Mobile#</th>
-                                <th>Customer Reference</th>
-                              {/*  <th>References</th> */}
+                                <th>Project Name</th>
+                                <th>Customer Name</th>
+                                <th>Customer Reference </th>
                                 <th>Subject</th>
-                             {/*   <th>Source / Brand</th> */}
-                                <th>Services</th>
                                 <th>Lab Location</th>
-                               {/* <th>Created By</th> */}
+                                <th>Status</th>
+                                <th>Due Date</th>
                             </thead>
                             <tbody>
                               {
                                  props.orders.orders.map((order) => (
                                     <tr key={order._id}>            
-                                        <td><Link to={`/listorder/${order.orderid}`} >{order.orderid} </Link></td>
-                                        <td>{order.companyaddress}</td>
-                                        <td>{order.companyemail}</td>
-                                        <td>{order.companymobile}</td>
-                                        <td>{order.customerreference}</td>
-                                   {/*     <td>{order.references}</td> */}
+                                        <td><Link to={`/listorder/${encodeURIComponent(order.orderId)}`} >{order.orderId} </Link></td>
+                                        <td>{order.projectName}</td>
+                                        <td>{order.customerName}</td>
+                                        <td>{order.customerReference}</td>
                                         <td>{order.subject}</td>
-                                   {/*     <td>{order.source}</td> */}
-                                        <td>{order.service}</td>
-                                        <td>{order.lablocation}</td>
-                                      {/*  <td>{order.createdby}</td> */}
+                                        <td>{order.labLocation}</td>
+                                        <td>{order.status}</td>
+                                        <td>{order.dueDate}</td>
                                     </tr>   
                                    ))             
                                 }   

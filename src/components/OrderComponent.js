@@ -11,7 +11,7 @@ class Order extends Component {
         console.log("In Order Component constructor");
         super(props);
         console.log("Printing props in constructor")
-       console.log(props)
+        console.log(props)
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -50,66 +50,120 @@ class Order extends Component {
                         
                         <Form className="create-form" model="order" onSubmit={(values) => this.handleSubmit(values)}>
                             <Row className="form-group">
-                                <Label htmlFor="orderid" md={2}>OrderId:</Label>
-                                <Col md={10}>
-                                    <Control.text model=".orderid" id="orderid" name="orderid"
-                                        placeholder="Order Id"
+                                <Label htmlFor="orderId" md={3}>Order Id:</Label>
+                                <Col md={9}>
+                                    <Control.text model=".orderId" id="orderId" name="orderId"
+                                        placeholder="KDM/"
                                         className="form-control" 
                                      />
                                 </Col>
                             </Row>
 
                             <Row className="form-group">
-                            <Label htmlFor="companyaddress" md={2}>Company Address:</Label>
-                                <Col md={10}>
-                                <Control.textarea model=".companyaddress" id="companyaddress" name="companyaddress"
+                            <Label htmlFor="projectName" md={3}>Project Name:</Label>
+                                <Col md={9}>
+                                <Control.text model=".projectName" id="projectName" name="projectName"
+                                         className="form-control" />                                        
+                                                                      
+                                </Col>
+                            </Row>
+                            <Row className="form-group">
+                            <Label htmlFor="customerName" md={3}>Customer Name:</Label>
+                                <Col md={9}>
+                                <Control.text model=".customerName" id="customerName" name="customerName"
+                                         className="form-control" />                                                                    
+                                </Col>
+                            </Row>
+
+                            <Row className="form-group">
+                            <Label htmlFor="customerAddress" md={3}>Customer Address:</Label>
+                                <Col md={9}>
+                                <Control.textarea model=".customerAddress" id="customerAddress" name="customerAddress"
                                         rows="3" className="form-control" />                                        
                                                                       
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                            <Label htmlFor="companyemail" md={2}>Company Email:</Label>
-                            <Col md={10}>
-                                <Control.text model=".companyemail" id="companyemail" name="companyemail"
+                            <Label htmlFor="customerEmail" md={3}>Customer Email:</Label>
+                            <Col md={9}>
+                                <Control.text model=".customerEmail" id="customerEmail" name="customerEmail"
                                          className="form-control" />                                                                            
                             </Col>  
                             </Row>
 
+                            <Row className="form-group">
+                            <Label htmlFor="customerContact1" md={3}>Customer Contact 1:</Label>
+                            </Row>
+                           
+                            <Row className="form-group">
+                            <Col md={3}>   
+                                <Control.text model=".customerContact1Name" id="customerContact1Name" name="customerContact1Name"
+                                         placeholder="Name" className="form-control" />                                                                            
+                            </Col>    
+                            <Col md={3}>   
+                                <Control.text model=".customerContact1Mobile" id="customerContact1Mobile" name="customerContact1Mobile"
+                                        placeholder="Mobile Num" className="form-control" />                                                                            
+                            </Col>       
+                            <Col md={6}>   
+                                <Control.text model=".customerContact1Email" id="customerContact1Email" name="customerContact1Email"
+                                        placeholder="Email" className="form-control" />                                                                            
+                            </Col>                         
+                              </Row> 
+
                              <Row className="form-group">
+                            <Label htmlFor="customerContact2" md={3}>Customer Contact 2:</Label>
+                            </Row>
+                           
+                            <Row className="form-group">
+                            <Col md={3}>   
+                                <Control.text model=".customerContact2Name" id="customerContact2Name" name="customerContact2Name"
+                                         placeholder="Name" className="form-control" />                                                                            
+                            </Col>    
+                            <Col md={3}>   
+                                <Control.text model=".customerContact2Mobile" id="customerContact2Mobile" name="customerContact2Mobile"
+                                        placeholder="Mobile Num" className="form-control" />                                                                            
+                            </Col>       
+                            <Col md={6}>   
+                                <Control.text model=".customerContact2Email" id="customerContact2Email" name="customerContact2Email"
+                                        placeholder="Email" className="form-control" />                                                                            
+                            </Col>                         
+                              </Row> 
+
+                             {/*<Row className="form-group">
                             <Label htmlFor="companymobile" md={2}>Mobile No:</Label>
                             <Col md={10}>   
                                 <Control.text model=".companymobile" id="companymobile" name="companymobile"
                                          className="form-control" />                                                                            
                             </Col>                                 
-                            </Row>
+                              </Row> */}
 
                             <Row className="form-group">
-                            <Label htmlFor="customerreference" md={2}>Customer Reference:</Label>
-                            <Col md={10}>   
-                                <Control.text model=".customerreference" id="customerreference" name="customerreference"
+                            <Label htmlFor="customerReference" md={3}>Customer Reference:</Label>
+                            <Col md={9}>   
+                                <Control.text model=".customerReference" id="customerReference" name="customerReference"
                                          className="form-control" />                                                                            
                             </Col>                                 
                             </Row>
 
                             <Row className="form-group">
-                            <Label htmlFor="references" md={2}>References:</Label>
-                            <Col md={10}>   
-                                <Control.text model=".references" id="references" name="references"
+                            <Label htmlFor="parentReference" md={3}>Parent Reference:</Label>
+                            <Col md={9}>   
+                                <Control.text model=".parentReference" id="parentReference" name="parentReference"
                                          className="form-control" />                                                                            
                             </Col>                                 
                             </Row>
 
                             <Row className="form-group">
-                            <Label htmlFor="subject" md={2}>Subject:</Label>
-                            <Col md={10}>   
+                            <Label htmlFor="subject" md={3}>Subject:</Label>
+                            <Col md={9}>   
                                 <Control.text model=".subject" id="subject" name="subject"
                                          className="form-control" />                                                                            
                             </Col>                                 
                             </Row>
 
                             <Row className="form-group">
-                            <Label htmlFor="source" md={2}>Source / Brand:</Label>
-                            <Col md={10}>   
+                            <Label htmlFor="source" md={3}>Source / Brand:</Label>
+                            <Col md={9}>   
                                 <Control.text model=".source" id="source" name="source"
                                          className="form-control" />                                                                            
                             </Col>                                 
@@ -127,9 +181,9 @@ class Order extends Component {
                                 </Col>
                                 </Row> */}
                             <Row className="form-group">
-                                <Label htmlFor="service" md={2}>Service:</Label>
-                                <Col md={10}>
-                                    <Control.select multiple size="10" model=".service" id="service" name="service"
+                                <Label htmlFor="service" md={3}>Services:</Label>
+                                <Col md={9}>
+                                    <Control.select multiple size="30" model=".service" id="service" name="service"
                                         className="form-control">
                                         <option value="" selected disabled>Choose here</option>
                                        {this.props.servicesMaster.servicesMaster.map(service => <option>{service.serviceType}</option>)}
@@ -138,9 +192,16 @@ class Order extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="lablocation" md={2}>Lab Location:</Label>
-                                <Col md={10}>
-                                    <Control.select model=".lablocation" id="lablocation" name="lablocation"
+                            <Label htmlFor="dueDate" md={3}>Due Date:</Label>
+                            <Col md={9}>   
+                                <Control.text model=".dueDate" id="dueDate" name="dueDate"
+                                         className="form-control" placeholder="dd/mm/yyyy" />                                                                            
+                            </Col>                                 
+                              </Row>
+                            <Row className="form-group">
+                                <Label htmlFor="labLocation" md={3}>Lab Location:</Label>
+                                <Col md={9}>
+                                    <Control.select model=".labLocation" id="labLocation" name="labLocation"
                                         className="form-control">
                                         <option value="" selected disabled>Choose here</option>
                                         <option>Hyderabad</option>
@@ -150,8 +211,8 @@ class Order extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="status" md={2}>Status</Label>
-                                <Col md={10}>
+                                <Label htmlFor="status" md={3}>Status:</Label>
+                                <Col md={9}>
                                     <Control.select model=".status" id="status" name="status"
                                         className="form-control">
                                         <option value="" selected disabled>Choose here</option>
@@ -162,9 +223,9 @@ class Order extends Component {
                             </Row>
                             
                           <Row className="form-group">
-                                <Label htmlFor="description" md={2}>Additional Info:</Label>
-                                <Col md={10}>
-                                    <Control.textarea model=".description" id="description" name="description"
+                                <Label htmlFor="addInfo" md={3}>Additional Info:</Label>
+                                <Col md={9}>
+                                    <Control.textarea model=".addInfo" id="addInfo" name="addInfo"
                                         rows="3"
                                         className="form-control" />
                                 </Col>

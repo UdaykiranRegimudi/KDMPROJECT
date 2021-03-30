@@ -10,16 +10,24 @@ export const InitialJob = {
 }
 
 export const InitialOrder = {
-    orderid: '',
-    companyaddress: '',
-    companyemail: '',
-    companymobile: '',
-    customerreference: '',
-    references: '',
+    orderId: '',
+    projectName: '',
+    customerName: '',
+    customerAddress: '',
+    customerEmail: '',
+    customerContact1Name: '',
+    customerContact1Mobile: '',
+    customerContact1Email: '',
+    customerContact2Name: '',
+    customerContact2Mobile: '',
+    customerContact2Email: '',
+    customerReference: '',
+    parentReference: '',
     subject: '',
     source: '',
     service: '',
-    lablocation: '',
+    dueDate: '',
+    labLocation: '',
     status: '',
-    description: ''
+    addInfo: ''
 }
