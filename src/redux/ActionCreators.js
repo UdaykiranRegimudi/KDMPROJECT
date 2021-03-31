@@ -243,7 +243,7 @@ export const postOrder = (order) => (dispatch) => {
                     jobId: order.orderId + "-" + servCount,
                     createdAt: firebasestore.FieldValue.serverTimestamp(),
                     status: "Assigned",
-                    assignto: "sireesha.kattula@kdmengineers.com"
+                    assignto: "drbsrao@kdmengineers.com"
                 }  
                 servCount++
                 var jobDocRef = firestore.collection('jobs').doc()
@@ -359,7 +359,7 @@ export const postOrder = (order) => (dispatch) => {
                     jobId: order.orderId + "-" + servCount,
                     createdAt: firebasestore.FieldValue.serverTimestamp(),
                     status: "Assigned",
-                    assignto: "vijaya.kattula@kdmengineers.com"
+                    assignto: "sireesha.kattula@kdmengineers.com"
                 }  
                 servCount++
                 var jobDocRef = firestore.collection('jobs').doc()
