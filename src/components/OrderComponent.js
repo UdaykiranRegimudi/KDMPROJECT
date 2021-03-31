@@ -13,14 +13,46 @@ class Order extends Component {
         console.log("Printing props in constructor")
         console.log(props)
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleServicesSelect = this.handleServicesSelect.bind(this);
+        this.state = {
+            labLoc: "",
+            services: [],
+            selCategories: '' 
+        }
     }
 
+   handleChange(e) {
+        console.log("In handleChange")    
+        console.log(e)
+        console.log(e.target.value)
+        this.setState({labLoc: e.target.value})
+        console.log(this.state)
+    }
+
+    handleServicesSelect(e) {
+        console.log("In handleServicesSelect") 
+        const selected=[];
+        let selectedOption=(e.target.selectedOptions);
+ 
+        for (let i = 0; i < selectedOption.length; i++) {
+            selected.push(selectedOption.item(i).value)
+            console.log(selectedOption.item(i).value)
+        }
+    
+        console.log(selected)
+        this.setState({selCategories: selected});
+        this.setState({services: selected.map((selCat) =>
+        <li>{selCat}</li>)})
+    }
+
+        
     handleSubmit(values) {
         console.log(values)
         console.log("Current State is: " + JSON.stringify(values));
         this.props.postOrder(values);
         this.props.resetOrderForm();
-    }
+    } 
     
     render() {
         console.log("In Order Component render");
@@ -28,10 +60,10 @@ class Order extends Component {
         console.log(this.props);
     
         
-        console.log("Calling getUniqueIdWithTs")
+        //console.log("Calling getUniqueIdWithTs")
         
-        var uniqueId = getUniqueIdWithTs()
-        console.log("UniqueId obtained : " + uniqueId)
+        //var uniqueId = getUniqueIdWithTs()
+        //console.log("UniqueId obtained : " + uniqueId)
         
       
         return(
@@ -48,7 +80,8 @@ class Order extends Component {
                     <div className="row justify-content-center">
                     <div className="col-12 col-md-8">
                         
-                        <Form className="create-form" model="order" onSubmit={(values) => this.handleSubmit(values)}>
+                        <Form className="create-form" model="order" 
+                        onSubmit={(values) => this.handleSubmit(values)}>
                             <Row className="form-group">
                                 <Label htmlFor="orderId" md={3}>Order Id:</Label>
                                 <Col md={9}>
@@ -180,10 +213,14 @@ class Order extends Component {
                                     </Control.select>
                                 </Col>
                                 </Row> */}
+
+                            <p>Services Selected:</p>
+                            <ul style={{color:'blue'}}>{this.state.services}</ul>
+
                             <Row className="form-group">
                                 <Label htmlFor="service" md={3}>Services:</Label>
                                 <Col md={9}>
-                                    <Control.select multiple size="30" model=".service" id="service" name="service"
+                                    <Control.select onChange={(values) => this.handleServicesSelect(values)} multiple size="30" model=".service" id="service" name="service"
                                         className="form-control">
                                         <option value="" selected disabled>Choose here</option>
                                        {this.props.servicesMaster.servicesMaster.map(service => <option>{service.serviceType}</option>)}
@@ -201,7 +238,7 @@ class Order extends Component {
                             <Row className="form-group">
                                 <Label htmlFor="labLocation" md={3}>Lab Location:</Label>
                                 <Col md={9}>
-                                    <Control.select model=".labLocation" id="labLocation" name="labLocation"
+                                    <Control.select onChange={(value) => this.handleChange(value)} model=".labLocation" id="labLocation" name="labLocation"
                                         className="form-control">
                                         <option value="" selected disabled>Choose here</option>
                                         <option>Hyderabad</option>
@@ -209,7 +246,10 @@ class Order extends Component {
                                         <option>Vizag</option>
                                     </Control.select>
                                 </Col>
-                            </Row>
+                            </Row> 
+
+                                {/* <p>Lab Location : {this.state.labLoc}</p> */}
+                                   
                             <Row className="form-group">
                                 <Label htmlFor="status" md={3}>Status:</Label>
                                 <Col md={9}>

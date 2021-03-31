@@ -179,7 +179,7 @@ class Main extends Component {
             <Switch>
              <Route path="/home" component={HomePage} />
              {console.log("In Main After Route")}
-             <PrivateRoute exact path="/order" component={() => <Order userMaster={this.props.userMaster} customerMaster={this.props.customerMaster} servicesMaster={this.props.servicesMaster} resetOrderForm={this.props.resetOrderForm} postOrder={this.props.postOrder} /> } />
+             <PrivateRoute exact path="/order" component={() => <Order auth={this.props.auth} userMaster={this.props.userMaster} customerMaster={this.props.customerMaster} servicesMaster={this.props.servicesMaster} resetOrderForm={this.props.resetOrderForm} postOrder={this.props.postOrder} /> } />
               {console.log("In Main After Private Route order component")}
               <PrivateRoute exact path="/listorder" component={() => <ListOrder orders={this.props.orders} />} />
               {console.log("In Main After Private Route listorder component")}
