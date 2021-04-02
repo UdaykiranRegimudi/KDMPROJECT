@@ -87,6 +87,11 @@ class Header extends Component {
                                     this.props.auth.user.email === "sireesha.kattula@kdmengineers.com" ||
                                     this.props.auth.user.email === "lakshmana.kattula@kdmengineers.com" ||
                                     this.props.auth.user.email === "vijaya.kattula@kdmengineers.com" ||
+                                    this.props.auth.user.email === "saikumar.b@kdmengineers.com"||
+                                    this.props.auth.user.email === "srikanth.s@kdmengineers.com"||
+                                    this.props.auth.user.email === "sailatha.k@kdmengineers.com"||
+                                    this.props.auth.user.email === "srinivas.b@kdmengineers.com"||
+                                    this.props.auth.user.email === "chandrasekhar.s@kdmengineers.com"||
                                     this.props.auth.user.email === "drbsrao@kdmengineers.com" ?
                                         <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/listjob">
                                         <span className="fa fa-list fa-lg"></span> <strong> List Jobs</strong>

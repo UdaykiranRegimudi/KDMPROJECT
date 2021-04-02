@@ -3,7 +3,7 @@ import { Card, CardBody, CardText} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 
-    function RenderJob({ job, onClick }) {
+   /* function RenderJob({ job, onClick }) {
         return(
             <Card>
                 <Link to={`/listjob/${job._id}`} >
@@ -15,14 +15,14 @@ import { Loading } from './LoadingComponent';
                 </Link>
             </Card>
         );
-    }
+    } */
 
 
 
     const Listjob = (props) => {
         console.log("In Listjob Component entry");
 
-        const listjob = props.jobs.jobs.map((job) => {
+       /* const listjob = props.jobs.jobs.map((job) => {
             console.log("Entering Listjob const Customer is: " + job.customer)
 
             return (
@@ -31,7 +31,7 @@ import { Loading } from './LoadingComponent';
                     <RenderJob job={job} />
                 </div>
             );
-        });
+        }); */
 
         if (props.jobs.isLoading) {
             return(
@@ -63,7 +63,33 @@ import { Loading } from './LoadingComponent';
                     </div>
                     </div>
                     <div className="row justify-content-center">
-                        {listjob}
+                       {/* {listjob} */}
+
+                       <div className="row col-12 col-md-12">
+                        <table className="table">  
+                            <thead className="job-header">
+                                <th>Job Id</th>
+                                <th>Service</th>
+                                <th>Status</th>
+                                <th>Assign to</th>
+                            </thead>
+                            <tbody>
+                              {
+                                 props.jobs.jobs.map((job) => (
+                                    <tr key={job._id}>            
+                                        <td><Link to={`/listjob/${job._id}`} >{job.jobId} </Link></td>
+                                        <td>{job.serviceId}</td>
+                                        <td>{job.status}</td>
+                                        <td>{job.assignto}</td>
+                                    </tr>   
+                                   ))             
+                                }   
+                            </tbody>
+
+                        </table>
+
+                        </div>
+
                     </div>
                 </div>
             );

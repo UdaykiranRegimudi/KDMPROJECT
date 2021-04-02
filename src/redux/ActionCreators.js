@@ -242,6 +242,8 @@ export const postOrder = (order) => (dispatch) => {
                     orderId: order.orderId,
                     jobId: order.orderId + "-" + servCount,
                     createdAt: firebasestore.FieldValue.serverTimestamp(),
+                    createdBy: auth.currentUser.email,
+                    dueDate: order.dueDate,
                     status: "Assigned",
                     assignto: "drbsrao@kdmengineers.com"
                 }  
@@ -300,6 +302,8 @@ export const postOrder = (order) => (dispatch) => {
                     orderId: order.orderId,
                     jobId: order.orderId + "-" + servCount,
                     createdAt: firebasestore.FieldValue.serverTimestamp(),
+                    createdBy: auth.currentUser.email,
+                    dueDate: order.dueDate,
                     status: "Assigned",
                     assignto: "lakshmana.kattula@kdmengineers.com"
                 }  
@@ -358,6 +362,8 @@ export const postOrder = (order) => (dispatch) => {
                     orderId: order.orderId,
                     jobId: order.orderId + "-" + servCount,
                     createdAt: firebasestore.FieldValue.serverTimestamp(),
+                    createdBy: auth.currentUser.email,
+                    dueDate: order.dueDate,
                     status: "Assigned",
                     assignto: "sireesha.kattula@kdmengineers.com"
                 }  

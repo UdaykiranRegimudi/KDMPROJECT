@@ -241,7 +241,7 @@ class Order extends Component {
                                     <Control.select onChange={(value) => this.handleChange(value)} model=".labLocation" id="labLocation" name="labLocation"
                                         className="form-control">
                                         <option value="" selected disabled>Choose here</option>
-                                        <option>Hyderabad</option>
+                                        <option>Hyd</option>
                                         <option>Guntur</option>
                                         <option>Vizag</option>
                                     </Control.select>
@@ -258,6 +258,8 @@ class Order extends Component {
                                         <option value="" selected disabled>Choose here</option>
                                         <option>Assigned</option>
                                         <option>Completed</option>
+                                        <option>Invoiced</option>
+                                        <option>Paid</option>
                                     </Control.select>
                                 </Col>
                             </Row>
