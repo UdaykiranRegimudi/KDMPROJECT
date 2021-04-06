@@ -1,5 +1,6 @@
 import * as ActionTypes from './ActionTypes';
 import { auth, firestore, firebasestore } from '../firebase/firebase';
+import { baseUrl } from '../config/baseUrl';
 
 /************************************ Login **************************************/
 
@@ -205,7 +206,7 @@ export const postOrder = (order) => (dispatch) => {
 
     var batch = firestore.batch()
 
-    if (order.labLocation === "Hyderabad") {
+    if (order.labLocation === "Hyd") {
         firestore.collection('orders').add({
             orderId: order.orderId,
             projectName: order.projectName,
@@ -468,10 +469,22 @@ export const fetchOrders = () => (dispatch) => {
         .then(orders => {
             dispatch(addOrders(orders))
             //testing sendEmail()
-            sendEmail("sireelaks@gmail.com")})
-        .catch(error => dispatch(ordersFailed(error.message)));
-    }
-}
+            //console.log("Calling send Email")
+            //sendEmail("sireelaks@gmail.com")
+            
+            /*fetch(baseUrl)
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            })
+            */
+
+         }) .catch(error => dispatch(ordersFailed(error.message)));
+        
+     }
+}   
 
 export const ordersLoading = () => ({
     type: ActionTypes.ORDERS_LOADING
@@ -776,11 +789,24 @@ export const postJob = (job) => (dispatch) => {
 };
 /************************************ PostJob **************************************/
 /************************************ Test function **************************************/
+
 export const sendEmail = (anyObj) => {
     console.log("In sendEmail")
     console.log(anyObj)
+    console.log('baseUrl')
+    console.log(baseUrl)
+
+    console.log("Calling fetch")
+
+    //fetch(baseUrl)
+    fetch(baseUrl + '/submit')
+    .then(response => response.text())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    })
 }
-
-
 
 /************************************ Test function - End **************************************/

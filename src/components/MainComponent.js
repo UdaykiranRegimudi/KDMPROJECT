@@ -7,6 +7,7 @@ import OrderJobDetail from './OrderJobDetailComponent';
 import Listjob from './ListjobComponent';
 import Jobdetail from './JobdetailComponent';
 import Header from './HeaderComponent';
+import TestAPIs from './TestAPIsComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { postJob, loginUser, logoutUser, postOrder, fetchOrders, fetchJobs,fetchOrderJobs, postJobupdate, postOrderJobUpdate, fetchJobupdates, fetchUserMaster, fetchCustomerMaster, fetchServicesMaster } from '../redux/ActionCreators';
@@ -129,7 +130,7 @@ class Main extends Component {
           orderJobs={this.props.orderJobs.orderJobs.filter((orderJob) => orderJob.orderId === decodeURIComponent(match.params.orderId))}
           orderJobsErrMess={this.props.orderJobs.errMess}
           userMaster={this.props.userMaster}
-           />
+          jobs={this.props.jobs} />
       );
     }
 
@@ -180,6 +181,8 @@ class Main extends Component {
              <Route path="/home" component={HomePage} />
              {console.log("In Main After Route")}
              <PrivateRoute exact path="/order" component={() => <Order auth={this.props.auth} userMaster={this.props.userMaster} customerMaster={this.props.customerMaster} servicesMaster={this.props.servicesMaster} resetOrderForm={this.props.resetOrderForm} postOrder={this.props.postOrder} /> } />
+              {console.log("In Main After Private Route order component")}
+              <PrivateRoute exact path="/testAPIs" component={() => <TestAPIs auth={this.props.auth} />} />
               {console.log("In Main After Private Route order component")}
               <PrivateRoute exact path="/listorder" component={() => <ListOrder orders={this.props.orders} />} />
               {console.log("In Main After Private Route listorder component")}

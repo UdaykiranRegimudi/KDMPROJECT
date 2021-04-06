@@ -66,36 +66,36 @@ import { Loading } from './LoadingComponent';
                     <div className="row justify-content-center">
                      {/*   {listorder} */}
 
-                    <div className="row col-12 col-md-12">
-                        <table className="table">  
-                            <thead className="order-header">
-                                <th>Order Id</th>
-                                <th>Project Name</th>
-                                <th>Customer Name</th>
-                                <th>Customer Reference </th>
-                                <th>Subject</th>
-                                <th>Lab Location</th>
-                                <th>Status</th>
-                                <th>Due Date</th>
-                            </thead>
-                            <tbody>
-                              {
-                                 props.orders.orders.map((order) => (
-                                    <tr key={order._id}>            
-                                        <td><Link to={`/listorder/${encodeURIComponent(order.orderId)}`} >{order.orderId} </Link></td>
-                                        <td>{order.projectName}</td>
-                                        <td>{order.customerName}</td>
-                                        <td>{order.customerReference}</td>
-                                        <td>{order.subject}</td>
-                                        <td>{order.labLocation}</td>
-                                        <td>{order.status}</td>
-                                        <td>{order.dueDate}</td>
-                                    </tr>   
-                                   ))             
-                                }   
-                            </tbody>
+                        <div className="row col-12 col-md-12">
+                            <table className="table">  
+                                <thead className="order-header">
+                                    <th>Order Id</th>
+                                    <th>Project Name</th>
+                                    <th>Customer Name</th>
+                                    <th>Customer Reference </th>
+                                    <th>Subject</th>
+                                    <th>Lab Location</th>
+                                    <th>Status</th>
+                                    <th>Due Date</th>
+                                </thead>
+                                <tbody>
+                                {
+                                    props.orders.orders.map((order) => (
+                                        <tr key={order._id}>            
+                                            <td><Link to={`/listorder/${encodeURIComponent(order.orderId)}`} >{order.orderId} </Link></td>
+                                            <td>{order.projectName}</td>
+                                            <td>{order.customerName}</td>
+                                            <td>{order.customerReference}</td>
+                                            <td>{order.subject}</td>
+                                            <td>{order.labLocation}</td>
+                                            <td>{order.status}</td>
+                                            <td>{order.dueDate}</td>
+                                        </tr>   
+                                    ))             
+                                    }   
+                                </tbody>
 
-                        </table>
+                            </table>
 
                         </div>
                     </div>

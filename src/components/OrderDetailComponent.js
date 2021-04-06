@@ -1,9 +1,18 @@
-import { Card, CardHeader, CardBody} from 'reactstrap';
+import {Fragment} from 'react';
+import { Card, CardHeader, CardBody, Button} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
+import Listjob from './ListjobComponent';
+import ReportPdf from './ReportPdf'
+import InvoicePdf from './InvoicePdf'
+import * as React from "react";
+//import {PDFViewer} from '@react-pdf/renderer'
+import Invoice from '../components/reports/Invoice'
+import invoiceData from '../data/invoice-data'
 
 
  function RenderOrderDetail({order}) {
+
             return(
                 <div className="col-md-11">
                         <Card>
@@ -103,7 +112,28 @@ import { Loading } from './LoadingComponent';
             );
     }
 
-    const OrderDetail = (props) => {
+const OrderDetail = (props) => {
+
+    const [isToggleOn, setIsToggleOn] = React.useState(true);
+    const [showReportPdf, setShowReportPdf] = React.useState(false);
+    const [showInvoicePdf, setShowInvoicePdf] = React.useState(false);
+    
+    const onClickTogglePdfButton = (event) => { 
+        console.log("In onClickToggle.....")
+        console.log(isToggleOn)
+	    setIsToggleOn(!isToggleOn);
+        console.log(isToggleOn)
+    };
+
+    const onClickReportPdfButton = (event) => { 
+	    setShowReportPdf(!showReportPdf);
+    };
+
+    const onClickInvoicePdfButton = (event) => {
+        setShowInvoicePdf(!showInvoicePdf);
+    }
+
+
         if (props.isLoading) {
             return(
                 <div className="container">
@@ -131,6 +161,33 @@ import { Loading } from './LoadingComponent';
                     <div className="row col-12 justify-content-center">
                              <h4>OrderId: {props.order.orderId}</h4> 
                     </div>
+                    <div className="row col-12 justify-content-center">
+                            {/* 
+                            <Button onClick={onClickTogglePdfButton}>
+                                {isToggleOn ? 'Generate Pdf' : 'Close'}
+                            </Button> 
+                            */}
+                            <Button onClick={onClickReportPdfButton}>
+                                {showReportPdf ? 'Close Report Pdf' : 'Generate Report Pdf'}
+                            </Button>
+                            <Button onClick={onClickInvoicePdfButton}>
+                                {showInvoicePdf ? 'Close Invoice Pdf' : 'Generate Invoice Pdf'}
+                            </Button>
+                    </div>
+                    <div className="row col-12 justify-content-center">
+                            {/*
+                                <Fragment>
+                                {isToggleOn ? <p></p> : <ReportPdf />}
+                            </Fragment>
+                            */}
+                            <Fragment>
+                                {showReportPdf ? <ReportPdf order={props.order}/> : <p></p>}
+                            </Fragment>
+                            <Fragment>
+                                {showInvoicePdf ? <InvoicePdf /> : <p></p>}
+                            </Fragment>
+                            
+                    </div>
                     <div className="row">
                         <div className="col-12">   
                            <hr />
@@ -148,9 +205,8 @@ import { Loading } from './LoadingComponent';
                         orderId={props.order.orderId}/>
                         {console.log("printing orderjobsprops")}
                         {console.log(props.orderJobs)}
-                        
-                    </div>
-                    </div>
+                      </div>
+                </div>
             );
         else
             return(

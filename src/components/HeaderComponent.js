@@ -54,6 +54,20 @@ class Header extends Component {
                         <Collapse isOpen={this.state.isNavOpen} navbar>
                         <Nav className="mr-auto col-12 col-md-10 navbar">
                               <NavItem>
+                                { this.props.auth.isAuthenticated ? 
+                                    this.props.auth.user.email === "sireesha.kattula@kdmengineers.com" || 
+                                    this.props.auth.user.email === "lakshmana.kattula@kdmengineers.com" ||
+                                    this.props.auth.user.email === "vijaya.kattula@kdmengineers.com" ? 
+                                        <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/testAPIs">
+                                        <span className="fa fa-address-card fa-lg"></span> <strong> Test APIs</strong>
+                                        </NavLink>
+                                    : null
+                                : null
+                                }
+                                   
+                                </NavItem>
+
+                              <NavItem>
                                 { this.props.auth.isAuthenticated ?
                                     this.props.auth.user.email === "ramesh.lingoji@kdmengineers.com" || 
                                     this.props.auth.user.email === "sireesha.kattula@kdmengineers.com" || 
