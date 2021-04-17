@@ -20,12 +20,14 @@ import { Fade } from 'react-animation-components';
                                             <dd className="col-6">{job._id}</dd>
                                             <dt className="col-6">Job Id:</dt>
                                             <dd className="col-6">{job.jobId}</dd>                                            
-                                            <dt className="col-6">Service: </dt>
-                                            <dd className="col-6">{job.serviceId}</dd>                                           
+                                            <dt className="col-6">Test Name: </dt>
+                                            <dd className="col-6">{job.testName}</dd>                                           
                                             <dt className="col-6">Status: </dt>
                                             <dd className="col-6">{job.status}</dd>
                                             <dt className="col-6">Assign To: </dt>
                                             <dd className="col-6">{job.assignto}</dd>
+                                            <dt className="col-6">Result: </dt>
+                                            <dd className="col-6">{job.result}</dd>
                                            
                                 </dl>
                             </CardBody>
@@ -56,6 +58,7 @@ import { Fade } from 'react-animation-components';
                                         <p><strong>Status: </strong>{jobupdate.status}</p>
                                         <p><strong>Assigned To: </strong>{jobupdate.assignto}</p>
                                         <p><strong>Updates: </strong>{jobupdate.jobupdate}</p>
+                                        <p><strong>Result: </strong>{jobupdate.result}</p>
                                         <p>-- {jobupdate.author.firstname} {jobupdate.author.lastname} , {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(jobupdate.updatedAt.toDate())))}</p>
                                       
                                         </li>
@@ -111,7 +114,7 @@ import { Fade } from 'react-animation-components';
             console.log("in Jobdetail handle submit----printing jobid")
             console.log(this.props.jobId)
             console.log("in Jobdetail passing to postJobupdate")
-            this.props.postJobupdate(this.props.docrefId, this.props.jobId, values.status, values.assignto, values.jobupdate);
+            this.props.postJobupdate(this.props.docrefId, this.props.jobId, values.status, values.assignto, values.jobupdate, values.result);
             
             console.log(values)
          
@@ -153,6 +156,13 @@ import { Fade } from 'react-animation-components';
                             <Label htmlFor="jobupdate">Update</Label>
                             <Control.textarea model=".jobupdate" id="jobupdate"
                                         rows="6" className="form-control" />
+                            </Col>
+                        </Row>
+                        <Row className="form-group">
+                            <Col>
+                            <Label htmlFor="result">Result</Label>
+                            <Control.text model=".result" id="result"
+                                        className="form-control" />
                             </Col>
                         </Row>
                         <Button className="submit-btn btn-block" type="submit" value="submit">

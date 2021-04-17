@@ -5,6 +5,8 @@ import reportData from '../data/report-data'
 
 const ReportPdf = (props) => {
 console.log(reportData)
+console.log("props in ReportPdf")
+console.log(props)
 return (
       <Fragment>
         <PDFViewer width='1000' height='500' className='app'>

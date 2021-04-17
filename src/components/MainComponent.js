@@ -10,12 +10,13 @@ import Header from './HeaderComponent';
 import TestAPIs from './TestAPIsComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { postJob, loginUser, logoutUser, postOrder, fetchOrders, fetchJobs,fetchOrderJobs, postJobupdate, postOrderJobUpdate, fetchJobupdates, fetchUserMaster, fetchCustomerMaster, fetchServicesMaster } from '../redux/ActionCreators';
+import { postJob, loginUser, logoutUser, postOrder, fetchOrders, fetchJobs, fetchOrderJobs, postJobupdate, postOrderJobUpdate, fetchJobupdates, fetchUserMaster, fetchCustomerMaster, fetchServicesMaster, fetchMaterialMaster } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const mapStateToProps = state => {
   console.log("In mapStateToProps function");
+  console.log(state.materialMaster);
   console.log(state.servicesMaster);
   console.log(state.customerMaster);
   console.log(state.userMaster);
@@ -26,6 +27,7 @@ const mapStateToProps = state => {
   console.log(state.auth);
 
     return {
+      materialMaster: state.materialMaster,
       servicesMaster: state.servicesMaster,
       customerMaster: state.customerMaster,
       userMaster: state.userMaster,
@@ -41,19 +43,20 @@ const mapDispatchToProps = (dispatch) => (
   {
   loginUser: (creds) => dispatch(loginUser(creds)),
   logoutUser: () => dispatch(logoutUser()),
-  postOrder: (order) => dispatch(postOrder(order)),
+  postOrder: (order, matMaster) => dispatch(postOrder(order, matMaster)),
   fetchOrders: () => {dispatch(fetchOrders())},
   resetOrderForm: () => { dispatch(actions.reset('order'))},
   postJob: (job) => dispatch(postJob(job)),
   fetchJobs: () => {dispatch(fetchJobs())},
   fetchOrderJobs: () => {dispatch(fetchOrderJobs())},
   resetJobForm: () => { dispatch(actions.reset('job'))},
-  postJobupdate: (docrefId, jobId, status, assignto, jobupdate) => dispatch(postJobupdate(docrefId, jobId, status, assignto, jobupdate)),
+  postJobupdate: (docrefId, jobId, status, assignto, jobupdate, result) => dispatch(postJobupdate(docrefId, jobId, status, assignto, jobupdate, result)),
   postOrderJobUpdate: (orderJobDocRefId, jobId, status, assignto, jobupdate) => dispatch(postOrderJobUpdate(orderJobDocRefId, jobId, status, assignto, jobupdate)),
   fetchJobupdates: () => {dispatch(fetchJobupdates())},
   fetchUserMaster: () => {dispatch(fetchUserMaster())},
   fetchCustomerMaster: () => {dispatch(fetchCustomerMaster())},
-  fetchServicesMaster: () => {dispatch(fetchServicesMaster())}
+  fetchServicesMaster: () => {dispatch(fetchServicesMaster())},
+  fetchMaterialMaster: () => {dispatch(fetchMaterialMaster())}
 
 }
 );
@@ -76,6 +79,8 @@ class Main extends Component {
     this.props.fetchCustomerMaster();
     console.log("In Main Component componentDidMount, calling fetchRefdataServices")
     this.props.fetchServicesMaster();
+    console.log("In Main Component componentDidMount, calling fetchRefdataMaterials")
+    this.props.fetchMaterialMaster();
     
 }
 
@@ -95,10 +100,6 @@ class Main extends Component {
 
     const JobWithId = ({match}) => {
       console.log("++++++++++In JobwithID match")
-      //console.log("jobupdate.jobId")
-      //console.log(jobupdates.jobId)
-     // console.log("match.params.jobId")
-     // console.log(jobId)
       return(
         <Jobdetail job={this.props.jobs.jobs.filter((job) => job._id === match.params.docrefId)[0]}
           isLoading={this.props.jobs.isLoading}
@@ -180,7 +181,7 @@ class Main extends Component {
             <Switch>
              <Route path="/home" component={HomePage} />
              {console.log("In Main After Route")}
-             <PrivateRoute exact path="/order" component={() => <Order auth={this.props.auth} userMaster={this.props.userMaster} customerMaster={this.props.customerMaster} servicesMaster={this.props.servicesMaster} resetOrderForm={this.props.resetOrderForm} postOrder={this.props.postOrder} /> } />
+             <PrivateRoute exact path="/order" component={() => <Order auth={this.props.auth} userMaster={this.props.userMaster} customerMaster={this.props.customerMaster} servicesMaster={this.props.servicesMaster} resetOrderForm={this.props.resetOrderForm} postOrder={this.props.postOrder} materialMaster={this.props.materialMaster} /> } />
               {console.log("In Main After Private Route order component")}
               <PrivateRoute exact path="/testAPIs" component={() => <TestAPIs auth={this.props.auth} />} />
               {console.log("In Main After Private Route order component")}

@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   const ReportItemsTable = ({report}) => (
     <View style={styles.tableContainer}>
         <InvoiceTableHeader />
-       {/* <InvoiceTableRow items={report.items} /> */}
+       {/*  <InvoiceTableRow items={report.orderJobs} /> */}
         <InvoiceTableBlankSpace rowsCount={ tableRowsCount - report.items.length} />
        {/*<InvoiceTableFooter items={report.items} /> */}
     </View>

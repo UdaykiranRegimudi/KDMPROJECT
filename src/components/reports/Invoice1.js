@@ -1,7 +1,7 @@
 import React from 'react';
 import { Page, Document, Image, StyleSheet, View, Text } from '@react-pdf/renderer';
-import InvoiceTitle from './InvoiceTitle'
-import InvoiceNo from './InvoiceNo'
+import InvoiceTitle from '../testReports/InvoiceTitle'
+import InvoiceNo from '../testReports/InvoiceNo'
 import BillTo from './BillTo'
 import InvoiceItemsTable from './InvoiceItemsTable'
 import InvoiceThankYouMsg from './InvoiceThankYouMsg'

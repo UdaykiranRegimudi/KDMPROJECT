@@ -15,70 +15,11 @@ class Order extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleServicesSelect = this.handleServicesSelect.bind(this);
-        this.handleMaterial1Select = this.handleMaterial1Select.bind(this);
-      
         this.state = {
             labLoc: "",
             services: [],
-            selCategories: '',
-            material1Selected: "",
-            testsArr1: [],
-            material2Selected: "",
-            testsArr2: []
+            selCategories: ''
         }
-    }
-    
-
-    handleMaterial1Select(e) {
-        console.log("In handleMaterial1Select")
-        console.log(e.target.value)
-        this.setState({material1Selected: e.target.value})
-        console.log("Before filter in handleMaterial1Select")
-        console.log(this.state)
-        console.log(this.props.materialMaster.materialMaster.length)
-
-        for (let i = 0; i < this.props.materialMaster.materialMaster.length; i++) {
-            console.log(i)
-            console.log(this.props.materialMaster.materialMaster[i].matName)
-            if(this.props.materialMaster.materialMaster[i].matName === e.target.value)
-            {
-                console.log(this.props.materialMaster.materialMaster[i].matName)
-                this.setState({testsArr1: this.props.materialMaster.materialMaster[i].tests})
-                return
-            }
-        }
-    }
-
-      handleMaterial2Select(e) {
-        console.log("In handleMaterial2Select")
-        console.log(e.target.value)
-        this.setState({material2Selected: e.target.value})
-        console.log("Before filter in handleMaterial2Select")
-        console.log(this.state)
-        console.log(this.props.materialMaster.materialMaster.length)
-
-        for (let i = 0; i < this.props.materialMaster.materialMaster.length; i++) {
-            console.log(i)
-            console.log(this.props.materialMaster.materialMaster[i].matName)
-            if(this.props.materialMaster.materialMaster[i].matName === e.target.value)
-            {
-                console.log(this.props.materialMaster.materialMaster[i].matName)
-                this.setState({testsArr2: this.props.materialMaster.materialMaster[i].tests})
-                return
-            }
-        }
-      }
-
-    handleM1ParamsSelect(e) {
-        console.log("In handleParam1Select") 
-        const selected=[];
-        console.log(selected)
-    }
-
-     handleM2ParamsSelect(e) {
-        console.log("In handleParamSelect") 
-        const selected=[];
-        console.log(selected)
     }
 
    handleChange(e) {
@@ -105,29 +46,22 @@ class Order extends Component {
         <li>{selCat}</li>)})
     }
 
-    handleSubmit(values) {
-        console.log(values)
-        console.log("Current State is: " + JSON.stringify(values));
-        console.log(this.props.materialMaster.materialMaster)
-        var matMaster= this.props.materialMaster.materialMaster
-        console.log(matMaster)
-        this.props.postOrder(values, matMaster);
-        this.props.resetOrderForm();
-    } 
         
-    handleSubmit1(values) {
+    handleSubmit(values) {
         console.log(values)
         console.log("Current State is: " + JSON.stringify(values));
         this.props.postOrder(values);
         this.props.resetOrderForm();
     } 
-
     
     render() {
         console.log("In Order Component render");
         console.log("Printing props in render");
         console.log(this.props);
-    
+        //console.log("Calling getUniqueIdWithTs")
+        //var uniqueId = getUniqueIdWithTs()
+        //console.log("UniqueId obtained : " + uniqueId)
+      
         return(
            
             <div className="container">
@@ -255,62 +189,7 @@ class Order extends Component {
                                          className="form-control" />                                                                            
                             </Col>                                 
                             </Row>
- {/* Material 1*/}                           
-                        <Row className="form-group">
-                            <Label htmlFor="mat1" md={3}>Material 1:</Label>
-                        </Row>
-                        <Row className="form-group">
-                                <Col md={6}>
-                                    <Control.select onChange={(value) => this.handleMaterial1Select(value)} size="8" model=".mat1" id="mat1" name="mat1"
-                                        className="form-control">
-                                        <option value="" selected disabled>Choose a material</option>
-                                       {this.props.materialMaster.materialMaster.map(mat => <option>{mat.matName}</option>)}
-                                    </Control.select>
-                                </Col>
-                            <Col md={6}>   
-                                   <Control.select multiple size="8" model=".m1params" id="m1params" name="m1params"
-                                        className="form-control">
-                                      <option value="" selected disabled>Choose Test Parameters</option>
-                                       {this.state.testsArr1.map(mat => <option>{mat.testName}</option>)}
-                                    </Control.select>                                                   
-                            </Col>     
-                            </Row>
-                            <Row className="form-group">
-                            <Col md={9}>   
-                                    <Control.text model=".m1samples" id="m1samples" name="m1samples"
-                                            placeholder="Sample1, Sample 2, Sample 3, Sample n" className="form-control" />                                                                            
-                            </Col>                                 
-                          </Row>
                             
-{/* Material 1*/}         
-{/* Material 2*/}
-                        <Row className="form-group">
-                            <Label htmlFor="mat2" md={3}>Material 2:</Label>
-                        </Row>
-                        <Row className="form-group">
-                                <Col md={6}>
-                                    <Control.select onChange={(value) => this.handleMaterial2Select(value)} size="8" model=".mat2" id="mat2" name="mat2"
-                                        className="form-control">
-                                        <option value="" selected disabled>Choose a material</option>
-                                       {this.props.materialMaster.materialMaster.map(mat => <option>{mat.matName}</option>)}
-                                    </Control.select>
-                                </Col>
-                            <Col md={6}>   
-                                   <Control.select multiple size="8" model=".m2params" id="m2params" name="m2params"
-                                        className="form-control">
-                                      <option value="" selected disabled>Choose Test Parameters</option>
-                                       {this.state.testsArr2.map(mat => <option>{mat.testName}</option>)}
-                                    </Control.select>                                                   
-                            </Col>      
-                            </Row>
-                            <Row className="form-group">
-                            <Col md={9}>   
-                                    <Control.text model=".m2samples" id="m2samples" name="m2samples"
-                                            placeholder="Sample1, Sample 2, Sample 3, Sample n" className="form-control" />                                                                            
-                            </Col>                             
-                        </Row>  
-{/* Material 2*/}    
-{/*
                             <p>Services Selected:</p>
                             <ul style={{color:'blue'}}>{this.state.services}</ul>
 
@@ -325,7 +204,6 @@ class Order extends Component {
                                     </Control.select>
                                 </Col>
                             </Row>
-*/}
 
                             <Row className="form-group">
                             <Label htmlFor="dueDate" md={3}>Due Date:</Label>

@@ -3,41 +3,21 @@ import {Text, View, StyleSheet } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
     reportRefDateContainer: {
-        marginTop: 30,
+        marginTop: 10,
         flexDirection: 'row'
     },
-   /* reportDateContainer: {
-        marginTop: 20,
-        flexDirection: 'row',
-        justifyContent: 'flex-end'
-    },
-    reportAccrNoContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end'
-    },
-    reportDate: {
-            fontSize: 12,
-            fontStyle: 'bold',
-    },
-    label: {
-        width: 30
-    },
-    reportCustAdd: {
-        marginTop: 10,
-        paddingBottom: 3
-    },*/
     reportTitle:{
-        fontSize: 12,
-        marginTop: 15,
+        fontSize: 10,
+        marginTop: 10,
         textAlign: 'center',
         textDecoration: 'underline',
         textTransform: 'uppercase',
-        marginBottom: 15
+        marginBottom: 10
     }
   });
 
   var today = new Date()
-  var DateId = '' + today.getDate() + '/' + today.getMonth() + '/' + today.getFullYear()
+  var DateId = '' + today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear()
 
   const ReportNo = ({report, props}) => (
      
@@ -88,7 +68,7 @@ const styles = StyleSheet.create({
             <View style={{flexDirection: 'row'}}>
                  <Text style={{width: '30%'}}>Material Received On </Text>
                  <Text style={{width: '10%'}}>:</Text>
-                 <Text style={{width: '60%'}}>{props.order.matRecdOn}</Text>
+                 <Text style={{width: '60%'}}>{new Date(props.order.createdAt.toDate()).toUTCString()}</Text>
             </View>
             <View style={{flexDirection: 'row'}}>
                  <Text style={{width: '30%'}}>Period of Test </Text>

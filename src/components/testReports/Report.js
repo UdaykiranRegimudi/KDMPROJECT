@@ -1,13 +1,9 @@
 import React from 'react';
 import { Page, Document, Image, StyleSheet, View, Text } from '@react-pdf/renderer';
 import ReportNo from './ReportNo'
-import ReportItemsTable from './ReportItemsTable'
 import ReportDisclaimer from './ReportDisclaimer'
 import ReportSignature from './ReportSignature'
-import ReportFooter from './ReportFooter'
-
-//import ReportTitle from './ReportTitle'
-//import BillTo from './BillTo'
+import TestConductedTable from './TestConductedTable'
 
 import logo from '../../../src/kdmlogo.jpg'
 
@@ -15,10 +11,11 @@ import logo from '../../../src/kdmlogo.jpg'
 const styles = StyleSheet.create({
     page: {
         fontFamily: 'Helvetica',
-        fontSize: 11,
-        paddingTop: 30,
-        paddingLeft:40,
-        paddingRight:40,
+        fontSize: 10,
+        paddingTop: 10,
+        paddingLeft: 30,
+        paddingRight: 30,
+        paddingBottom: 80,
         lineHeight: 1.5,
         flexDirection: 'column',
     }, 
@@ -40,6 +37,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderTopWidth: 1,
     borderTopColor: 'purple',
+    marginRight: 10,
+    marginLeft: 10
     },
     logo: {
         top: 1,
@@ -59,19 +58,18 @@ const styles = StyleSheet.create({
                     {console.log(report)}
                     {console.log("props")}
                     {console.log(props)}
-                    <ReportNo report={report} props={props}/>
-                    <ReportItemsTable report={report}/>
-                    <ReportItemsTable report={report}/>
+                    <ReportNo report={report} props={props} />
+                    <TestConductedTable props={props} />
                     <ReportDisclaimer />
                     <ReportSignature />
-                    {/*<ReportFooter />*/}
+                    
                     <View style={[styles.pageFooter, {height: 40}]} fixed>
                         <Text style={{marginTop: '10', color: 'purple'}}>D. No. 8-12-96/S/401, Sri Ramana Colony, Karmanghat, SaroorNagar(M), Hyderabad - 500 079</Text>
                         <Text style={{color: 'purple'}}>Cell: +91-9912806685, 9912915533, Email: contactkdmei@gmail.com, Website: www.kdmengineers.com</Text>
                     </View>
                     <Text style={styles.pageNumbers} render={({ pageNumber, totalPages }) => (
-        `${pageNumber} / ${totalPages}`
-      )} fixed />
+                            `${pageNumber} / ${totalPages}`
+                              )} fixed />
                 </Page>
             </Document>
         );

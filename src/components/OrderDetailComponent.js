@@ -6,7 +6,7 @@ import Listjob from './ListjobComponent';
 import ReportPdf from './ReportPdf'
 import InvoicePdf from './InvoicePdf'
 import * as React from "react";
-//import {PDFViewer} from '@react-pdf/renderer'
+import {PDFViewer} from '@react-pdf/renderer'
 import Invoice from '../components/reports/Invoice'
 import invoiceData from '../data/invoice-data'
 
@@ -58,7 +58,7 @@ import invoiceData from '../data/invoice-data'
                                             <dt className="col-6">Created By: </dt>
                                             <dd className="col-6">{order.createdBy}</dd>
                                             <dt className="col-6">Created At: </dt>
-                                            <dd className="col-6">{order.createdAt.toString()}</dd>
+                                            <dd className="col-6">{new Date(order.createdAt.toDate()).toUTCString()}</dd>
                                             <dt className="col-6">Due Date: </dt>
                                             <dd className="col-6">{order.dueDate}</dd>
                                             <dt className="col-6">Additional Info: </dt>
@@ -90,7 +90,9 @@ import invoiceData from '../data/invoice-data'
                             <thead className="job-header">                                        
                             <tr>
                                 <th>JobId</th>
-                                <th>Service</th>
+                                <th>Material</th>
+                                <th>Test Name</th>
+                                <th>Sample</th>
                                 <th>Status</th>
                                 <th>Assign to</th>
                             </tr>                                    
@@ -98,9 +100,12 @@ import invoiceData from '../data/invoice-data'
                             <tbody>
                              {
                                  orderJobs.map((orderJob) => (
+                                     
                                     <tr key={orderJob.orderId}>            
                                         <td>{orderJob.jobId}</td>
-                                        <td>{orderJob.serviceId}</td>
+                                        <td>{orderJob.parentMat}</td>
+                                        <td>{orderJob.testName}</td>
+                                        <td>{orderJob.sample}</td>
                                         <td>{orderJob.status}</td>
                                         <td>{orderJob.assignto}</td>
                                     </tr>   
@@ -181,7 +186,7 @@ const OrderDetail = (props) => {
                             </Fragment>
                             */}
                             <Fragment>
-                                {showReportPdf ? <ReportPdf order={props.order}/> : <p></p>}
+                                {showReportPdf ? <ReportPdf order={props.order} orderJobs={props.orderJobs}/> : <p></p>}
                             </Fragment>
                             <Fragment>
                                 {showInvoicePdf ? <InvoicePdf /> : <p></p>}

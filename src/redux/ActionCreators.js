@@ -80,7 +80,7 @@ export const fetchUserMaster = () => (dispatch) => {
     console.log("Entering fetch reference user data");
     dispatch(userMasterLoading(true));
 
-    return firestore.collection('userMaster').get()
+    return firestore.collection('userMaster').orderBy("userId", "asc").get()
         .then(snapshot => {
             let userMaster = [];
             snapshot.forEach(doc => {
@@ -176,11 +176,481 @@ export const addServicesMaster = (servicesMaster) => ({
     payload: servicesMaster
 });
 
+
+/* MaterialMaster */
+export const fetchMaterialMaster = () => (dispatch) => {
+    console.log("Entering fetch reference material master data");
+    dispatch(materialMasterLoading(true));
+
+    return firestore.collection('materialMaster').orderBy("matName", "asc").get()
+        .then(snapshot => {
+            let materialMaster = [];
+            snapshot.forEach(doc => {
+                const data = doc.data()
+                const _id = doc.id
+                materialMaster.push({_id, ...data });
+            });
+            return materialMaster;
+        })
+        .then(materialMaster => dispatch(addMaterialMaster(materialMaster)))
+        .catch(error => dispatch(materialMasterFailed(error.message)));
+}
+
+export const materialMasterLoading = () => ({
+    type: ActionTypes.MATERIALMASTER_LOADING
+});
+
+export const materialMasterFailed = (errmess) => ({
+    type: ActionTypes.MATERIALMASTER_FAILED,
+    payload: errmess
+});
+
+export const addMaterialMaster = (materialMaster) => ({
+    type: ActionTypes.ADD_MATERIALMASTER,
+    payload: materialMaster
+});
+
 /************************************ Master Data End **************************************/
 /************************************ Order Reducers **************************************/
 
 /* CRUD Create Order */
-export const postOrder = (order) => (dispatch) => {
+export const postOrder = (order, matMaster) => (dispatch) => {
+
+    if (!auth.currentUser) {
+        console.log('No user logged in!');
+        return;
+    }
+    console.log(order)
+    console.log(matMaster)
+
+    //dispatch(fetchMaterialMaster());
+
+    var batch = firestore.batch()
+
+    if (order.labLocation === "Hyd") {
+        firestore.collection('orders').add({
+            orderId: order.orderId,
+            projectName: order.projectName,
+            customerName: order.customerName,
+            customerAddress: order.customerAddress,
+            customerEmail: order.customerEmail,
+            customerContact1Name: order.customerContact1Name,
+            customerContact1Mobile: order.customerContact1Mobile,
+            customerContact1Email: order.customerContact1Email,
+            customerContact2Name: order.customerContact2Name,
+            customerContact2Mobile: order.customerContact2Mobile,
+            customerContact2Email: order.customerContact2Email,
+            customerReference: order.customerReference,
+            parentReference: order.parentReference,
+            subject: order.subject,
+            source: order.source,
+            mat1: order.mat1,
+            m1params: order.m1params,
+            m1samples: order.m1samples,
+            mat2: order.mat2,
+            m2params: order.m2params,
+            m2samples: order.m2samples,
+           // service: order.service,
+            dueDate: order.dueDate,
+            labLocation: order.labLocation,
+            status: order.status,
+            addInfo: order.addInfo,
+            createdBy: auth.currentUser.email,
+            createdAt: firebasestore.FieldValue.serverTimestamp()   
+        })
+        .then(docRef => {
+            console.log("Order docRefId")
+            console.log(docRef)
+
+            //const mat1Name = order.mat1
+            console.log(order.mat1)
+            const matObj1 = matMaster.find(({matName}) => matName === order.mat1 )
+            console.log(matObj1)
+
+            var servCount1 = 1;
+           
+            var m1samplesArr = order.m1samples.split(', ')
+            console.log(m1samplesArr)
+            for (var a in m1samplesArr)
+              {
+                var eachSample1 = m1samplesArr[a]
+                 console.log(eachSample1)
+                 
+                order.m1params.forEach((m1param) => {
+                
+                console.log(m1param)
+
+                var testObj1 = matObj1.tests.find(({testName}) => testName === m1param)
+                console.log(testObj1)
+
+                var jobDoc = {
+                    sample: m1samplesArr[a],
+                    testName: m1param,
+                    orderDocRefId: docRef,
+                    orderId: order.orderId,
+                    jobId: order.orderId + "-" + m1samplesArr[a] + "-" + servCount1,
+                    createdAt: firebasestore.FieldValue.serverTimestamp(),
+                    createdBy: auth.currentUser.email,
+                    dueDate: order.dueDate,
+                    status: "Assigned",
+                    assignto: "drbsrao@kdmengineers.com",
+                    result: "",
+                    price: testObj1.price,
+                    nabl: testObj1.nabl,
+                    testMethod: testObj1.testMethod,
+                    reqmt: testObj1.reqmt,
+                    parentMat: testObj1.parentMat
+                }  
+               
+                servCount1++
+                var jobDocRef = firestore.collection('jobs').doc()
+                batch.set(jobDocRef, jobDoc)
+              });
+            }
+
+            //const mat2Name = order.mat2
+            console.log(order.mat2)
+            const matObj2 = matMaster.find(({matName}) => matName === order.mat2 )
+            console.log(matObj2)
+
+            var servCount2 = 1;
+           
+            var m2samplesArr = order.m2samples.split(', ')
+            console.log(m2samplesArr)
+            for (var b in m2samplesArr)
+              {
+                var eachSample2 = m2samplesArr[b]
+                 console.log(eachSample2)
+                 
+                order.m2params.forEach((m2param) => {
+                
+                console.log(m2param)
+
+                var testObj2 = matObj2.tests.find(({testName}) => testName === m2param)
+                console.log(testObj2)
+
+                var jobDoc = {
+                    sample: m2samplesArr[b],
+                    testName: m2param,
+                    orderDocRefId: docRef,
+                    orderId: order.orderId,
+                    jobId: order.orderId + "-" + m2samplesArr[b] + "-" + servCount2,
+                    createdAt: firebasestore.FieldValue.serverTimestamp(),
+                    createdBy: auth.currentUser.email,
+                    dueDate: order.dueDate,
+                    status: "Assigned",
+                    assignto: "drbsrao@kdmengineers.com",
+                    result: "",
+                    price: testObj2.price,
+                    nabl: testObj2.nabl,
+                    testMethod: testObj2.testMethod,
+                    reqmt: testObj2.reqmt,
+                    parentMat: testObj2.parentMat
+                }  
+               
+                servCount2++
+                var jobDocRef = firestore.collection('jobs').doc()
+                batch.set(jobDocRef, jobDoc)
+              });
+            }
+                batch.commit()
+        })
+        .then(() => {
+                console.log("Order successfully created!");
+                console.log("Order");
+                alert('Order creation successful \nOrderId : ' + order.orderId);
+                dispatch(fetchOrders())
+                dispatch(fetchOrderJobs())
+                dispatch(fetchJobs())
+            })
+        .catch(error =>  { console.log('Order', error.message); alert('Your order could not be created\nError: '+error.message); });
+    }
+
+    else if (order.labLocation === "Guntur") {
+
+    firestore.collection('orders').add({
+            orderId: order.orderId,
+            projectName: order.projectName,
+            customerName: order.customerName,
+            customerAddress: order.customerAddress,
+            customerEmail: order.customerEmail,
+            customerContact1Name: order.customerContact1Name,
+            customerContact1Mobile: order.customerContact1Mobile,
+            customerContact1Email: order.customerContact1Email,
+            customerContact2Name: order.customerContact2Name,
+            customerContact2Mobile: order.customerContact2Mobile,
+            customerContact2Email: order.customerContact2Email,
+            customerReference: order.customerReference,
+            parentReference: order.parentReference,
+            subject: order.subject,
+            source: order.source,
+            mat1: order.mat1,
+            m1params: order.m1params,
+            m1samples: order.m1samples,
+            mat2: order.mat2,
+            m2params: order.m2params,
+            m2samples: order.m2samples,
+           // service: order.service,
+            dueDate: order.dueDate,
+            labLocation: order.labLocation,
+            status: order.status,
+            addInfo: order.addInfo,
+            createdBy: auth.currentUser.email,
+            createdAt: firebasestore.FieldValue.serverTimestamp()   
+        })
+        .then(docRef => {
+            console.log("Order docRefId")
+            console.log(docRef)
+
+            //const mat1Name = order.mat1
+            console.log(order.mat1)
+            const matObj1 = matMaster.find(({matName}) => matName === order.mat1 )
+            console.log(matObj1)
+
+            var servCount1 = 1;
+           
+            var m1samplesArr = order.m1samples.split(', ')
+            console.log(m1samplesArr)
+            for (var a in m1samplesArr)
+              {
+                var eachSample1 = m1samplesArr[a]
+                 console.log(eachSample1)
+                 
+                order.m1params.forEach((m1param) => {
+                
+                console.log(m1param)
+
+                var testObj1 = matObj1.tests.find(({testName}) => testName === m1param)
+                console.log(testObj1)
+
+                var jobDoc = {
+                    sample: m1samplesArr[a],
+                    testName: m1param,
+                    orderDocRefId: docRef,
+                    orderId: order.orderId,
+                    jobId: order.orderId + "-" + m1samplesArr[a] + "-" + servCount1,
+                    createdAt: firebasestore.FieldValue.serverTimestamp(),
+                    createdBy: auth.currentUser.email,
+                    dueDate: order.dueDate,
+                    status: "Assigned",
+                    assignto: "lakshmana.kattula@kdmengineers.com",
+                    result: "",
+                    price: testObj1.price,
+                    nabl: testObj1.nabl,
+                    testMethod: testObj1.testMethod,
+                    reqmt: testObj1.reqmt,
+                    parentMat: testObj1.parentMat
+                }  
+               
+                servCount1++
+                var jobDocRef = firestore.collection('jobs').doc()
+                batch.set(jobDocRef, jobDoc)
+              });
+            }
+
+            //const mat2Name = order.mat2
+            console.log(order.mat2)
+            const matObj2 = matMaster.find(({matName}) => matName === order.mat2 )
+            console.log(matObj2)
+
+            var servCount2 = 1;
+           
+            var m2samplesArr = order.m2samples.split(', ')
+            console.log(m2samplesArr)
+            for (var b in m2samplesArr)
+              {
+                var eachSample2 = m2samplesArr[b]
+                 console.log(eachSample2)
+                 
+                order.m2params.forEach((m2param) => {
+                
+                console.log(m2param)
+
+                var testObj2 = matObj2.tests.find(({testName}) => testName === m2param)
+                console.log(testObj2)
+
+                var jobDoc = {
+                    sample: m2samplesArr[b],
+                    testName: m2param,
+                    orderDocRefId: docRef,
+                    orderId: order.orderId,
+                    jobId: order.orderId + "-" + m2samplesArr[b] + "-" + servCount2,
+                    createdAt: firebasestore.FieldValue.serverTimestamp(),
+                    createdBy: auth.currentUser.email,
+                    dueDate: order.dueDate,
+                    status: "Assigned",
+                    assignto: "lakshmana.kattula@kdmengineers.com",
+                    result: "",
+                    price: testObj2.price,
+                    nabl: testObj2.nabl,
+                    testMethod: testObj2.testMethod,
+                    reqmt: testObj2.reqmt,
+                    parentMat: testObj2.parentMat
+                }  
+               
+                servCount2++
+                var jobDocRef = firestore.collection('jobs').doc()
+                batch.set(jobDocRef, jobDoc)
+              });
+            }
+                batch.commit()
+        })
+        .then(() => {
+                console.log("Order successfully created!");
+                console.log("Order");
+                alert('Order creation successful \nOrderId : ' + order.orderId);
+                dispatch(fetchOrders())
+                dispatch(fetchOrderJobs())
+                dispatch(fetchJobs())
+            })
+        .catch(error =>  { console.log('Order', error.message); alert('Your order could not be created\nError: '+error.message); });
+    }
+
+    else {
+    
+    firestore.collection('orders').add({
+            orderId: order.orderId,
+            projectName: order.projectName,
+            customerName: order.customerName,
+            customerAddress: order.customerAddress,
+            customerEmail: order.customerEmail,
+            customerContact1Name: order.customerContact1Name,
+            customerContact1Mobile: order.customerContact1Mobile,
+            customerContact1Email: order.customerContact1Email,
+            customerContact2Name: order.customerContact2Name,
+            customerContact2Mobile: order.customerContact2Mobile,
+            customerContact2Email: order.customerContact2Email,
+            customerReference: order.customerReference,
+            parentReference: order.parentReference,
+            subject: order.subject,
+            source: order.source,
+            mat1: order.mat1,
+            m1params: order.m1params,
+            m1samples: order.m1samples,
+            mat2: order.mat2,
+            m2params: order.m2params,
+            m2samples: order.m2samples,
+           // service: order.service,
+            dueDate: order.dueDate,
+            labLocation: order.labLocation,
+            status: order.status,
+            addInfo: order.addInfo,
+            createdBy: auth.currentUser.email,
+            createdAt: firebasestore.FieldValue.serverTimestamp()   
+        })
+        .then(docRef => {
+            console.log("Order docRefId")
+            console.log(docRef)
+
+            //const mat1Name = order.mat1
+            console.log(order.mat1)
+            const matObj1 = matMaster.find(({matName}) => matName === order.mat1 )
+            console.log(matObj1)
+
+            var servCount1 = 1;
+           
+            var m1samplesArr = order.m1samples.split(', ')
+            console.log(m1samplesArr)
+            for (var a in m1samplesArr)
+              {
+                var eachSample1 = m1samplesArr[a]
+                 console.log(eachSample1)
+                 
+                order.m1params.forEach((m1param) => {
+                
+                console.log(m1param)
+
+                var testObj1 = matObj1.tests.find(({testName}) => testName === m1param)
+                console.log(testObj1)
+
+                var jobDoc = {
+                    sample: m1samplesArr[a],
+                    testName: m1param,
+                    orderDocRefId: docRef,
+                    orderId: order.orderId,
+                    jobId: order.orderId + "-" + m1samplesArr[a] + "-" + servCount1,
+                    createdAt: firebasestore.FieldValue.serverTimestamp(),
+                    createdBy: auth.currentUser.email,
+                    dueDate: order.dueDate,
+                    status: "Assigned",
+                    assignto: "sireesha.kattula@kdmengineers.com",
+                    result: "",
+                    price: testObj1.price,
+                    nabl: testObj1.nabl,
+                    testMethod: testObj1.testMethod,
+                    reqmt: testObj1.reqmt,
+                    parentMat: testObj1.parentMat
+                }  
+               
+                servCount1++
+                var jobDocRef = firestore.collection('jobs').doc()
+                batch.set(jobDocRef, jobDoc)
+              });
+            }
+
+            //const mat2Name = order.mat2
+            console.log(order.mat2)
+            const matObj2 = matMaster.find(({matName}) => matName === order.mat2 )
+            console.log(matObj2)
+
+            var servCount2 = 1;
+           
+            var m2samplesArr = order.m2samples.split(', ')
+            console.log(m2samplesArr)
+            for (var b in m2samplesArr)
+              {
+                var eachSample2 = m2samplesArr[b]
+                 console.log(eachSample2)
+                 
+                order.m2params.forEach((m2param) => {
+                
+                console.log(m2param)
+
+                var testObj2 = matObj2.tests.find(({testName}) => testName === m2param)
+                console.log(testObj2)
+
+                var jobDoc = {
+                    sample: m2samplesArr[b],
+                    testName: m2param,
+                    orderDocRefId: docRef,
+                    orderId: order.orderId,
+                    jobId: order.orderId + "-" + m2samplesArr[b] + "-" + servCount2,
+                    createdAt: firebasestore.FieldValue.serverTimestamp(),
+                    createdBy: auth.currentUser.email,
+                    dueDate: order.dueDate,
+                    status: "Assigned",
+                    assignto: "sireesha.kattula@kdmengineers.com",
+                    result: "",
+                    price: testObj2.price,
+                    nabl: testObj2.nabl,
+                    testMethod: testObj2.testMethod,
+                    reqmt: testObj2.reqmt,
+                    parentMat: testObj2.parentMat
+                }  
+               
+                servCount2++
+                var jobDocRef = firestore.collection('jobs').doc()
+                batch.set(jobDocRef, jobDoc)
+              });
+            }
+                batch.commit()
+        })
+        .then(() => {
+                console.log("Order successfully created!");
+                console.log("Order");
+                alert('Order creation successful \nOrderId : ' + order.orderId);
+                dispatch(fetchOrders())
+                dispatch(fetchOrderJobs())
+                dispatch(fetchJobs())
+            })
+        .catch(error =>  { console.log('Order', error.message); alert('Your order could not be created\nError: '+error.message); });
+    }
+    
+}
+
+
+/***********************************/
+export const postOrder1 = (order) => (dispatch) => {
 
     if (!auth.currentUser) {
         console.log('No user logged in!');
@@ -246,7 +716,8 @@ export const postOrder = (order) => (dispatch) => {
                     createdBy: auth.currentUser.email,
                     dueDate: order.dueDate,
                     status: "Assigned",
-                    assignto: "drbsrao@kdmengineers.com"
+                    assignto: "drbsrao@kdmengineers.com",
+                    result: ""
                 }  
                 servCount++
                 var jobDocRef = firestore.collection('jobs').doc()
@@ -306,7 +777,8 @@ export const postOrder = (order) => (dispatch) => {
                     createdBy: auth.currentUser.email,
                     dueDate: order.dueDate,
                     status: "Assigned",
-                    assignto: "lakshmana.kattula@kdmengineers.com"
+                    assignto: "lakshmana.kattula@kdmengineers.com",
+                    result: ""
                 }  
                 servCount++
                 var jobDocRef = firestore.collection('jobs').doc()
@@ -366,7 +838,8 @@ export const postOrder = (order) => (dispatch) => {
                     createdBy: auth.currentUser.email,
                     dueDate: order.dueDate,
                     status: "Assigned",
-                    assignto: "sireesha.kattula@kdmengineers.com"
+                    assignto: "sireesha.kattula@kdmengineers.com",
+                    result: ""
                 }  
                 servCount++
                 var jobDocRef = firestore.collection('jobs').doc()
@@ -481,8 +954,8 @@ export const fetchOrders = () => (dispatch) => {
             })
             */
 
-         }) .catch(error => dispatch(ordersFailed(error.message)));
-        
+         })
+         .catch(error => dispatch(ordersFailed(error.message)));
      }
 }   
 
@@ -522,7 +995,7 @@ export const fetchOrderJobs = () => (dispatch) => {
     console.log("assigned user");
 
     
-    return firestore.collection('jobs').get()
+    return firestore.collection('jobs').orderBy("jobId", "asc").get()
     .then(snapshot => {
         let orderJobs = [];
         snapshot.forEach(doc => {
@@ -714,7 +1187,7 @@ export const addJobupdate = (jobupdate) => ({
 
 
 /* CRUD Update Job */
-export const postJobupdate= (docrefId, jobId, status, assignto, jobupdate) => (dispatch) => {
+export const postJobupdate= (docrefId, jobId, status, assignto, jobupdate, result) => (dispatch) => {
 
     if (!auth.currentUser) {
         console.log('No user logged in!');
@@ -726,12 +1199,14 @@ export const postJobupdate= (docrefId, jobId, status, assignto, jobupdate) => (d
     console.log(jobId)
     console.log(status)
     console.log(assignto)
+    console.log(result)
 
     /*=========================*/
     console.log("Calling job document update");
         firestore.collection("jobs").doc(docrefId).update({
             "status": status,
-            "assignto": assignto
+            "assignto": assignto,
+            "result": result
         })
         .then(() => {
             console.log("Document successfully updated!");
@@ -748,6 +1223,7 @@ export const postJobupdate= (docrefId, jobId, status, assignto, jobupdate) => (d
         status: status,
         assignto: assignto,
         jobupdate: jobupdate,
+        result: result,
         createdAt: firebasestore.FieldValue.serverTimestamp(),
         updatedAt: firebasestore.FieldValue.serverTimestamp()
     })
