@@ -2,14 +2,9 @@ import {Fragment} from 'react';
 import { Card, CardHeader, CardBody, Button} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
-import Listjob from './ListjobComponent';
 import ReportPdf from './ReportPdf'
 import InvoicePdf from './InvoicePdf'
 import * as React from "react";
-import {PDFViewer} from '@react-pdf/renderer'
-import Invoice from '../components/reports/Invoice'
-import invoiceData from '../data/invoice-data'
-
 
  function RenderOrderDetail({order}) {
 
@@ -119,16 +114,16 @@ import invoiceData from '../data/invoice-data'
 
 const OrderDetail = (props) => {
 
-    const [isToggleOn, setIsToggleOn] = React.useState(true);
+    //const [isToggleOn, setIsToggleOn] = React.useState(true);
     const [showReportPdf, setShowReportPdf] = React.useState(false);
     const [showInvoicePdf, setShowInvoicePdf] = React.useState(false);
     
-    const onClickTogglePdfButton = (event) => { 
+    {/*const onClickTogglePdfButton = (event) => { 
         console.log("In onClickToggle.....")
         console.log(isToggleOn)
 	    setIsToggleOn(!isToggleOn);
         console.log(isToggleOn)
-    };
+    };*/}
 
     const onClickReportPdfButton = (event) => { 
 	    setShowReportPdf(!showReportPdf);
@@ -167,11 +162,7 @@ const OrderDetail = (props) => {
                              <h4>OrderId: {props.order.orderId}</h4> 
                     </div>
                     <div className="row col-12 justify-content-center">
-                            {/* 
-                            <Button onClick={onClickTogglePdfButton}>
-                                {isToggleOn ? 'Generate Pdf' : 'Close'}
-                            </Button> 
-                            */}
+                            
                             <Button onClick={onClickReportPdfButton}>
                                 {showReportPdf ? 'Close Report Pdf' : 'Generate Report Pdf'}
                             </Button>
@@ -180,11 +171,6 @@ const OrderDetail = (props) => {
                             </Button>
                     </div>
                     <div className="row col-12 justify-content-center">
-                            {/*
-                                <Fragment>
-                                {isToggleOn ? <p></p> : <ReportPdf />}
-                            </Fragment>
-                            */}
                             <Fragment>
                                 {showReportPdf ? <ReportPdf order={props.order} orderJobs={props.orderJobs}/> : <p></p>}
                             </Fragment>

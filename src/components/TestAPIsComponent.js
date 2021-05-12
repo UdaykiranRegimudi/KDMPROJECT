@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
-import { Button, Label, Col, Row } from 'reactstrap';
-import { Control, Form } from 'react-redux-form';
-import { getUniqueIdWithTs } from '../lib/Library.js';
+import React from 'react';
 import { baseUrl } from '../config/baseUrl';
 import { useMemo } from 'react'
 
 import {PDFViewer} from '@react-pdf/renderer'
-import { Page, Document, Image, StyleSheet, View, Text } from '@react-pdf/renderer'
+import { Page, Document, View, Text } from '@react-pdf/renderer'
 
 const TestAPIs = (props) => {
     
@@ -27,7 +24,7 @@ const TestAPIs = (props) => {
         </Document>
       </PDFViewer>
     ),
-    [props],
+    //[props],
   )
 }
 

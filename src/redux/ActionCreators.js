@@ -215,6 +215,7 @@ export const addMaterialMaster = (materialMaster) => ({
 
 /* CRUD Create Order */
 export const postOrder = (order, matMaster) => (dispatch) => {
+     console.log("-----------order in postOrder-------------")
 
     if (!auth.currentUser) {
         console.log('No user logged in!');
@@ -222,6 +223,114 @@ export const postOrder = (order, matMaster) => (dispatch) => {
     }
     console.log(order)
     console.log(matMaster)
+    
+    var batch = firestore.batch()
+
+        firestore.collection('orders').add({
+            orderId: order.orderId,
+            projectName: order.projectName,
+            customerName: order.customerName,
+            customerAddress: order.customerAddress,
+            customerEmail: order.customerEmail,
+            customerContact1Name: order.customerContact1Name,
+            customerContact1Mobile: order.customerContact1Mobile,
+            customerContact1Email: order.customerContact1Email,
+            customerContact2Name: order.customerContact2Name,
+            customerContact2Mobile: order.customerContact2Mobile,
+            customerContact2Email: order.customerContact2Email,
+            customerReference: order.customerReference,
+            parentReference: order.parentReference,
+            subject: order.subject,
+            source: order.source,
+            mats: order.mats,
+            dueDate: order.dueDate,
+            labLocation: order.labLocation,
+            status: order.status,
+            addInfo: order.addInfo,
+            createdBy: auth.currentUser.email,
+            createdAt: firebasestore.FieldValue.serverTimestamp()   
+        })
+        .then(docRef => {
+            console.log("Order docRefId")
+            console.log(docRef)
+
+            order.mats.forEach((mat) => {
+
+            console.log(mat)
+            const matObj = matMaster.find(({matName}) => matName === mat.mat)
+            console.log(matObj)
+
+            var servCount = 1;
+           
+            var matSamplesArr = mat.matSamples.split(', ')
+            console.log(matSamplesArr)
+
+            for (var a in matSamplesArr)
+              {
+                var eachSample1 = matSamplesArr[a]
+                 console.log(eachSample1)
+                
+                mat.matParams.forEach((matParam) => {
+                
+                console.log(matParam)
+
+                var testObj = matObj.tests.find(({testName}) => testName === matParam)
+                console.log(testObj)
+
+                var jobDoc = {
+                    sample: matSamplesArr[a],
+                    testName: matParam,
+                    orderDocRefId: docRef,
+                    orderId: order.orderId,
+                    jobId: order.orderId + "-" + matSamplesArr[a] + "-" + servCount,
+                    createdAt: firebasestore.FieldValue.serverTimestamp(),
+                    createdBy: auth.currentUser.email,
+                    dueDate: order.dueDate,
+                    status: "Assigned",
+                    assignto: "sireesha.kattula@kdmengineers.com",
+                    result: "",
+                    price: testObj.price,
+                    nabl: testObj.nabl,
+                    testMethod: testObj.testMethod,
+                    reqmt: testObj.reqmt,
+                    parentMat: testObj.parentMat
+                }  
+               
+                servCount++
+                var jobDocRef = firestore.collection('jobs').doc()
+                batch.set(jobDocRef, jobDoc)
+              });
+            }
+          });
+                batch.commit()
+            
+            
+        })
+        .then(() => {
+                console.log("Order successfully created!");
+                console.log("Order");
+                alert('Order creation successful \nOrderId : ' + order.orderId);
+                dispatch(fetchOrders())
+                dispatch(fetchOrderJobs())
+                dispatch(fetchJobs())
+            })
+        .catch(error =>  { console.log('Order', error.message); alert('Your order could not be created\nError: '+error.message); });
+     }
+
+
+/******************************************/
+{/*
+export const postOrder2 = (order, matMaster) => (dispatch) => {
+     console.log("-----------order in postOrder-------------")
+
+    if (!auth.currentUser) {
+        console.log('No user logged in!');
+        return;
+    }
+    console.log(order)
+    console.log(matMaster)
+
+    return
 
     //dispatch(fetchMaterialMaster());
 
@@ -244,13 +353,14 @@ export const postOrder = (order, matMaster) => (dispatch) => {
             parentReference: order.parentReference,
             subject: order.subject,
             source: order.source,
-            mat1: order.mat1,
-            m1params: order.m1params,
-            m1samples: order.m1samples,
-            mat2: order.mat2,
-            m2params: order.m2params,
-            m2samples: order.m2samples,
+           // mat1: order.mat1,
+           // m1params: order.m1params,
+           // m1samples: order.m1samples,
+           // mat2: order.mat2,
+           // m2params: order.m2params,
+           // m2samples: order.m2samples,
            // service: order.service,
+            mats: order.mats,
             dueDate: order.dueDate,
             labLocation: order.labLocation,
             status: order.status,
@@ -543,6 +653,8 @@ export const postOrder = (order, matMaster) => (dispatch) => {
             console.log(docRef)
 
             //const mat1Name = order.mat1
+            {if ((order.mat1)!= ""){
+            
             console.log(order.mat1)
             const matObj1 = matMaster.find(({matName}) => matName === order.mat1 )
             console.log(matObj1)
@@ -587,8 +699,10 @@ export const postOrder = (order, matMaster) => (dispatch) => {
                 batch.set(jobDocRef, jobDoc)
               });
             }
-
+            }}
             //const mat2Name = order.mat2
+           {if ((order.mat2)!= ""){
+
             console.log(order.mat2)
             const matObj2 = matMaster.find(({matName}) => matName === order.mat2 )
             console.log(matObj2)
@@ -632,8 +746,9 @@ export const postOrder = (order, matMaster) => (dispatch) => {
                 var jobDocRef = firestore.collection('jobs').doc()
                 batch.set(jobDocRef, jobDoc)
               });
-            }
-                batch.commit()
+             }
+            }}
+                batch.commit() 
         })
         .then(() => {
                 console.log("Order successfully created!");
@@ -645,10 +760,10 @@ export const postOrder = (order, matMaster) => (dispatch) => {
             })
         .catch(error =>  { console.log('Order', error.message); alert('Your order could not be created\nError: '+error.message); });
     }
-    
+
 }
 
-
+*/}
 /***********************************/
 export const postOrder1 = (order) => (dispatch) => {
 

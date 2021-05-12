@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {View, StyleSheet } from '@react-pdf/renderer';
 import TestConductedTableHeader from './TestConductedTableHeader'
-import TestConductedTableRow from './TestConductedTableRow'
+import TestConductedTableRow1 from './TestConductedTableRow1'
 
-const tableRowsCount = 11;
+//const tableRowsCount = 11;
 
 const styles = StyleSheet.create({
     tableContainer: {
@@ -16,11 +16,16 @@ const styles = StyleSheet.create({
     },
 });
 
-const TestConductedTable = ({props2}) => (
+const TestConductedTable1 = ({props}) => (
+ 
+    <Fragment>
+    {console.log("props in ResultsTables")}
+    {console.log(props)}
     <View style={styles.tableContainer} wrap={false}>
         <TestConductedTableHeader />
-        <TestConductedTableRow props2={props2} />
+        <TestConductedTableRow1 props={props} />
     </View>
+    </Fragment>
   );
   
-  export default TestConductedTable
+  export default TestConductedTable1

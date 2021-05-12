@@ -80,6 +80,11 @@ const styles = StyleSheet.create({
                  <Text style={{width: '10%'}}>:</Text>
                  <Text style={{width: '60%'}}>{props.order.condOfSamp}</Text>
             </View>
+            <View style={{flexDirection: 'row'}}>
+                 <Text style={{width: '30%'}}>Subject</Text>
+                 <Text style={{width: '10%'}}>:</Text>
+                 <Text style={{width: '60%'}}>{props.order.subject}</Text>
+            </View>
 
         </Fragment>
   );

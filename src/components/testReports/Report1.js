@@ -3,7 +3,8 @@ import { Page, Document, Image, StyleSheet, View, Text } from '@react-pdf/render
 import ReportNo from './ReportNo'
 import ReportDisclaimer from './ReportDisclaimer'
 import ReportSignature from './ReportSignature'
-import TestConductedTable from './TestConductedTable'
+//import ResultsTables from './ResultsTables'
+import TestConductedTable1 from './TestConductedTable1'
 
 import logo from '../../../src/kdmlogo.jpg'
 
@@ -49,20 +50,21 @@ const styles = StyleSheet.create({
         marginBottom: 10
     }
   });
-  
-  //let i = 0;
 
-  const Report = ({report, props, props2}) => (
-                
+  const Report1 = ({report, props}) => 
+  (            
             <Document>
                 <Page style={styles.page} size="A4" wrap>
                     <Image style={styles.logo} src={logo} fixed/>
                     {console.log(report)}
-                    {console.log("props2")}
-                    {console.log(props2)}
+                    {console.log("props")}
+                    {console.log(props)}
                     <ReportNo report={report} props={props} />
-                    <TestConductedTable props2={props2} />
-                    <ReportDisclaimer />
+                 
+                    <TestConductedTable1 props={props} />
+                    {/* <ResultsTables> Return all the required tables*/}
+                    {/*<ResultsTables props={props} mat1propss={mat1propss} />*/}
+                   <ReportDisclaimer />
                     <ReportSignature />     
                     <View style={[styles.pageFooter, {height: 40}]} fixed>
                         <Text style={{marginTop: '10', color: 'purple'}}>D. No. 8-12-96/S/401, Sri Ramana Colony, Karmanghat, SaroorNagar(M), Hyderabad - 500 079</Text>
@@ -73,9 +75,7 @@ const styles = StyleSheet.create({
                               )} fixed />
                 </Page> 
             </Document>
-            
-        );
 
-  //  i++;
+        );
   
-  export default Report
+  export default Report1

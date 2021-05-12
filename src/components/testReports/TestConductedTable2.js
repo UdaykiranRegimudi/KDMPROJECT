@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, StyleSheet } from '@react-pdf/renderer';
 import TestConductedTableHeader from './TestConductedTableHeader'
-import TestConductedTableRow from './TestConductedTableRow'
+import TestConductedTableRow2 from './TestConductedTableRow2'
 
-const tableRowsCount = 11;
+//const tableRowsCount = 11;
 
 const styles = StyleSheet.create({
     tableContainer: {
@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
     },
 });
 
-const TestConductedTable = ({props2}) => (
+const TestConductedTable2 = ({mat2props}) => (
     <View style={styles.tableContainer} wrap={false}>
         <TestConductedTableHeader />
-        <TestConductedTableRow props2={props2} />
+        <TestConductedTableRow2 mat2props={mat2props} />
     </View>
   );
   
-  export default TestConductedTable
+  export default TestConductedTable2

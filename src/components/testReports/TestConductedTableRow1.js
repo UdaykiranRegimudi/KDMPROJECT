@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Text, View, StyleSheet } from '@react-pdf/renderer';
 
-const borderColor = '#90e5fc'
+//const borderColor = '#90e5fc'
 const styles = StyleSheet.create({
       row: {
         flexDirection: 'row',
@@ -63,24 +63,24 @@ const styles = StyleSheet.create({
     },
   });
 
-const TestConductedTableRow = ({props2}) => {
+const TestConductedTableRow1 = ({props}) => {
 
      var siNo = 1
-     {console.log("props2 in TableRow")}
-     {console.log(props2)}
-     const rows = props2.map(prop2 => 
+     console.log("props in TableRow")
+     console.log(props)
+     const rows = props.orderJobs.map(orderJob => 
         <View wrap={false}>   
-           <View style={styles.row} key={prop2.orderId}>
+           <View style={styles.row} key={orderJob.orderId}>
                 <Text style={styles.siNo}>{siNo, siNo++}</Text>
-                <Text style={styles.testConducted}>{prop2.testName}</Text>
-                <Text style={styles.sample}>{prop2.sample}</Text>
-                <Text style={styles.results}>{prop2.result}</Text>
-                <Text style={styles.testMethod}>{prop2.testMethod}</Text>
-                <Text style={styles.requirements}>{prop2.reqmt}</Text>
+                <Text style={styles.testConducted}>{orderJob.testName}</Text>
+                <Text style={styles.sample}>{orderJob.sample}</Text>
+                <Text style={styles.results}>{orderJob.result}</Text>
+                <Text style={styles.testMethod}>{orderJob.testMethod}</Text>
+                <Text style={styles.requirements}>{orderJob.reqmt}</Text>
             </View>
         </View>
       )
     return (<Fragment>{rows}</Fragment> ) 
 };
   
-export default TestConductedTableRow
+export default TestConductedTableRow1

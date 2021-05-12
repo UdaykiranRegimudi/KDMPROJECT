@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Text, View, StyleSheet } from '@react-pdf/renderer';
 
-const borderColor = '#90e5fc'
+//const borderColor = '#90e5fc'
 const styles = StyleSheet.create({
       row: {
         flexDirection: 'row',
@@ -63,24 +63,24 @@ const styles = StyleSheet.create({
     },
   });
 
-const TestConductedTableRow = ({props2}) => {
+const TestConductedTableRow2 = ({mat2props}) => {
 
      var siNo = 1
-     {console.log("props2 in TableRow")}
-     {console.log(props2)}
-     const rows = props2.map(prop2 => 
+     console.log("props2 in TableRow")
+     console.log(mat2props)
+     const rows = mat2props.map(mat2prop => 
         <View wrap={false}>   
-           <View style={styles.row} key={prop2.orderId}>
+           <View style={styles.row} key={mat2prop.orderId}>
                 <Text style={styles.siNo}>{siNo, siNo++}</Text>
-                <Text style={styles.testConducted}>{prop2.testName}</Text>
-                <Text style={styles.sample}>{prop2.sample}</Text>
-                <Text style={styles.results}>{prop2.result}</Text>
-                <Text style={styles.testMethod}>{prop2.testMethod}</Text>
-                <Text style={styles.requirements}>{prop2.reqmt}</Text>
+                <Text style={styles.testConducted}>{mat2prop.testName}</Text>
+                <Text style={styles.sample}>{mat2prop.sample}</Text>
+                <Text style={styles.results}>{mat2prop.result}</Text>
+                <Text style={styles.testMethod}>{mat2prop.testMethod}</Text>
+                <Text style={styles.requirements}>{mat2prop.reqmt}</Text>
             </View>
         </View>
       )
     return (<Fragment>{rows}</Fragment> ) 
 };
   
-export default TestConductedTableRow
+export default TestConductedTableRow2

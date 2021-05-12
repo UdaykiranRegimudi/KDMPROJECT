@@ -25,13 +25,11 @@ export const InitialOrder = {
     parentReference: '',
     subject: '',
     source: '',
-    mat1: '',
-    m1params: '',
-    m1samples: '',
-    mat2: '',
-    m2params: '',
-    m2samples: '',
-   // service: '',
+    mats: [{
+        mat: '',
+        matParams: [],
+        matSamples: ''
+    }],
     dueDate: '',
     labLocation: '',
     status: '',

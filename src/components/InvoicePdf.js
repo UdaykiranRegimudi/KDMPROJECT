@@ -1,9 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import {PDFViewer} from '@react-pdf/renderer'
 import Invoice from './reports/Invoice'
 import invoiceData from '../data/invoice-data'
-
-import { useMemo } from 'react'
 
 // import logo from './logo.svg';
 //import './App.css';

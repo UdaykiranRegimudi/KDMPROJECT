@@ -23,28 +23,35 @@ const styles = StyleSheet.create({
         paddingTop: 15,
     },
     testConducted: {
-        width: '30%',
+        width: '23%',
+        borderRightColor: borderColor,
+        borderRightWidth: 1,
+        height: 45,
+        paddingTop: 15,
+    },
+     sample: {
+        width: '10%',
         borderRightColor: borderColor,
         borderRightWidth: 1,
         height: 45,
         paddingTop: 15,
     },
     results: {
-        width: '8%',
+        width: '10%',
         borderRightColor: borderColor,
         borderRightWidth: 1,
         height: 45,
         paddingTop: 15,
     },
      testMethod: {
-        width: '15%',
+        width: '20%',
         borderRightColor: borderColor,
         borderRightWidth: 1,
         height: 45,
         paddingTop: 15,
     },
     requirements: {
-        width: '40%',
+        width: '30%',
         height: 45,
         paddingTop: 15,
     },
@@ -56,6 +63,7 @@ const styles = StyleSheet.create({
       <View style={styles.container}>
         <Text style={styles.siNo}>SI.No.</Text>
         <Text style={styles.testConducted}>Test Conducted</Text>
+        <Text style={styles.sample}>Sample</Text>
         <Text style={styles.results}>Results</Text>
         <Text style={styles.testMethod}>Test Method</Text>
         <Text style={styles.requirements}>Requirements</Text>

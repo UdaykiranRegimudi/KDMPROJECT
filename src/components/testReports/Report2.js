@@ -3,7 +3,7 @@ import { Page, Document, Image, StyleSheet, View, Text } from '@react-pdf/render
 import ReportNo from './ReportNo'
 import ReportDisclaimer from './ReportDisclaimer'
 import ReportSignature from './ReportSignature'
-import TestConductedTable from './TestConductedTable'
+import TestConductedTable2 from './TestConductedTable2'
 
 import logo from '../../../src/kdmlogo.jpg'
 
@@ -50,18 +50,18 @@ const styles = StyleSheet.create({
     }
   });
   
-  //let i = 0;
 
-  const Report = ({report, props, props2}) => (
+
+  const Report2 = ({report, props, mat2props}) => (
                 
             <Document>
                 <Page style={styles.page} size="A4" wrap>
                     <Image style={styles.logo} src={logo} fixed/>
                     {console.log(report)}
-                    {console.log("props2")}
-                    {console.log(props2)}
+                    {console.log("mat2props")}
+                    {console.log(mat2props)}
                     <ReportNo report={report} props={props} />
-                    <TestConductedTable props2={props2} />
+                    <TestConductedTable2 mat2props={mat2props} />
                     <ReportDisclaimer />
                     <ReportSignature />     
                     <View style={[styles.pageFooter, {height: 40}]} fixed>
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
 
   //  i++;
   
-  export default Report
+  export default Report2
