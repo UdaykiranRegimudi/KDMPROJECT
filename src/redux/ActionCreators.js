@@ -282,7 +282,7 @@ export const postOrder = (order, matMaster) => (dispatch) => {
                     testName: matParam,
                     orderDocRefId: docRef,
                     orderId: order.orderId,
-                    jobId: order.orderId + "-" + matSamplesArr[a] + "-" + servCount,
+                    jobId: order.orderId + "/" + matObj.matPrefix + "/" + matSamplesArr[a] + "/" + servCount,
                     createdAt: firebasestore.FieldValue.serverTimestamp(),
                     createdBy: auth.currentUser.email,
                     dueDate: order.dueDate,
@@ -293,7 +293,8 @@ export const postOrder = (order, matMaster) => (dispatch) => {
                     nabl: testObj.nabl,
                     testMethod: testObj.testMethod,
                     reqmt: testObj.reqmt,
-                    parentMat: testObj.parentMat
+                    parentMat: testObj.parentMat,
+                    discipline: testObj.discipline
                 }  
                
                 servCount++
@@ -320,7 +321,7 @@ export const postOrder = (order, matMaster) => (dispatch) => {
 
 /******************************************/
 {/*
-export const postOrder2 = (order, matMaster) => (dispatch) => {
+export const postOrder-OLD = (order, matMaster) => (dispatch) => {
      console.log("-----------order in postOrder-------------")
 
     if (!auth.currentUser) {
@@ -765,214 +766,6 @@ export const postOrder2 = (order, matMaster) => (dispatch) => {
 
 */}
 /***********************************/
-export const postOrder1 = (order) => (dispatch) => {
-
-    if (!auth.currentUser) {
-        console.log('No user logged in!');
-        return;
-    }
-    console.log(order)
-
-    /* Get orderId counter */
-
-    var orderNum;
-
-    firestore.collection('counters').doc('orderCounter').get()
-    .then((doc) => {
-        console.log("orderCounter")
-        console.log(doc.data().orderNum)
-        orderNum = doc.data().orderNum
-        return orderNum
-    })
-    .catch(error => {console.log(error.message)});
-
-    console.log("orderCounter before batch")
-    console.log(orderNum)
-
-    var batch = firestore.batch()
-
-    if (order.labLocation === "Hyd") {
-        firestore.collection('orders').add({
-            orderId: order.orderId,
-            projectName: order.projectName,
-            customerName: order.customerName,
-            customerAddress: order.customerAddress,
-            customerEmail: order.customerEmail,
-            customerContact1Name: order.customerContact1Name,
-            customerContact1Mobile: order.customerContact1Mobile,
-            customerContact1Email: order.customerContact1Email,
-            customerContact2Name: order.customerContact2Name,
-            customerContact2Mobile: order.customerContact2Mobile,
-            customerContact2Email: order.customerContact2Email,
-            customerReference: order.customerReference,
-            parentReference: order.parentReference,
-            subject: order.subject,
-            source: order.source,
-            service: order.service,
-            dueDate: order.dueDate,
-            labLocation: order.labLocation,
-            status: order.status,
-            addInfo: order.addInfo,
-            createdBy: auth.currentUser.email,
-            createdAt: firebasestore.FieldValue.serverTimestamp()   
-        })
-        .then(docRef => {
-            console.log("Order docRefId")
-            console.log(docRef)
-
-            var servCount = 1;
-                order.service.forEach((servItem) => {
-                var jobDoc = {
-                    serviceId: servItem,
-                    orderDocRefId: docRef,
-                    orderId: order.orderId,
-                    jobId: order.orderId + "-" + servCount,
-                    createdAt: firebasestore.FieldValue.serverTimestamp(),
-                    createdBy: auth.currentUser.email,
-                    dueDate: order.dueDate,
-                    status: "Assigned",
-                    assignto: "drbsrao@kdmengineers.com",
-                    result: ""
-                }  
-                servCount++
-                var jobDocRef = firestore.collection('jobs').doc()
-                batch.set(jobDocRef, jobDoc)
-            });
-                batch.commit()
-        })
-        .then(() => {
-                console.log("Order successfully created!");
-                console.log("Order");
-                alert('Order creation successful \nOrderId : ' + order.orderId);
-                dispatch(fetchOrders())
-                dispatch(fetchOrderJobs())
-                dispatch(fetchJobs())
-            })
-        .catch(error =>  { console.log('Order', error.message); alert('Your order could not be created\nError: '+error.message); });
-    }
-
-    else if (order.labLocation === "Guntur") {
-    //var batch = firestore.batch()
-        firestore.collection('orders').add({
-            orderId: order.orderId,
-            projectName: order.projectName,
-            customerName: order.customerName,
-            customerAddress: order.customerAddress,
-            customerEmail: order.customerEmail,
-            customerContact1Name: order.customerContact1Name,
-            customerContact1Mobile: order.customerContact1Mobile,
-            customerContact1Email: order.customerContact1Email,
-            customerContact2Name: order.customerContact2Name,
-            customerContact2Mobile: order.customerContact2Mobile,
-            customerContact2Email: order.customerContact2Email,
-            customerReference: order.customerReference,
-            parentReference: order.parentReference,
-            subject: order.subject,
-            source: order.source,
-            service: order.service,
-            dueDate: order.dueDate,
-            labLocation: order.labLocation,
-            status: order.status,
-            addInfo: order.addInfo,
-            createdBy: auth.currentUser.email,
-            createdAt: firebasestore.FieldValue.serverTimestamp()   
-        })
-        .then(docRef => {
-            console.log("Order docRefId")
-            console.log(docRef)
-
-            var servCount = 1;
-                order.service.forEach((servItem) => {
-                var jobDoc = {
-                    serviceId: servItem,
-                    orderDocRefId: docRef,
-                    orderId: order.orderId,
-                    jobId: order.orderId + "-" + servCount,
-                    createdAt: firebasestore.FieldValue.serverTimestamp(),
-                    createdBy: auth.currentUser.email,
-                    dueDate: order.dueDate,
-                    status: "Assigned",
-                    assignto: "lakshmana.kattula@kdmengineers.com",
-                    result: ""
-                }  
-                servCount++
-                var jobDocRef = firestore.collection('jobs').doc()
-                batch.set(jobDocRef, jobDoc)
-            });
-                batch.commit()
-        })
-        .then(() => {
-                console.log("Order successfully created!");
-                console.log("Order");
-                alert('Order creation successful \nOrderId : ' + order.orderId);
-                dispatch(fetchOrders())
-                dispatch(fetchOrderJobs())
-                dispatch(fetchJobs())
-            })   
-        .catch(error =>  { console.log('Order', error.message); alert('Your order could not be created\nError: '+error.message); });
-    }
-
-    else {
-   // var batch = firestore.batch()
-        firestore.collection('orders').add({
-            orderId: order.orderId,
-            projectName: order.projectName,
-            customerName: order.customerName,
-            customerAddress: order.customerAddress,
-            customerEmail: order.customerEmail,
-            customerContact1Name: order.customerContact1Name,
-            customerContact1Mobile: order.customerContact1Mobile,
-            customerContact1Email: order.customerContact1Email,
-            customerContact2Name: order.customerContact2Name,
-            customerContact2Mobile: order.customerContact2Mobile,
-            customerContact2Email: order.customerContact2Email,
-            customerReference: order.customerReference,
-            parentReference: order.parentReference,
-            subject: order.subject,
-            source: order.source,
-            service: order.service,
-            dueDate: order.dueDate,
-            labLocation: order.labLocation,
-            status: order.status,
-            addInfo: order.addInfo,
-            createdBy: auth.currentUser.email,
-            createdAt: firebasestore.FieldValue.serverTimestamp()   
-        })
-        .then(docRef => {
-            console.log("Order docRefId")
-            console.log(docRef)
-
-            var servCount = 1;
-                order.service.forEach((servItem) => {
-                var jobDoc = {
-                    serviceId: servItem,
-                    orderDocRefId: docRef,
-                    orderId: order.orderId,
-                    jobId: order.orderId + "-" + servCount,
-                    createdAt: firebasestore.FieldValue.serverTimestamp(),
-                    createdBy: auth.currentUser.email,
-                    dueDate: order.dueDate,
-                    status: "Assigned",
-                    assignto: "sireesha.kattula@kdmengineers.com",
-                    result: ""
-                }  
-                servCount++
-                var jobDocRef = firestore.collection('jobs').doc()
-                batch.set(jobDocRef, jobDoc)
-            });
-                batch.commit()
-        })
-        .then(() => {
-                console.log("Order successfully created!");
-                console.log("Order");
-                alert('Order creation successful \nOrderId : ' + order.orderId);
-                dispatch(fetchOrders())
-                dispatch(fetchOrderJobs())
-                dispatch(fetchJobs())
-            })   
-        .catch(error =>  { console.log('Order', error.message); alert('Your order could not be created\nError: '+error.message); });
-    }
-}
 
 
 /* CRUD Get Order */

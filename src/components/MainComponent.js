@@ -3,7 +3,6 @@ import Home from './HomeComponent';
 import Order from './OrderComponent';
 import ListOrder from './ListOrderComponent';
 import OrderDetail from './OrderDetailComponent';
-import OrderJobDetail from './OrderJobDetailComponent';
 import Listjob from './ListjobComponent';
 import Jobdetail from './JobdetailComponent';
 import Header from './HeaderComponent';
@@ -111,8 +110,6 @@ class Main extends Component {
       );
     }
 
-
-
    const OrderWithId = ({match}) => {
       console.log("++++++++++In OrderwithID match")
       console.log(match)
@@ -134,28 +131,6 @@ class Main extends Component {
           jobs={this.props.jobs} />
       );
     }
-
-
-
-
-    const OrderJobWithId = ({match}) => {
-      console.log("++++++++++In OrderJobwithID match")
-      console.log("this.props.orderJobs.orderJobs")
-      console.log(this.props.orderJobs.orderJobs)
-      return(
-        <OrderJobDetail orderJob={this.props.orderJobs.orderJobs.filter((orderJob) => orderJob._id === match.params.orderJobDocRefId)[0]}
-          isLoading={this.props.orderJobs.isLoading}
-          errMess={this.props.orderJobs.errMess}
-          jobupdates={this.props.jobupdates.jobupdates.filter((jobupdate) => jobupdate.docrefId === match.params.orderJobDocRefId)}
-          jobupdatesErrMess={this.props.jobupdates.errMess}
-          postOrderJobUpdate={this.props.postOrderJobUpdate}
-          userMaster={this.props.userMaster}
-           />
-      );
-    }
-
-   
-
 
 
     const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -193,8 +168,6 @@ class Main extends Component {
               {console.log("In Main After Private Route listjob jobid component")}
               <PrivateRoute path="/listorder/:orderId" component={OrderWithId} />
               {console.log("In Main After Private Route orderdetail component")}
-              <PrivateRoute exact path="/listorder-job/:orderJobDocRefId" component={OrderJobWithId} />
-              {console.log("In Main After Private Route order-job detail component")}
               <Redirect to="/home" />
             </Switch>
           </CSSTransition>

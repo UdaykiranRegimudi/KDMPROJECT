@@ -14,8 +14,6 @@ import * as React from "react";
                         <CardHeader className="job-header text-center"><strong>Order Details</strong></CardHeader>
                             <CardBody className="justify-content-left">
                              <dl className="row p-1">  
-                                           {/* <dt className="col-6">Doc Ref:</dt>
-                                            <dd className="col-6">{order._id}</dd> */}
                                             <dt className="col-6">Order Id:</dt>
                                             <dd className="col-6">{order.orderId}</dd>
                                              <dt className="col-6">Project Name: </dt>
@@ -114,16 +112,9 @@ import * as React from "react";
 
 const OrderDetail = (props) => {
 
-    //const [isToggleOn, setIsToggleOn] = React.useState(true);
     const [showReportPdf, setShowReportPdf] = React.useState(false);
     const [showInvoicePdf, setShowInvoicePdf] = React.useState(false);
-    
-    {/*const onClickTogglePdfButton = (event) => { 
-        console.log("In onClickToggle.....")
-        console.log(isToggleOn)
-	    setIsToggleOn(!isToggleOn);
-        console.log(isToggleOn)
-    };*/}
+   const [materialSelected, setMaterialSelected] = React.useState("");
 
     const onClickReportPdfButton = (event) => { 
 	    setShowReportPdf(!showReportPdf);
@@ -133,6 +124,10 @@ const OrderDetail = (props) => {
         setShowInvoicePdf(!showInvoicePdf);
     }
 
+    const onChangeRadioButton = (event) => {
+        console.log(event.target.value);
+      setMaterialSelected(event.target.value);
+    }
 
         if (props.isLoading) {
             return(
@@ -161,18 +156,33 @@ const OrderDetail = (props) => {
                     <div className="row col-12 justify-content-center">
                              <h4>OrderId: {props.order.orderId}</h4> 
                     </div>
-                    <div className="row col-12 justify-content-center">
-                            
+                     <div className="row col-6 justify-content-center">
+                        {props.order.mats.map(function(mat) {
+                            return <label key={mat.mat}>
+                                <input type="radio"
+                                value={mat.mat}
+                                name="material"
+                                onChange={onChangeRadioButton}
+                                />
+                                {mat.mat} 
+                            </label>
+                        })}
+                    </div>
+                    <div className="row">
+                        <div className="offset-2 col-6">
                             <Button onClick={onClickReportPdfButton}>
                                 {showReportPdf ? 'Close Report Pdf' : 'Generate Report Pdf'}
                             </Button>
+                        </div>
+                        <div className="col-4">
                             <Button onClick={onClickInvoicePdfButton}>
                                 {showInvoicePdf ? 'Close Invoice Pdf' : 'Generate Invoice Pdf'}
                             </Button>
+                        </div>
                     </div>
                     <div className="row col-12 justify-content-center">
                             <Fragment>
-                                {showReportPdf ? <ReportPdf order={props.order} orderJobs={props.orderJobs}/> : <p></p>}
+                                {showReportPdf ? <ReportPdf order={props.order} orderJobs={props.orderJobs} materialSelected={materialSelected}/> : <p></p>}
                             </Fragment>
                             <Fragment>
                                 {showInvoicePdf ? <InvoicePdf /> : <p></p>}

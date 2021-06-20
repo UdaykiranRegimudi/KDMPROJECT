@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   var today = new Date()
   var DateId = '' + today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear()
 
-  const ReportNo = ({report, props}) => (
+  const ReportNo = ({props}) => (
      
         <Fragment>
             {console.log(props)}
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
             </View>
 
             <View style={styles.reportTitle}> 
-                <Text>TEST REPORT ON {props.order.subject}</Text>
+                <Text>Test Report On {props.materialSelected}</Text>
             </View>
             <View style={{flexDirection: 'row'}}>
                  <Text style={{width: '30%'}}>Source</Text>

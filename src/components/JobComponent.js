@@ -26,14 +26,13 @@ class Job extends Component {
         console.log("In Job Component render");
         console.log("Printing props in render");
         console.log(this.props);
-    //    console.log(this.props.jobs.jobs[0].customer);
         
-        console.log("Calling getUniqueIdWithTs")
+        /* console.log("Calling getUniqueIdWithTs")
         
         var uniqueId = getUniqueIdWithTs()
         console.log("UniqueId obtained : " + uniqueId)
         
-       /* console.log("Calling dbtest")
+       console.log("Calling dbtest")
         var jobIdfromDB = dbtest()
         console.log("JobID from DB : " + jobIdfromDB)*/
 

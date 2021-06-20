@@ -1,63 +1,172 @@
 import React, { Fragment } from 'react';
 import {PDFViewer} from '@react-pdf/renderer'
-//import Report from '../components/testReports/Report'
-import Report1 from '../components/testReports/Report1'
-import Report2 from '../components/testReports/Report2'
-import reportData from '../data/report-data'
+import StdChemNablReport from './testReports/Standard/Chem-Nabl/StdChemNablReport'
+import StdChemNonNablReport from './testReports/Standard/Chem-NonNabl/StdChemNonNablReport'
+import StdPhyNablReport from './testReports/Standard/Phy-Nabl/StdPhyNablReport'
+import StdPhyNonNablReport from './testReports/Standard/Phy-NonNabl/StdPhyNonNablReport'
+
+import AggrChemNablReport from './testReports/Aggregates/Chem-Nabl/AggrChemNablReport'
+import AggrChemNonNablReport from './testReports/Aggregates/Chem-NonNabl/AggrChemNonNablReport'
+import AggrPhyNonNablReport from './testReports/Aggregates/Phy-NonNabl/AggrPhyNonNablReport'
+
+import AggrPhyNablReport from './testReports/Aggregates/Phy-Nabl/AggrPhyNablReport'
+import SiAnReport from './testReports/Aggregates/Phy-Nabl/SiAnReport'
+import SiAnAggrReport from './testReports/Aggregates/Phy-Nabl/SiAnAggrReport'
+
+import SteelPhyNablReport from './testReports/Steel/Phy-Nabl/SteelPhyNablReport'
+import SteelPhyNonNablReport from './testReports/Steel/Phy-NonNabl/SteelPhyNonNablReport'
+
 
 const ReportPdf = (props) => {
-console.log(reportData)
+
 console.log("props in ReportPdf")
 console.log(props)
+console.log(props.materialSelected)
 
-{/*var mat1props = ((props.orderJobs).filter((orderJob) => orderJob.parentMat === props.order.mat1))
-var mat2props = ((props.orderJobs).filter((orderJob) => orderJob.parentMat === props.order.mat2))
-var mat1propss = ((props.orderJobs).filter((orderJob) => orderJob.parentMat === props.order.mat1))
+var matJobs = ((props.orderJobs).filter((orderJob) => orderJob.parentMat === props.materialSelected))
+console.log("matJobs")
+console.log(matJobs)
 
-console.log(mat1props)
-console.log(mat2props)
-console.log(mat1propss) */}
+var phyJobs = ((matJobs).filter((matJob) => matJob.discipline === "Physical"))
+var chemJobs = ((matJobs).filter((matJob) => matJob.discipline === "Chemical"))
+console.log("PhyJobs")
+console.log(phyJobs)
+console.log("ChemJobs")
+console.log(chemJobs)
 
+var phyNablJobs = ((phyJobs).filter((phyJob) => phyJob.nabl === true))
+var phyNonNablJobs = ((phyJobs).filter((phyJob) => phyJob.nabl === false))
+console.log("phyJobs-Nabl")
+console.log(phyNablJobs)
+console.log("phyJobs-Non Nabl")
+console.log(phyNonNablJobs)
+
+var chemNablJobs = ((chemJobs).filter((chemJob) => chemJob.nabl === true))
+var chemNonNablJobs = ((chemJobs).filter((chemJob) => chemJob.nabl === false))
+console.log("ChemJobs-Nabl")
+console.log(chemNablJobs)
+console.log("ChemJobs-Non Nabl")
+console.log(chemNonNablJobs)
+
+if ((props.materialSelected === "Cement - OPC 43G")) {
 return (
       <Fragment>  
-           {(props.order.mats).forEach((mat) => {
-
-            console.log(mat)
-            {<h4>Report for {mat.mat}</h4>}
-            {
+        {chemNablJobs!= "" ?
             <Fragment>
-              <h4>Report for {mat.mat}</h4>
+              <h5>Chemical NABL Report for {props.materialSelected}</h5>
               <PDFViewer width='1000' height='500' className='app'>
-                <Report1 report={reportData} props={props} /> 
-              </PDFViewer>
-            </Fragment>
-            }
-           })
-        }
-      </Fragment>
-    )
-  }
-
-  {/*
-return (
-      <Fragment>  
-       {mat1props!= "" ?
-          <Fragment>
-            <h4>Report for {props.order.mat1}</h4>
-            
-            <PDFViewer width='1000' height='500' className='app'>
-              <Report1 report={reportData} props={props} mat1props={mat1props} mat1propss={mat1propss} /> 
-            </PDFViewer>
-          </Fragment>: <p></p>}
-        {mat2props!= "" ?
-            <Fragment>
-              <h4>Report for {props.order.mat2}</h4>
-              <PDFViewer width='1000' height='500' className='app'>
-                <Report2 report={reportData} props={props} mat2props={mat2props} />
+                 <StdChemNablReport props={props} chemNablJobs={chemNablJobs} /> 
               </PDFViewer>
             </Fragment>: <p></p>}
-      </Fragment>
-) */}
+          
+        {chemNonNablJobs!= "" ?
+            <Fragment>
+              <h5>Chemical Non-NABL Report for {props.materialSelected}</h5>
+              <PDFViewer width='1000' height='500' className='app'>
+                 <StdChemNonNablReport props={props} chemNonNablJobs={chemNonNablJobs} /> 
+              </PDFViewer>
+            </Fragment>: <p></p>}
+ 
+       {phyNablJobs!= "" ?
+          <Fragment>
+            <h5>Physical NABL Report for {props.materialSelected}</h5>
+            <PDFViewer width='1000' height='500' className='app'>
+              <StdPhyNablReport props={props} phyNablJobs={phyNablJobs} /> 
+            </PDFViewer>
+          </Fragment>: <p></p>}
+
+         {phyNonNablJobs!= "" ?
+          <Fragment>
+            <h5>Physical Non-NABL Report for {props.materialSelected}</h5>
+            <PDFViewer width='1000' height='500' className='app'>
+              <StdPhyNonNablReport props={props} phyNonNablJobs={phyNonNablJobs} /> 
+            </PDFViewer>
+          </Fragment>: <p></p>}
+      </Fragment>)
+
+    } else { 
+  if ((props.materialSelected === "Reinforcement Steel") || (props.materialSelected === "Structural Steel")) {
+   return (
+
+      <Fragment>  
+          {phyNablJobs!= "" ?
+          <Fragment>
+            <h5>Physical NABL Report for {props.materialSelected}</h5>
+            <PDFViewer width='1000' height='500' className='app'>
+              <SteelPhyNablReport props={props} phyNablJobs={phyNablJobs} /> 
+            </PDFViewer>
+          </Fragment>: <p></p>}
+
+         {phyNonNablJobs!= "" ?
+          <Fragment>
+            <h5>Physical Non-NABL Report for {props.materialSelected}</h5>
+            <PDFViewer width='1000' height='500' className='app'>
+              <SteelPhyNonNablReport props={props} phyNonNablJobs={phyNonNablJobs} /> 
+            </PDFViewer>
+          </Fragment>: <p></p>}
+      </Fragment> )
+
+  }  else {    
+  if ((props.materialSelected === "Coarse Aggregates") || (props.materialSelected === "Fine Aggregates")) {
+
+ var phyNablSAJobs = ((phyNablJobs).filter((phyNablJob) => phyNablJob.testName === "Sieve Analysis"))
+var phyNablNonSAJobs = ((phyNablJobs).filter((phyNablJob) => phyNablJob.testName!= "Sieve Analysis"))
+console.log("phyNablSAJobs")
+console.log(phyNablSAJobs)
+console.log("phyNablNonSAJobs")
+console.log(phyNablNonSAJobs)
+     return (
+
+      <Fragment>  
+        {chemNablJobs!= "" ?
+            <Fragment>
+              <h5>Chemical NABL Report for {props.materialSelected}</h5>
+              <PDFViewer width='1000' height='500' className='app'>
+                 <AggrChemNablReport props={props} chemNablJobs={chemNablJobs} /> 
+              </PDFViewer>
+            </Fragment>: <p></p>}
+          
+        {chemNonNablJobs!= "" ?
+            <Fragment>
+              <h5>Chemical Non-NABL Report for {props.materialSelected}</h5>
+              <PDFViewer width='1000' height='500' className='app'>
+                 <AggrChemNonNablReport props={props} chemNonNablJobs={chemNonNablJobs} /> 
+              </PDFViewer>
+            </Fragment>: <p></p>}
+
+          {phyNablJobs!= "" ?
+            <Fragment>
+              <h5>Physical NABL Report for {props.materialSelected}</h5>
+                {phyNablSAJobs!= "" && phyNablNonSAJobs!= "" ?
+                    <PDFViewer width='1000' height='500' className='app'>
+                       <SiAnAggrReport props={props} phyNablSAJobs={phyNablSAJobs}
+                                        phyNablNonSAJobs={phyNablNonSAJobs} />                   
+                    </PDFViewer>
+                   : 
+                  phyNablSAJobs!= "" ?
+                    <PDFViewer width='1000' height='500' className='app'>
+                       <SiAnReport props={props} phyNablSAJobs={phyNablSAJobs} />                  
+                    </PDFViewer>
+                   :
+                    <PDFViewer width='1000' height='500' className='app'>
+                    <AggrPhyNablReport props={props} phyNablNonSAJobs={phyNablNonSAJobs} /> 
+                  </PDFViewer>
+                  }
+            </Fragment>: <p></p>}
+
+         {phyNonNablJobs!= "" ?
+          <Fragment>
+            <h5>Physical Non-NABL Report for {props.materialSelected}</h5>
+            <PDFViewer width='1000' height='500' className='app'>
+              <AggrPhyNonNablReport props={props} phyNonNablJobs={phyNonNablJobs} /> 
+            </PDFViewer>
+          </Fragment>: <p></p>}
+      </Fragment> )
+
+     } 
+  } 
+ }  
+}
 
 
 export default ReportPdf;
