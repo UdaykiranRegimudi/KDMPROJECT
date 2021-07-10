@@ -9,33 +9,89 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         alignItems: 'center',
         height: 24,
-        fontSize: 12,
+        fontSize: 11,
         fontStyle: 'bold',
     },
     description: {
-        width: '85%',
+        width: '65%',
+        textAlign: 'right',
+        borderRightColor: borderColor,
+        borderRightWidth: 1,
+        borderLefttWidth: 1,
+        borderLeftColor: borderColor,
+        paddingRight: 8,
+    },
+    percentage: {
+        width: '15%',
         textAlign: 'right',
         borderRightColor: borderColor,
         borderRightWidth: 1,
         paddingRight: 8,
     },
     total: {
-        width: '15%',
+        width: '20%',
         textAlign: 'right',
+        borderLefttWidth: 1,
+        borderLeftColor: borderColor,
         paddingRight: 8,
+
     },
   });
 
 
-const InvoiceTableFooter = ({items}) => {
-    const total = items.map(item => item.qty * item.rate)
-        .reduce((accumulator, currentValue) => accumulator + currentValue , 0)
+const InvoiceTableFooter = ({invData}) => {
+
+    const total = invData.mats.map(mat => mat.invDetails.map(invDetail => invDetail.sampCount * invDetail.price)
+        .reduce((accumulator, currentValue) => accumulator + currentValue , 0)  )
+    const subTotal = Number.parseFloat(total).toFixed(2)
+    var subTotal1 = Number.parseFloat(subTotal - (10/100 * subTotal)).toFixed(2)
+      console.log("subTotal1")
+    console.log(subTotal1)
+    var CGST = Number.parseFloat(9/100 * subTotal1).toFixed(2)
+    console.log("cgst")
+    console.log(CGST)
+    var SGST = Number.parseFloat(9/100 * subTotal1).toFixed(2)
+    console.log("SGST")
+    console.log(SGST)
+    var totalAmt =  Number.parseFloat((+subTotal1) + (+CGST) + (+SGST)).toFixed(2)
+    console.log("totalAmt")
+    console.log(totalAmt)
+
     return(    
+        <View>
         <View style={styles.row}>
+            <Text style={styles.description}>Sub Total</Text>
+            <Text style={styles.percentage}>    </Text>
+            <Text style={styles.total}>{subTotal}</Text>
+        </View>
+          <View style={styles.row}>
+            <Text style={styles.description}>Discount</Text>
+            <Text style={styles.percentage}>10%</Text>
+            <Text style={styles.total}>{10/100 * subTotal}</Text>
+        </View>
+          <View style={styles.row}>
+            <Text style={styles.description}>Sub Total</Text>
+            <Text style={styles.percentage}>    </Text>
+            <Text style={styles.total}>{subTotal1}</Text>
+         </View>
+         <View style={styles.row}>
+            <Text style={styles.description}>CGST</Text>
+            <Text style={styles.percentage}>9%</Text>
+            <Text style={styles.total}>{CGST}</Text>
+        </View>
+        <View style={styles.row}>
+            <Text style={styles.description}>SGST</Text>
+            <Text style={styles.percentage}>9%</Text>
+            <Text style={styles.total}>{SGST}</Text>
+        </View>
+          <View style={styles.row}>
             <Text style={styles.description}>TOTAL</Text>
-            <Text style={styles.total}>{ Number.parseFloat(total).toFixed(2)}</Text>
+            <Text style={styles.percentage}>    </Text>
+            <Text style={styles.total}>{totalAmt}</Text>
+        </View>
         </View>
     )
+   
 };
   
   export default InvoiceTableFooter

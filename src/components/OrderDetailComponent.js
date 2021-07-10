@@ -112,9 +112,12 @@ import * as React from "react";
 
 const OrderDetail = (props) => {
 
+    var matMaster = props.materialMaster.materialMaster
+
     const [showReportPdf, setShowReportPdf] = React.useState(false);
     const [showInvoicePdf, setShowInvoicePdf] = React.useState(false);
    const [materialSelected, setMaterialSelected] = React.useState("");
+   const [invTypeSelected, setInvTypeSelected] = React.useState("");
 
     const onClickReportPdfButton = (event) => { 
 	    setShowReportPdf(!showReportPdf);
@@ -127,6 +130,11 @@ const OrderDetail = (props) => {
     const onChangeRadioButton = (event) => {
         console.log(event.target.value);
       setMaterialSelected(event.target.value);
+    }
+
+    const onChangeInvType = (event) => {
+        console.log(event.target.value);
+      setInvTypeSelected(event.target.value);
     }
 
         if (props.isLoading) {
@@ -156,17 +164,28 @@ const OrderDetail = (props) => {
                     <div className="row col-12 justify-content-center">
                              <h4>OrderId: {props.order.orderId}</h4> 
                     </div>
-                     <div className="row col-6 justify-content-center">
-                        {props.order.mats.map(function(mat) {
-                            return <label key={mat.mat}>
-                                <input type="radio"
-                                value={mat.mat}
-                                name="material"
-                                onChange={onChangeRadioButton}
-                                />
-                                {mat.mat} 
-                            </label>
-                        })}
+                    <div className="row">
+                    </div>
+                    <div className="row">
+                        <div className="col-6 justify-content-center">
+                            {props.order.mats.map(function(mat) {
+                                return <label key={mat.mat}>
+                                    <input type="radio"
+                                    value={mat.mat}
+                                    name="material"
+                                    onChange={onChangeRadioButton}
+                                    />
+                                    {mat.mat} 
+                                </label>
+                            })}
+                        </div>
+                        <div className="offset-2 col-4 justify-content-center">
+                            {   <div onChange={onChangeInvType}>
+                                        <input type="radio" value="Proforma Invoice" name="invoice" /> Proforma Invoice
+                                        <input type="radio" value="Tax Invoice" name="invoice" /> Tax Invoice
+                                </div>
+                            }
+                        </div>
                     </div>
                     <div className="row">
                         <div className="offset-2 col-6">
@@ -185,7 +204,7 @@ const OrderDetail = (props) => {
                                 {showReportPdf ? <ReportPdf order={props.order} orderJobs={props.orderJobs} materialSelected={materialSelected}/> : <p></p>}
                             </Fragment>
                             <Fragment>
-                                {showInvoicePdf ? <InvoicePdf /> : <p></p>}
+                                {showInvoicePdf ? <InvoicePdf order={props.order} orderJobs={props.orderJobs} matMaster={matMaster} invTypeSelected={invTypeSelected}/> : <p></p>}
                             </Fragment>
                             
                     </div>

@@ -112,15 +112,6 @@ class Main extends Component {
 
    const OrderWithId = ({match}) => {
       console.log("++++++++++In OrderwithID match")
-      console.log(match)
-      console.log({match})
-      console.log("this.props.orderJobs.orderJobs")
-      console.log(this.props.orderJobs.orderJobs)
-      console.log("In OrderWithId --- this.props.orders.orders")
-
-      console.log(this.props.orders.orders)
-      console.log(this.props.orders.orders)
-
       return(
         <OrderDetail order={this.props.orders.orders.filter((order) => order.orderId === decodeURIComponent(match.params.orderId))[0]}
           isLoading={this.props.orders.isLoading}
@@ -128,7 +119,8 @@ class Main extends Component {
           orderJobs={this.props.orderJobs.orderJobs.filter((orderJob) => orderJob.orderId === decodeURIComponent(match.params.orderId))}
           orderJobsErrMess={this.props.orderJobs.errMess}
           userMaster={this.props.userMaster}
-          jobs={this.props.jobs} />
+          jobs={this.props.jobs}
+          materialMaster={this.props.materialMaster}  />
       );
     }
 

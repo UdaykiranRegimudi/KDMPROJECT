@@ -1,5 +1,6 @@
 import React, {Fragment} from 'react';
 import {Text, View, StyleSheet } from '@react-pdf/renderer';
+//import InvoiceTableRowContent from './InvoiceTableRowContent'
 
 const borderColor = '#90e5fc'
 const styles = StyleSheet.create({
@@ -11,43 +12,53 @@ const styles = StyleSheet.create({
         height: 24,
         fontStyle: 'bold',
     },
-    description: {
-        width: '30%',
+    siNo: {
+        width: '10%',
+        borderRightColor: borderColor,
+        borderRightWidth: 1,
+        textAlign: 'center',
+    },
+    particulars: {
+        width: '40%',
         textAlign: 'left',
         borderRightColor: borderColor,
         borderRightWidth: 1,
         paddingLeft: 8,
     },
     qty: {
-        width: '30%',
+        width: '15%',
         borderRightColor: borderColor,
         borderRightWidth: 1,
         textAlign: 'right',
         paddingRight: 8,
     },
     rate: {
-        width: '30%',
+        width: '15%',
         borderRightColor: borderColor,
         borderRightWidth: 1,
         textAlign: 'right',
         paddingRight: 8,
     },
     amount: {
-        width: '10%',
+        width: '20%',
         textAlign: 'right',
         paddingRight: 8,
     },
   });
 
+const InvoiceTableRow = ({invData}) => {
 
-const InvoiceTableRow = ({items}) => {
-    const rows = items.map( item => 
-        <View style={styles.row} key={item.sno.toString()}>
-            <Text style={styles.description}>{item.desc}</Text>
-            <Text style={styles.qty}>{item.qty}</Text>
-            <Text style={styles.rate}>{item.rate}</Text>
-            <Text style={styles.amount}>{(item.qty * item.rate).toFixed(2)}</Text>
+ var siNo = 1
+
+const rows = invData.mats.map(mat => mat.invDetails.map(invDetail =>
+       <View style={styles.row} key={invData.orderId}>
+            <Text style={styles.siNo}>{siNo, siNo++}</Text>
+            <Text style={styles.particulars}>{invDetail.matName}-{invDetail.param}</Text>
+            <Text style={styles.qty}>{invDetail.sampCount}</Text>
+            <Text style={styles.rate}>{invDetail.price}</Text>
+            <Text style={styles.amount}>{(invDetail.sampCount * invDetail.price).toFixed(2)}</Text>
         </View>
+        ) 
     )
     return (<Fragment>{rows}</Fragment> )
 };
