@@ -5,11 +5,12 @@ import ListOrder from './ListOrderComponent';
 import OrderDetail from './OrderDetailComponent';
 import Listjob from './ListjobComponent';
 import Jobdetail from './JobdetailComponent';
+import Result from './ResultComponent'
 import Header from './HeaderComponent';
 import TestAPIs from './TestAPIsComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { postJob, loginUser, logoutUser, postOrder, fetchOrders, fetchJobs, fetchOrderJobs, postJobupdate, postOrderJobUpdate, fetchJobupdates, fetchUserMaster, fetchCustomerMaster, fetchServicesMaster, fetchMaterialMaster } from '../redux/ActionCreators';
+import { postJob, loginUser, logoutUser, postOrder, fetchOrders, fetchJobs, fetchOrderJobs, postJobupdate, postOrderJobUpdate, fetchJobupdates, fetchUserMaster, fetchCustomerMaster, fetchServicesMaster, fetchMaterialMaster, updateOrder} from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -42,7 +43,7 @@ const mapDispatchToProps = (dispatch) => (
   {
   loginUser: (creds) => dispatch(loginUser(creds)),
   logoutUser: () => dispatch(logoutUser()),
-  postOrder: (order, matMaster) => dispatch(postOrder(order, matMaster)),
+  postOrder: (order, matMaster,url) => dispatch(postOrder(order, matMaster,url)),
   fetchOrders: () => {dispatch(fetchOrders())},
   resetOrderForm: () => { dispatch(actions.reset('order'))},
   postJob: (job) => dispatch(postJob(job)),
@@ -55,7 +56,8 @@ const mapDispatchToProps = (dispatch) => (
   fetchUserMaster: () => {dispatch(fetchUserMaster())},
   fetchCustomerMaster: () => {dispatch(fetchCustomerMaster())},
   fetchServicesMaster: () => {dispatch(fetchServicesMaster())},
-  fetchMaterialMaster: () => {dispatch(fetchMaterialMaster())}
+  fetchMaterialMaster: () => {dispatch(fetchMaterialMaster())},
+  updateOrder:(order,matMaster,value,mail,info)=>{dispatch(updateOrder(order,matMaster,value,mail,info))}
 
 }
 );
@@ -80,7 +82,6 @@ class Main extends Component {
     this.props.fetchServicesMaster();
     console.log("In Main Component componentDidMount, calling fetchRefdataMaterials")
     this.props.fetchMaterialMaster();
-    
 }
 
   componentWillUnmount() {
@@ -99,6 +100,7 @@ class Main extends Component {
 
     const JobWithId = ({match}) => {
       console.log("++++++++++In JobwithID match")
+      console.log(match)
       return(
         <Jobdetail job={this.props.jobs.jobs.filter((job) => job._id === match.params.docrefId)[0]}
           isLoading={this.props.jobs.isLoading}
@@ -106,21 +108,32 @@ class Main extends Component {
           jobupdates={this.props.jobupdates.jobupdates.filter((jobupdate) => jobupdate.docrefId === match.params.docrefId)}
           jobupdatesErrMess={this.props.jobupdates.errMess}
           postJobupdate={this.props.postJobupdate}
-          userMaster={this.props.userMaster} />
+          userMaster={this.props.userMaster} 
+          />
+  
       );
     }
 
+
    const OrderWithId = ({match}) => {
       console.log("++++++++++In OrderwithID match")
+      console.log(match)
+      console.log(decodeURIComponent(match.params.orderId))
+      console.log(this.props)
       return(
         <OrderDetail order={this.props.orders.orders.filter((order) => order.orderId === decodeURIComponent(match.params.orderId))[0]}
           isLoading={this.props.orders.isLoading}
           errMess={this.props.orders.errMess}
-          orderJobs={this.props.orderJobs.orderJobs.filter((orderJob) => orderJob.orderId === decodeURIComponent(match.params.orderId))}
+          orderJobs={this.props.orderJobs.orderJobs.filter(jobs =>jobs.orderId === decodeURIComponent(match.params.orderId))} 
+          
           orderJobsErrMess={this.props.orderJobs.errMess}
           userMaster={this.props.userMaster}
-          jobs={this.props.jobs}
-          materialMaster={this.props.materialMaster}  />
+          matMater = {this.props.matMaster}
+          jobupdates={this.props.jobupdates}
+          postJobupdate={this.props.postJobupdate}
+          materialMaster={this.props.materialMaster}
+          updateOrder = {this.props.updateOrder} 
+          />
       );
     }
 
@@ -130,9 +143,9 @@ class Main extends Component {
         this.props.auth.isAuthenticated
           ? <Component {...props} />
           : <Redirect to={{
-              pathname: '/home',
-              state: { from: props.location }
-            }} />
+            pathname: '/home',
+            state: { from: props.location }
+          }} />
       )} />
     );
 
@@ -159,6 +172,8 @@ class Main extends Component {
               <PrivateRoute exact path="/listjob/:docrefId" component={JobWithId} />
               {console.log("In Main After Private Route listjob jobid component")}
               <PrivateRoute path="/listorder/:orderId" component={OrderWithId} />
+              <PrivateRoute path="/result" component={Result} />
+
               {console.log("In Main After Private Route orderdetail component")}
               <Redirect to="/home" />
             </Switch>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Redirect} from 'react-router-dom'
 import { Card, CardHeader, CardBody,
     Label,
     Modal, ModalHeader, ModalBody, Button, Row, Col } from 'reactstrap';
@@ -94,7 +95,8 @@ import { Fade } from 'react-animation-components';
             
             this.state = {
               isNavOpen: false,
-              isModalOpen: false
+              isModalOpen: false,
+              move:false,
             };
         }
     
@@ -103,9 +105,15 @@ import { Fade } from 'react-animation-components';
               isModalOpen: !this.state.isModalOpen
             });
         }
+
+        Move = ()=>{
+            this.setState({move:true})
+        }
     
         handleSubmit(values) {
             this.toggleModal();
+            this.Move()
+            
             console.log(values)
             console.log("in Jobdetail handle submit")
             
@@ -117,10 +125,20 @@ import { Fade } from 'react-animation-components';
             this.props.postJobupdate(this.props.docrefId, this.props.jobId, values.status, values.assignto, values.jobupdate, values.result);
             
             console.log(values)
+            console.log(this.props.history)
+        
          
         }
     
         render() {
+            const {move} = this.state
+            if(move){
+                 return <Redirect to={{
+                    pathname: '/result',
+                    state: { approval:"approve" }
+            }}/>
+        }
+
             return(
             <div>
                 <Button className="submit-btn btn-block" onClick={this.toggleModal}><span className="fa fa-pencil fa-lg"></span>Submit Job Updates</Button>

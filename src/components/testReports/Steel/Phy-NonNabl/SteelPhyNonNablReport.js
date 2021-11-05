@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
                     <ReportNo props={props} />
                     <SteelPhyTable matPhyJobs={matPhyJobs} />
                     <ReportDisclaimer />
-                    <ReportSignature />     
+                    <ReportSignature props={props}/>     
                     <View style={[styles.pageFooter, {height: 40}]} fixed>
                         <Text style={{marginTop: '10', color: 'purple'}}>D. No. 8-12-96/S/401, Sri Ramana Colony, Karmanghat, SaroorNagar(M), Hyderabad - 500 079</Text>
                         <Text style={{color: 'purple'}}>Cell: +91-9912806685, 9912915533, Email: contactkdmei@gmail.com, Website: www.kdmengineers.com</Text>

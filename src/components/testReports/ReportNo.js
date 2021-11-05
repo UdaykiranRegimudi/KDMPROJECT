@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
                  <Text style={{width: '60%'}}>{props.order.workJob}</Text>
             </View>
             <View style={{flexDirection: 'row'}}>
-                 <Text style={{width: '30%'}}>Sample</Text>
+                 <Text style={{width: '30%'}}>Sample Id</Text>
                  <Text style={{width: '10%'}}>:</Text>
                  <Text style={{width: '60%'}}>{props.order.sample}</Text>
             </View>
@@ -76,14 +76,14 @@ const styles = StyleSheet.create({
                  <Text style={{width: '60%'}}>{props.order.perOfTest}</Text>
             </View>
             <View style={{flexDirection: 'row'}}>
+                 <Text style={{width: '30%'}}>Subject </Text>
+                 <Text style={{width: '10%'}}>:</Text>
+                 <Text style={{width: '60%'}}>{props.order.subject}</Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
                  <Text style={{width: '30%'}}>Condition of Samples</Text>
                  <Text style={{width: '10%'}}>:</Text>
                  <Text style={{width: '60%'}}>{props.order.condOfSamp}</Text>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-                 <Text style={{width: '30%'}}>Subject</Text>
-                 <Text style={{width: '10%'}}>:</Text>
-                 <Text style={{width: '60%'}}>{props.order.subject}</Text>
             </View>
 
         </Fragment>

@@ -57,6 +57,7 @@ class Header extends Component {
                                 { this.props.auth.isAuthenticated ? 
                                     this.props.auth.user.email === "sireesha.kattula@kdmengineers.com" || 
                                     this.props.auth.user.email === "lakshmana.kattula@kdmengineers.com" ||
+                                    this.props.auth.user.email === "annemvikramreddy@gmail.com" ||
                                     this.props.auth.user.email === "vijaya.kattula@kdmengineers.com" ? 
                                         <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/testAPIs">
                                         <span className="fa fa-address-card fa-lg"></span> <strong> Test APIs</strong>
@@ -69,14 +70,15 @@ class Header extends Component {
 
                               <NavItem>
                                 { this.props.auth.isAuthenticated ?
-                                    this.props.auth.user.email === "ramesh.lingoji@kdmengineers.com" || 
-                                    this.props.auth.user.email === "sireesha.kattula@kdmengineers.com" || 
-                                    this.props.auth.user.email === "lakshmana.kattula@kdmengineers.com" ||
-                                    this.props.auth.user.email === "vijaya.kattula@kdmengineers.com" ? 
-                                        <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/order">
+                                    this.props.userMaster.userMaster.map((user) => {
+                                        if(user.role === "norUser" && user.userId === this.props.auth.user.email){
+                                        return (<NavLink className="nav-link text-dark style = {{color:'black'}}" to="/order">
                                         <span className="fa fa-address-card fa-lg"></span> <strong> Create Order</strong>
                                         </NavLink>
-                                    : null
+
+                                        )
+                                        }
+                                    })
                                 : null
                                 }
                                    
@@ -86,7 +88,10 @@ class Header extends Component {
                                      this.props.auth.user.email === "ramesh.lingoji@kdmengineers.com" || 
                                      this.props.auth.user.email === "subhashini.kunchala@kdmengineers.com" || 
                                      this.props.auth.user.email === "sireesha.kattula@kdmengineers.com" ||
+                                     this.props.auth.user.email === "annemvikramreddy@gmail.com" ||
+                                     this.props.auth.user.email === "drbsrao@kdmengineers.com" ||
                                      this.props.auth.user.email === "lakshmana.kattula@kdmengineers.com" ||
+                                     this.props.auth.user.email === "customercare@gmail.com" ||
                                      this.props.auth.user.email === "vijaya.kattula@kdmengineers.com" ?
                                         <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/listorder">
                                         <span className="fa fa-list fa-lg"></span> <strong> List Orders</strong>
@@ -105,6 +110,7 @@ class Header extends Component {
                                     this.props.auth.user.email === "srikanth.s@kdmengineers.com"||
                                     this.props.auth.user.email === "sailatha.k@kdmengineers.com"||
                                     this.props.auth.user.email === "srinivas.b@kdmengineers.com"||
+                                    this.props.auth.user.email === "annemvikramreddy@gmail.com"||
                                     this.props.auth.user.email === "chandrasekhar.s@kdmengineers.com"||
                                     this.props.auth.user.email === "drbsrao@kdmengineers.com" ?
                                         <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/listjob">

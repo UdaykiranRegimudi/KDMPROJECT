@@ -5,9 +5,28 @@ import { Loading } from './LoadingComponent';
 import ReportPdf from './ReportPdf'
 import InvoicePdf from './InvoicePdf'
 import * as React from "react";
+import {Redirect,withRouter} from 'react-router-dom'
 
- function RenderOrderDetail({order}) {
 
+ function RenderOrderDetail({order,matMaster,updateOrder}) {
+    const [approval,setApproval] = React.useState(false)
+    const Approval = ()=>{
+        const value = document.getElementById("text").value
+        const mail = document.getElementById("mail").value
+        const info = document.getElementById("info").value
+        console.log(value)
+        console.log(mail)
+        console.log(info)
+        updateOrder(order,matMaster,value,mail,info)
+        setApproval(!approval)
+    }
+            if(approval){
+                const value = document.getElementById("text").value
+                return <Redirect to={{
+                    pathname: '/result',
+                    state: { approval:value }
+                  }} />
+            }
             return(
                 <div className="col-md-11">
                         <Card>
@@ -56,8 +75,23 @@ import * as React from "react";
                                             <dd className="col-6">{order.dueDate}</dd>
                                             <dt className="col-6">Additional Info: </dt>
                                             <dd className="col-6">{order.addInfo}</dd>
-                                            <dt className="col-6">Services: </dt>
-                                            <dd className="col-6">{order.service}</dd>
+                                            <dt className="col-6">Letter: </dt>
+                                            <dd className="col-6"><a href ={order.url} >link</a></dd>
+                                            <dt className="col-6">Approval Status </dt>
+                                            <dd className="col-6"><select  id="text" >
+                                                <option>approve</option>
+                                                <option>reject</option>
+                                            </select>
+                                            </dd>
+                                            
+                                            
+                                            <dt className="col-6">Add Info: </dt>
+                                            <dd className="col-6"><textarea rows="3" cols="45" id="info"></textarea></dd>
+                                            
+                                            <dt className="col-6">Assign</dt>
+                                            <dd className="col-6"><input type="text" id ="mail" placeholder="customercare@gmail.com"/></dd>
+                                            <dt className="col-12"><button type="submit" onClick = {Approval}>Submit</button></dt>
+
                                 </dl>
                             </CardBody>
                         </Card>
@@ -65,12 +99,13 @@ import * as React from "react";
             );
     }
 
-  function RenderOrderJobs({docrefId, orderId, jobId, orderJobs}) {
+  function RenderOrderJobs({docrefId, orderId, jobId,orderJobs}) {
         console.log("************* Render order updates - printing doc ref id")
         console.log(docrefId)
         console.log("************* Render order updates - printing order id")
         console.log(jobId)
         console.log(orderId)
+        
 
             return(       
                 <div className="col-md-11 justify-content-center">
@@ -113,11 +148,13 @@ import * as React from "react";
 const OrderDetail = (props) => {
 
     var matMaster = props.materialMaster.materialMaster
+    
 
     const [showReportPdf, setShowReportPdf] = React.useState(false);
     const [showInvoicePdf, setShowInvoicePdf] = React.useState(false);
    const [materialSelected, setMaterialSelected] = React.useState("");
    const [invTypeSelected, setInvTypeSelected] = React.useState("");
+   
 
     const onClickReportPdfButton = (event) => { 
 	    setShowReportPdf(!showReportPdf);
@@ -201,7 +238,7 @@ const OrderDetail = (props) => {
                     </div>
                     <div className="row col-12 justify-content-center">
                             <Fragment>
-                                {showReportPdf ? <ReportPdf order={props.order} orderJobs={props.orderJobs} materialSelected={materialSelected}/> : <p></p>}
+                                {showReportPdf ? <ReportPdf order={props.order} postJobupdate= {props.postJobupdate} jobupdates = {props.jobupdates} orderJobs={props.orderJobs} materialSelected={materialSelected}/> : <p></p>}
                             </Fragment>
                             <Fragment>
                                 {showInvoicePdf ? <InvoicePdf order={props.order} orderJobs={props.orderJobs} matMaster={matMaster} invTypeSelected={invTypeSelected}/> : <p></p>}
@@ -214,7 +251,8 @@ const OrderDetail = (props) => {
                         </div>
                      </div>
                       <div className="row col-12 justify-content-center">
-                        <RenderOrderDetail order={props.order}
+                        <RenderOrderDetail updateOrder ={props.updateOrder} order={props.order}
+                        matMaster ={matMaster} 
                         orderId={props.order.orderId} />                 
                         {console.log("*********docrefid")}
                         {console.log(props.order._id)}
@@ -234,5 +272,5 @@ const OrderDetail = (props) => {
             );
     }
 
-export default OrderDetail;
+export default withRouter(OrderDetail);
 

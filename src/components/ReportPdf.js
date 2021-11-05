@@ -22,7 +22,6 @@ const ReportPdf = (props) => {
 console.log("props in ReportPdf")
 console.log(props)
 console.log(props.materialSelected)
-
 var matJobs = ((props.orderJobs).filter((orderJob) => orderJob.parentMat === props.materialSelected))
 console.log("matJobs")
 console.log(matJobs)
@@ -48,7 +47,10 @@ console.log(chemNablJobs)
 console.log("ChemJobs-Non Nabl")
 console.log(chemNonNablJobs)
 
-if ((props.materialSelected === "Cement - OPC 43G")) {
+if ((props.materialSelected === "Cement - OPC 43G") || (props.materialSelected === "Cement - OPC 53G") || (props.materialSelected==="Bitumen Emulsion") 
+|| (props.materialSelected === "Bitumen Mix Design - BC") || (props.materialSelected === "Bitumen Mix Design - BM") || 
+(props.materialSelected === "Bitumen Mix Design - DBM") || (props.materialSelected==="Bitumen Mix Design - SDBC") || 
+(props.materialSelected==="Bitumen VG-10")){
 return (
       <Fragment>  
         {chemNablJobs!= "" ?
@@ -88,7 +90,22 @@ return (
   if ((props.materialSelected === "Reinforcement Steel") || (props.materialSelected === "Structural Steel")) {
    return (
 
-      <Fragment>  
+      <Fragment>
+        {chemNablJobs!= "" ?
+            <Fragment>
+              <h5>Chemical NABL Report for {props.materialSelected}</h5>
+              <PDFViewer width='1000' height='500' className='app'>
+                 <StdChemNablReport props={props} chemNablJobs={chemNablJobs} /> 
+              </PDFViewer>
+            </Fragment>: <p></p>}
+          
+        {chemNonNablJobs!= "" ?
+            <Fragment>
+              <h5>Chemical Non-NABL Report for {props.materialSelected}</h5>
+              <PDFViewer width='1000' height='500' className='app'>
+                 <StdChemNonNablReport props={props} chemNonNablJobs={chemNonNablJobs} /> 
+              </PDFViewer>
+            </Fragment>: <p></p>}
           {phyNablJobs!= "" ?
           <Fragment>
             <h5>Physical NABL Report for {props.materialSelected}</h5>
@@ -116,9 +133,8 @@ console.log(phyNablSAJobs)
 console.log("phyNablNonSAJobs")
 console.log(phyNablNonSAJobs)
      return (
-
-      <Fragment>  
-        {chemNablJobs!= "" ?
+      <Fragment>
+                {chemNablJobs!= "" ?
             <Fragment>
               <h5>Chemical NABL Report for {props.materialSelected}</h5>
               <PDFViewer width='1000' height='500' className='app'>
@@ -133,8 +149,7 @@ console.log(phyNablNonSAJobs)
                  <AggrChemNonNablReport props={props} chemNonNablJobs={chemNonNablJobs} /> 
               </PDFViewer>
             </Fragment>: <p></p>}
-
-          {phyNablJobs!= "" ?
+            {phyNablJobs!= "" ?
             <Fragment>
               <h5>Physical NABL Report for {props.materialSelected}</h5>
                 {phyNablSAJobs!= "" && phyNablNonSAJobs!= "" ?

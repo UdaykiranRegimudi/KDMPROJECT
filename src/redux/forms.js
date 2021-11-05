@@ -14,6 +14,9 @@ export const InitialOrder = {
     projectName: '',
     customerName: '',
     customerAddress: '',
+    billingAddress:'',
+    gst:'',
+    pan:'',
     customerEmail: '',
     customerContact1Name: '',
     customerContact1Mobile: '',
@@ -25,13 +28,17 @@ export const InitialOrder = {
     parentReference: '',
     subject: '',
     source: '',
+    url:'',
+    assignto:'',
     mats: [{
         mat: '',
         matParams: [],
-        matSamples: ''
+        matType:'',
+        matSamples: '',
     }],
     dueDate: '',
     labLocation: '',
     status: '',
-    addInfo: ''
+    addInfo: '',
+    ApprovalStatus:''
 }

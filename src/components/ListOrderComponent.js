@@ -4,6 +4,7 @@ import { Loading } from './LoadingComponent';
 
 const ListOrder = (props) => {
         console.log("In ListOrder Component entry");
+        
 
         if (props.orders.isLoading) {
             return(
@@ -47,6 +48,7 @@ const ListOrder = (props) => {
                                     <th>Lab Location</th>
                                     <th>Status</th>
                                     <th>Due Date</th>
+                                    <th>Url</th>
                                 </thead>
                                 <tbody>
                                 {
@@ -60,9 +62,10 @@ const ListOrder = (props) => {
                                             <td>{order.labLocation}</td>
                                             <td>{order.status}</td>
                                             <td>{order.dueDate}</td>
+                                            <td><a href ={order.url} target ="_blank">link</a></td>
                                         </tr>   
                                     ))             
-                                    }   
+                                }   
                                 </tbody>
 
                             </table>
