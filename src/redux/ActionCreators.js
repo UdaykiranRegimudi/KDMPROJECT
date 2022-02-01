@@ -1,7 +1,8 @@
 import * as ActionTypes from './ActionTypes';
 import { auth, firestore, firebasestore,storage } from '../firebase/firebase';
 import { baseUrl } from '../config/baseUrl';
-import {UseEffect,useState} from 'react'
+import { Switch } from 'react-router';
+// import {UseEffect,useState} from 'react'
 
 /************************************ Login **************************************/
 
@@ -269,6 +270,10 @@ export const postOrder = (order, matMaster,url) => (dispatch) => {
         .catch(error =>  { console.log('Order', error.message); alert('Your order could not be created\nError: '+error.message); });
      }
 
+
+
+    //  Approving order and creating jobs 
+
 export const updateOrder =(order,matMaster,value,mail,info)=>
 (dispatch)=>{
     if (!auth.currentUser) {
@@ -278,6 +283,7 @@ export const updateOrder =(order,matMaster,value,mail,info)=>
     console.log(value)
     console.log(order)
     console.log(info)
+    console.log(order._id)
     firestore.collection("orders").doc(order._id).update({
         approval:value,
         assignto:mail,
@@ -318,14 +324,14 @@ export const updateOrder =(order,matMaster,value,mail,info)=>
                    if (testObj.discipline=="Chemical"){
                        assign ="drbsrao@kdmengineers.com"
                    }else if(testObj.discipline=="Physical"){
-                       assign = "srikanth.s@kdmengineers.com"
+                       assign = "saikumar.b@kdmengineers.com"
                    }
                     break;
                 case "Guntur":
                     assign = "subhashini.kunchala@kdmengineers.com"
                     break;
                 case "Vizag":
-                    assign = "lakshmana.kattula@kdmengineers.com"
+                    assign = "vikramreddy.annem@kdmengineers.com"
                     break;
                 default:
                     assign ="sireesha.kattula@kdmengineers.com"
@@ -367,6 +373,8 @@ export const updateOrder =(order,matMaster,value,mail,info)=>
     .then(()=>{
         alert('Order updated succesfully \nOrderId : ' + order.orderId);
             dispatch(fetchOrders())
+            dispatch(fetchJobs())
+            dispatch(fetchOrderJobs());
     })
     .catch(error =>  { console.log('Order', error.message); alert('Your order could not be created\nError: '+error.message); });
 }
@@ -973,9 +981,48 @@ export const fetchOrders = () => (dispatch) => {
         .then(orders => dispatch(addOrders(orders)))
         .catch(error => dispatch(ordersFailed(error.message)));
     }
+    else if (user.email == "customercare@gmail.com")
+    { 
+       /* Query for last 7 days (604800000 in millisec) 
+        1 hr = 3600000 millisec
+        10 hrs = 36000000
+        24 hrs or 1 day = 86400000
+        7 days = 604800000
+       */
+            
+            return firestore.collection('orders').where('createdBy', '==' , user.email).get()
+
+       /* Query for last 7 days
+            const fromDateObj = firebase.firestore.Timestamp.fromDate(Date.now - 604800000)
+            console.log("fromDateObj")
+            console.log(fromDateObj)
+            return firestore.collection('orders').where('createdAt', '>' , fromDateObj).get()
+        */
+        //  return firestore.collection('orders').where('createdAt', '>' , fromDateObj).orderBy("createdAt", "desc").limit(20).get()
+       
+        
+        // return firestore.collection('orders').orderBy("createdAt", "desc").limit(20).get()
+
+        // return firestore.collection('orders').orderBy("orderid", "desc").limit(20).get()
+
+        .then(snapshot => {
+            let orders = [];
+            snapshot.forEach(doc => {
+                const data = doc.data()
+                const _id = doc.id
+                orders.push({_id, ...data });
+            });
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>printing list orders after db call")
+            console.log(orders)
+
+            return orders;
+        })
+        .then(orders => dispatch(addOrders(orders)))
+        .catch(error => dispatch(ordersFailed(error.message)));
+    }
     else
     {
-       //return firestore.collection('orders').where('createdBy', '==', user.email).orderBy("createdAt", "desc").get()
+    // firestore.collection('orders').where('createdBy', '==', user.email).orderBy("createdAt", "desc").get()
        return firestore.collection('orders').where('assignto', '==', user.email).get()
         .then(snapshot => {
             let orders = [];
@@ -1031,8 +1078,7 @@ export const addOrders = (orders) => ({
 /* CRUD Read/Get OrderJob */
 export const fetchOrderJobs = () => (dispatch) => {
 
-    if (!auth.currentUser) {
-        console.log('No user logged in!');
+    if (!auth.currentUser) {        console.log('No user logged in!');
         return;
     }
 
@@ -1236,8 +1282,156 @@ export const addJobupdate = (jobupdate) => ({
 });
 
 
+export const postCalupdate= (docrefId, jobId,result,value,job) => (dispatch) => {
+
+    if (!auth.currentUser) {
+        console.log('No user logged in!');
+        return;
+    }
+
+    
+    console.log(docrefId)
+    console.log(jobId)
+    console.log(result)
+    console.log(job)
+
+    /*=========================*/
+    console.log("Calling job document update");
+     if(job.testName == "Normal Consistency"){
+     firestore.collection("orders").doc(job.orderDocRefId).update({
+         "Normal":result
+     })
+     }else if(job.testName == "Calcium Oxide"){
+        firestore.collection("orders").doc(job.orderDocRefId).update({
+            "Calcium":result
+        })
+     }else if(job.testName == "Sulfuric Anhydride"){
+        firestore.collection("orders").doc(job.orderDocRefId).update({
+            "Sul":result
+        })
+     }else if(job.testName == "Alumina"){
+        firestore.collection("orders").doc(job.orderDocRefId).update({
+            "Alumina":result
+        })
+     }else if(job.testName == "Silica content"){
+        firestore.collection("orders").doc(job.orderDocRefId).update({
+            "Silica":result
+        })
+     }else if(job.testName == "Ferric Oxide"){
+        firestore.collection("orders").doc(job.orderDocRefId).update({
+            "Ferric":result   
+        })
+     }else if(job.testName == "Density"){
+        firestore.collection("orders").doc(job.orderDocRefId).update({
+            "Density":result   
+        })
+     }
+
+    //  if(job.Ferric !=undefined && job.Silica !=undefined && job.Alumina !=undefined && job.Sul != undefined && job.Calcium !=undefined ){
+    //     const LSF = eval((parseInt(job.Calcium) - (0.7*parseInt(job.Sul)))/(2.8*parseInt(job.Silica)+ 1.2*parseInt(job.Alumina)+ 0.65*parseInt(job.Ferric)))
+    //     firestore.collection("orders").doc(job.orderDocRefId).update({
+    //        "LSF":LSF   
+    //    })
+    // }
+
+    // if(job.Ferric != undefined && job.Alumina != undefined){
+    //     const AF = eval(parseInt(job.Alumina)/parseInt(job.Alumina))
+    //     firestore.collection("orders").doc(job.orderDocRefId).update({
+    //        "AF":AF   
+    //    })
+    // }
+     
+    
+    return  firestore.collection("jobs").doc(docrefId).update({
+            "result": result,
+            "author": {
+                '_id': auth.currentUser.uid,
+                'firstname' : auth.currentUser.displayName ? auth.currentUser.displayName : auth.currentUser.email
+            },
+            "Value":value
+        })
+        .then(() => {
+            console.log("Document successfully updated!");
+            dispatch(fetchJobs())
+            dispatch(fetchOrderJobs())
+            dispatch(fetchOrders())
+        })
+    // .then(docRef => {
+    //     console.log("docRef of new jobupdate")
+    //     console.log(docRef)
+    //                 dispatch(fetchJobs())
+    //                 dispatch(fetchOrders())
+                    
+    //         })
+}
+
 /* CRUD Update Job */
-export const postJobupdate= (docrefId, jobId, status, assignto, jobupdate, result) => (dispatch) => {
+
+export const selectedJobs =(myArray,assignto)=>(dispatch)=>{
+    if (!auth.currentUser) {
+        console.log('No user logged in!');
+        return;
+    }
+
+    console.log(myArray)
+    console.log(assignto)
+
+    /*=========================*/
+    console.log("Calling job document update");
+    let assign;
+    switch (assignto) {
+        case "Ramesh Lingoji":
+            assign="ramesh.lingoji@kdmengineers.com"
+            break;
+        case "Srinivas B":
+            assign="srinivas.b@kdmengineers.com"
+            break;
+        case "Srikanth S":
+            assign="srikanth.s@kdmengineers.com"
+            break;
+        case "Chandrasekhar S":
+            assign="chandrasekhar.s@kdmengineers.com"
+            break;
+        case "Saikumar B":
+            assign="saikumar.b@kdmengineers.com"
+            break;
+        case "Dr B S Rao":
+            assign="drbsrao@kdmengineers.com"
+            break;
+        case "Lakshmana Kattula":
+            assign="lakshmana.kattula@kdmengineers.com"
+            break;
+        case "Srinivas Murahari":
+            assign="srinivasarao.murahari@kdmengineers.com"
+            break;
+        case "Sailatha K":
+            assign="sailatha.k@kdmengineers.com"
+            break;
+        case "Customer care":
+            assign="customercare@gmail.com"
+            break;
+        case "Vikram Annem":
+            assign="vikramreddy.annem@kdmengineers.com"
+            break;
+        case "Sireesha Kattula":
+            assign ="sireesha.kattula@kdmengineers.com"
+            break;
+        default:
+            break;
+    }
+    for(let i of myArray){
+        firestore.collection("jobs").doc(i).update({
+            "assignto": assign
+        })
+    
+        .then(() => {
+            dispatch(fetchJobs());
+        });
+    }
+
+}
+
+export const postJobupdate= (docrefId, jobId, status, assignto, jobupdate) => (dispatch) => {
 
     if (!auth.currentUser) {
         console.log('No user logged in!');
@@ -1249,14 +1443,53 @@ export const postJobupdate= (docrefId, jobId, status, assignto, jobupdate, resul
     console.log(jobId)
     console.log(status)
     console.log(assignto)
-    console.log(result)
 
     /*=========================*/
     console.log("Calling job document update");
+    let assign;
+    switch (assignto) {
+        case "Sireesha Kattula":
+            assign ="sireesha.kattula@kdmengineers.com"
+            break;
+        case "Ramesh Lingoji":
+            assign="ramesh.lingoji@kdmengineers.com"
+            break;
+        case "Srinivas B":
+            assign="srinivas.b@kdmengineers.com"
+            break;
+        case "Srikanth S":
+            assign="srikanth.s@kdmengineers.com"
+            break;
+        case "Chandrasekhar S":
+            assign="chandrasekhar.s@kdmengineers.com"
+            break;
+        case "Saikumar B":
+            assign="saikumar.b@kdmengineers.com"
+            break;
+        case "Dr B S Rao":
+            assign="drbsrao@kdmengineers.com"
+            break;
+        case "Lakshmana Kattula":
+            assign="lakshmana.kattula@kdmengineers.com"
+            break;
+        case "Srinivas Murahari":
+            assign="srinivasarao.murahari@kdmengineers.com"
+            break;
+        case "Sailatha K":
+            assign="sailatha.k@kdmengineers.com"
+            break;
+        case "Customer care":
+            assign="customercare@gmail.com"
+            break;
+        case "Vikram Annem":
+            assign="vikramreddy.annem@kdmengineers.com"
+            break;
+        default:
+            break;
+    }
         firestore.collection("jobs").doc(docrefId).update({
             "status": status,
-            "assignto": assignto,
-            "result": result
+            "assignto": assign
         })
         .then(() => {
             console.log("Document successfully updated!");
@@ -1271,9 +1504,8 @@ export const postJobupdate= (docrefId, jobId, status, assignto, jobupdate, resul
         docrefId: docrefId,
         jobId: jobId,
         status: status,
-        assignto: assignto,
+        assignto: assign,
         jobupdate: jobupdate,
-        result: result,
         createdAt: firebasestore.FieldValue.serverTimestamp(),
         updatedAt: firebasestore.FieldValue.serverTimestamp()
     })
@@ -1286,7 +1518,7 @@ export const postJobupdate= (docrefId, jobId, status, assignto, jobupdate, resul
                     const data = doc.data();
                     const _id = doc.id;
                     let jobupdate = {_id, ...data};
-                    console.log("Calling dispatch addJobupdate")
+                    console.log("Calling dispatch addJobupdate")                    
                     console.log(jobupdate)
                     dispatch(addJobupdate(jobupdate))
                     dispatch(fetchJobs())

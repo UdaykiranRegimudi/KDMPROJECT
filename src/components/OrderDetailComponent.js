@@ -1,9 +1,9 @@
 import {Fragment} from 'react';
 import { Card, CardHeader, CardBody, Button} from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
 import { Loading } from './LoadingComponent';
-import ReportPdf from './ReportPdf'
-import InvoicePdf from './InvoicePdf'
+import ReportPdf from './ReportPdf';
+import InvoicePdf from './InvoicePdf';
 import * as React from "react";
 import {Redirect,withRouter} from 'react-router-dom'
 
@@ -76,7 +76,7 @@ import {Redirect,withRouter} from 'react-router-dom'
                                             <dt className="col-6">Additional Info: </dt>
                                             <dd className="col-6">{order.addInfo}</dd>
                                             <dt className="col-6">Letter: </dt>
-                                            <dd className="col-6"><a href ={order.url} >link</a></dd>
+                                            <dd className="col-6"><a target ="_blank" href ={order.url} >link</a></dd>
                                             <dt className="col-6">Approval Status </dt>
                                             <dd className="col-6"><select  id="text" >
                                                 <option>approve</option>
@@ -91,7 +91,6 @@ import {Redirect,withRouter} from 'react-router-dom'
                                             <dt className="col-6">Assign</dt>
                                             <dd className="col-6"><input type="text" id ="mail" placeholder="customercare@gmail.com"/></dd>
                                             <dt className="col-12"><button type="submit" onClick = {Approval}>Submit</button></dt>
-
                                 </dl>
                             </CardBody>
                         </Card>
@@ -129,7 +128,7 @@ import {Redirect,withRouter} from 'react-router-dom'
                              {
                                  orderJobs.map((orderJob) => (
                                      
-                                    <tr key={orderJob.orderId}>            
+                                    <tr key={orderJob._id}>            
                                         <td>{orderJob.jobId}</td>
                                         <td>{orderJob.parentMat}</td>
                                         <td>{orderJob.testName}</td>
@@ -154,11 +153,16 @@ const OrderDetail = (props) => {
     const [showInvoicePdf, setShowInvoicePdf] = React.useState(false);
    const [materialSelected, setMaterialSelected] = React.useState("");
    const [invTypeSelected, setInvTypeSelected] = React.useState("");
+   const [FormatTypeSelected, setFormatTypeSelected] = React.useState("");
    
 
     const onClickReportPdfButton = (event) => { 
 	    setShowReportPdf(!showReportPdf);
     };
+
+    const onChangeFormatType = (event)=>{
+        setFormatTypeSelected(event.target.value)
+    }
 
     const onClickInvoicePdfButton = (event) => {
         setShowInvoicePdf(!showInvoicePdf);
@@ -208,11 +212,11 @@ const OrderDetail = (props) => {
                             {props.order.mats.map(function(mat) {
                                 return <label key={mat.mat}>
                                     <input type="radio"
-                                    value={mat.mat}
+                                    value={mat.mat+"("+mat.matSamples}
                                     name="material"
                                     onChange={onChangeRadioButton}
                                     />
-                                    {mat.mat} 
+                                    {mat.mat}({mat.matSamples}) 
                                 </label>
                             })}
                         </div>
@@ -223,6 +227,16 @@ const OrderDetail = (props) => {
                                 </div>
                             }
                         </div>
+                    </div>
+                    <div className="row">
+                        <div className="offset-5 col-6">
+                        {   <div onChange={onChangeFormatType}>
+                                        <input type="radio" value="Combine" name="format" /> Combine
+                                        <input type="radio" value="Divide" name="format" /> Divide
+                                </div>
+                            }
+                        </div>
+                        
                     </div>
                     <div className="row">
                         <div className="offset-2 col-6">
@@ -236,12 +250,14 @@ const OrderDetail = (props) => {
                             </Button>
                         </div>
                     </div>
+
+                    
                     <div className="row col-12 justify-content-center">
                             <Fragment>
-                                {showReportPdf ? <ReportPdf order={props.order} postJobupdate= {props.postJobupdate} jobupdates = {props.jobupdates} orderJobs={props.orderJobs} materialSelected={materialSelected}/> : <p></p>}
+                                {showReportPdf ? <ReportPdf order={props.order} postJobupdate= {props.postJobupdate} jobupdates = {props.jobupdates} reportJobs = {props.reportJobs} orderJobs={props.orderJobs} materialSelected={materialSelected}/> : <p></p>}
                             </Fragment>
                             <Fragment>
-                                {showInvoicePdf ? <InvoicePdf order={props.order} orderJobs={props.orderJobs} matMaster={matMaster} invTypeSelected={invTypeSelected}/> : <p></p>}
+                                {showInvoicePdf ? <InvoicePdf order={props.order} orderJobs={props.orderJobs} matMaster={matMaster} FormatTypeSelected={FormatTypeSelected} invTypeSelected={invTypeSelected}/> : <p></p>}
                             </Fragment>
                             
                     </div>

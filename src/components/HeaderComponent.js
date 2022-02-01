@@ -58,6 +58,7 @@ class Header extends Component {
                                     this.props.auth.user.email === "sireesha.kattula@kdmengineers.com" || 
                                     this.props.auth.user.email === "lakshmana.kattula@kdmengineers.com" ||
                                     this.props.auth.user.email === "annemvikramreddy@gmail.com" ||
+                                    this.props.auth.user.email === "vikramreddy.annem@kdmengineers.com"||
                                     this.props.auth.user.email === "vijaya.kattula@kdmengineers.com" ? 
                                         <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/testAPIs">
                                         <span className="fa fa-address-card fa-lg"></span> <strong> Test APIs</strong>
@@ -77,7 +78,7 @@ class Header extends Component {
                                         </NavLink>
 
                                         )
-                                        }
+                                       }
                                     })
                                 : null
                                 }
@@ -89,6 +90,7 @@ class Header extends Component {
                                      this.props.auth.user.email === "subhashini.kunchala@kdmengineers.com" || 
                                      this.props.auth.user.email === "sireesha.kattula@kdmengineers.com" ||
                                      this.props.auth.user.email === "annemvikramreddy@gmail.com" ||
+                                     this.props.auth.user.email === "vikramreddy.annem@kdmengineers.com"||
                                      this.props.auth.user.email === "drbsrao@kdmengineers.com" ||
                                      this.props.auth.user.email === "lakshmana.kattula@kdmengineers.com" ||
                                      this.props.auth.user.email === "customercare@gmail.com" ||
@@ -111,6 +113,7 @@ class Header extends Component {
                                     this.props.auth.user.email === "sailatha.k@kdmengineers.com"||
                                     this.props.auth.user.email === "srinivas.b@kdmengineers.com"||
                                     this.props.auth.user.email === "annemvikramreddy@gmail.com"||
+                                    this.props.auth.user.email === "vikramreddy.annem@kdmengineers.com"||
                                     this.props.auth.user.email === "chandrasekhar.s@kdmengineers.com"||
                                     this.props.auth.user.email === "drbsrao@kdmengineers.com" ?
                                         <NavLink className="nav-link text-dark style = {{color:'black'}}" to="/listjob">
@@ -184,7 +187,6 @@ class Header extends Component {
                             <Button className="submit-btn btn-block" type="submit" value="submit"><strong>Login</strong></Button>
                             </div>
                         </Form>
-                       
                     </ModalBody>
                 </Modal>
             </React.Fragment>

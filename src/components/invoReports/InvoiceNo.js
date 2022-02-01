@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   const InvoiceNo = ({props}) => (
         <Fragment>
              <View>
-                <Text style={styles.invoiceTitle}>Proforma Invoice</Text>
+                <Text style={styles.invoiceTitle}>{props.invTypeSelected =="Proforma Invoice"?"Proforma Invoice":"Tax Invoice"}</Text>
             </View>
             <View style={styles.invCustDataContainer}>
                 <Text style={{width: '15%'}}>Buyer Name: </Text>

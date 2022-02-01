@@ -43,12 +43,13 @@ const ListOrder = (props) => {
                                     <th>Order Id</th>
                                     <th>Project Name</th>
                                     <th>Customer Name</th>
-                                    <th>Customer Reference </th>
-                                    <th>Subject</th>
-                                    <th>Lab Location</th>
+                                    <th>Approval Status </th>
+                                    {/* <th>Subject</th> */}
+                                    {/* <th>Lab Location</th> */}
+                                    {/* <th>Sample</th> */}
                                     <th>Status</th>
                                     <th>Due Date</th>
-                                    <th>Url</th>
+                                    {/* <th>Url</th> */}
                                 </thead>
                                 <tbody>
                                 {
@@ -57,12 +58,12 @@ const ListOrder = (props) => {
                                             <td><Link to={`/listorder/${encodeURIComponent(order.orderId)}`} >{order.orderId} </Link></td>
                                             <td>{order.projectName}</td>
                                             <td>{order.customerName}</td>
-                                            <td>{order.customerReference}</td>
-                                            <td>{order.subject}</td>
-                                            <td>{order.labLocation}</td>
+                                            <td>{order.approval}</td>
+                                            {/* <td>{order.subject}</td> */}
+                                            {/* <td>{order}</td> */}
                                             <td>{order.status}</td>
                                             <td>{order.dueDate}</td>
-                                            <td><a href ={order.url} target ="_blank">link</a></td>
+                                            {/* <td><a href ={order.url} target ="_blank">link</a></td> */}
                                         </tr>   
                                     ))             
                                 }   

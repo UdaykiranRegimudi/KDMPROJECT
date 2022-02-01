@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Button, Label, Col, Row } from 'reactstrap';
 import { Control, Form } from 'react-redux-form';
-import {storage} from '../firebase/firebase'
+import {storage} from '../firebase/firebase';
+// import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+import "./Result.css"
 
 class Order extends Component {
 
@@ -22,6 +25,7 @@ class Order extends Component {
             material1Selected: "",
             testsArrIdx: [],
             select:[],
+            test:["",""],
             options:["Physical","Chemical"],
             testsArr1: [],
             material2Selected: "",
@@ -67,61 +71,98 @@ storage.ref(`/letters/${image.name}`).put(image)
         let materialSelectedIdx = "materialSelected" + idx
         console.log("materialSelectedIdx")
         console.log(materialSelectedIdx)
+        this.setUrl()
 
         this.setState({materialSelectedIdx: e.target.value})
         console.log("Before filter in handleMaterial1Select")
         console.log(this.state)
         console.log(this.props.materialMaster.materialMaster.length)
+        // if(e.target.value.startsWith("Bit")){
+        //     this.setState({options:["Physical","Both"]})
+        // }else{
+        //     this.setState({options:["Physical","Chemical","Both"]})
+        // }
+
 
         for (let i = 0; i < this.props.materialMaster.materialMaster.length; i++) {
             console.log(i)
             console.log(this.props.materialMaster.materialMaster[i].matName)
             if(this.props.materialMaster.materialMaster[i].matName === e.target.value)
             {
+                let physicalMethods = []
+                 let chemicalMethods= []
                 let testsArrIdx = "testsArr" + idx
                 console.log("testsArrIdx")
-                this.setState({testsArrIdx:this.props.materialMaster.materialMaster[i].tests})
-                return
-            }
-        }
-        
-        
-    }
-
-    
-
-    setMethods=(value)=>{
-        let physicalMethods = []
-        let chemicalMethods= []
-        console.log("trying to get")
-        console.log(this.state.materialSelectedIdx)
-        console.log(this.state.testsArrIdx)
-        this.setUrl()
-
-        
-        this.state.testsArrIdx.map((name)=>{
+                this.props.materialMaster.materialMaster[i].tests.map((name)=>{
             
-            if(name.discipline === "Physical"){
-                console.log("testsArrIdx")
-                physicalMethods.push(name.testName)
-                console.log(physicalMethods)
-            }else if(name.discipline === "Chemical"){
-                console.log("testsArrIdx")
-                chemicalMethods.push(name.testName)
-                console.log(chemicalMethods) 
-            }        
-
-
-        })
-        console.log(physicalMethods)
-        if(value=="Physical"){
-            return this.setState({select:physicalMethods})
-        }
-        else if(value == "Chemical"){
-            return this.setState({select:chemicalMethods})
-        }
+                    if(name.discipline === "Physical"){
+                        console.log("testsArrIdx")
+                        physicalMethods.push(name.testName)
+                        console.log(physicalMethods)
+                    }else if(name.discipline === "Chemical"){
+                        console.log("testsArrIdx")
+                        chemicalMethods.push(name.testName)
+                        console.log(chemicalMethods) 
+                    }      
         
+        
+                    })
+                    
+            
+                console.log(physicalMethods)
+                    // test = physicalMethods.concat(chemicalMethods)
+                    return this.setState({select:physicalMethods,test:chemicalMethods})
+        
+                
+                // this.setState({testsArrIdx:this.props.materialMaster.materialMaster[i].tests})
+                // return
+            }
+        }    
     }
+
+
+    // setMethods=(value)=>{
+    //     let physicalMethods = []
+        
+    //     let chemicalMethods= []
+    //     console.log("trying to get")
+    //     console.log(this.state.materialSelectedIdx)
+    //     console.log(this.state.testsArrIdx)
+    // //    this.state.testsArrIdx.map(Test=>{
+    // //       test.push(Test.testName)  
+    // //     })
+    //     this.setUrl()
+
+        
+    //     this.state.testsArrIdx.map((name)=>{
+            
+    //         if(name.discipline === "Physical"){
+    //             console.log("testsArrIdx")
+    //             physicalMethods.push(name.testName)
+    //             console.log(physicalMethods)
+    //         }else if(name.discipline === "Chemical"){
+    //             console.log("testsArrIdx")
+    //             chemicalMethods.push(name.testName)
+    //             console.log(chemicalMethods) 
+    //         }      
+
+
+    //         })
+            
+    
+    //     console.log(physicalMethods)
+    //     if(value ==="Physical"){
+    //         return this.setState({select:physicalMethods,test:["",""]})
+    //     }
+    //     else if(value === "Chemical"){
+    //         return this.setState({test:chemicalMethods,select:["",""]})
+    //     }else{
+    //         // test = physicalMethods.concat(chemicalMethods)
+    //         return this.setState({select:physicalMethods,test:chemicalMethods})
+
+    //     }
+        
+    // }
 
     
     
@@ -148,6 +189,14 @@ storage.ref(`/letters/${image.name}`).put(image)
         this.setState({image:file})
     )
 
+    // Autofill=(event)=>{
+    //   console.log(event.target.value)
+    //   console.log(this.props.customerMaster.customerMaster.filter(value))
+    // }
+
+    
+
+
 
     render() {
         console.log("In Order Component render");
@@ -155,6 +204,8 @@ storage.ref(`/letters/${image.name}`).put(image)
         console.log(this.props);
 
         let {mats,url} = this.state
+        const animatedComponents = makeAnimated();
+
 
         console.log("result obtained")
         console.log(this.state.select)
@@ -196,7 +247,7 @@ storage.ref(`/letters/${image.name}`).put(image)
                             <Row className="form-group">
                             <Label htmlFor="projectName" md={3}>Project Name:</Label>
                                 <Col md={9}>
-                                <Control.text model=".projectName" id="projectName" name="projectName"
+                                <Control.text model=".projectName" id="projectName"  name="projectName"
                                          className="form-control" />                                        
                                                                       
                                 </Col>
@@ -213,8 +264,7 @@ storage.ref(`/letters/${image.name}`).put(image)
                             <Label htmlFor="customerAddress" md={3}>Customer Address:</Label>
                                 <Col md={9}>
                                 <Control.textarea model=".customerAddress" id="customerAddress" name="customerAddress"
-                                        rows="3" className="form-control" />                                        
-                                                                      
+                                        rows="3" className="form-control" />                                                                  
                                 </Col>
                             </Row>
                             <Row className="form-group">
@@ -352,34 +402,38 @@ storage.ref(`/letters/${image.name}`).put(image)
                         return (
                             <div key={idx}>
                             <Row className="form-group">
-                                <Label htmlFor={matId} md={4}>{`Material #${idx + 1}`}:</Label>
-                                <Label htmlFor={matTypeId} md={3}>{`Material Type${idx + 1}`}:</Label>
-                                <Label htmlFor={matParamsId} md={5}>{`Material Params #${idx + 1}`}:</Label>
+                                <Label htmlFor={matId} md={5}>{`Material #${idx + 1}`}:</Label>
+                                {/* <Label htmlFor={matTypeId} md={3}>{`Material Type${idx + 1}`}:</Label> */}
+                                <Label htmlFor={matParamsId} md={7}>{`Material Params #${idx + 1}`}:</Label>
                             </Row>
                             <Row className="form-group">
-                                <Col md={4}>
+                                <Col md={5}>
                                     <Control.select onChange={(value, idx) => {this.handleMaterialSelect(value, idx)}} size="13" model={matIdModel} id={matId} name={matId}
                                     className="form-control">
                                         <option value="" selected disabled>Choose a material</option>
                                         {this.props.materialMaster.materialMaster.map(mat => <option>{mat.matName}</option>)}
                                     </Control.select>
                                 </Col>
-                                <Col md={3}>   
-                                <Control.select  onChange = {(e)=>{this.setMethods(e.target.value)}} multiple size="13" model={matTypeIdModel} id={matTypeId} name={matTypeId}
+                                {/* <Col md={3}>  
+                                 <Control.select  onClick={(e)=>{this.setMethods(e.target.value)}} multiple size="13" model={matTypeIdModel} id={matTypeId} name={matTypeId}
                                     className="form-control">
-                                         <option value="" selected disabled>Choose Type</option>
+                                         <option  value="" selected disabled>Choose Type</option>
                                       
                                        {this.state.options.map(name => <option >{name}</option>)}
-                                </Control.select>                                                   
-                                </Col>  
-                                <Col md={5}>   
+                                </Control.select>                                                    
+                        </Col>  */}
+                                <Col md={7}>   
                                 <Control.select multiple size="13"  model={matParamsIdModel} id={matParamsId} name={matParamsId}
                                     className="form-control">
-                                         <option value=""  disabled>Choose Test Parameters</option>
+                                         <option value=""  disabled className="physical">Physical </option>
                                        {this.state.select.map(mat => <option>{mat}</option>)}
+                                       {console.log(this.state.test.length)}
+                                       {this.state.test.length>0?<option value=""  disabled className="physical">Chemical </option>:<p></p>}
+                                       {this.state.test.map(mat => <option>{mat}</option>)}
                                 </Control.select>                                                   
-                                </Col>   
+                                </Col>
                             </Row>
+
                             <Row className="form-group">
                                 <Label htmlFor={matSamplesId}  md={9}>{`Material Samples #${idx + 1}`}:</Label>
                             </Row>

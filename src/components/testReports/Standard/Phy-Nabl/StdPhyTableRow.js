@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         paddingLeft: 6,
         height: 'auto',
+        marginRight:"8px",
     },
      requirements: {
         width: '30%',
@@ -54,19 +55,44 @@ const StdPhyTableRow = ({phyNablJobs}) => {
      var siNo = 1
      console.log("in TableRow")
      console.log(phyNablJobs)
+     
 
-     const rows = phyNablJobs.map(phyNablJob => 
-        <View wrap={false}>   
+     const rows = phyNablJobs.map(phyNablJob => {
+        if(phyNablJob.testName == "Compressive Strength"){
+            return(<View wrap={false}>   
+                <View style={styles.row} key={phyNablJob.jobId}>
+                     <Text style={styles.siNo}>{siNo, siNo++}</Text>
+                     <Text style={styles.testConducted}>{phyNablJob.testName}{"\n"}
+                     a) 72 ± 1h ( average of
+                       three results){"\n"}
+                     b) 168 ±2123
+                      2h ( average of
+                       three results){"\n"}
+                     c) 672 ± 4h ( average of
+                       three results)</Text>
+                     {/* <Text style={styles.sample}>{phyNablJob.sample}</Text> */}
+                     <Text style={styles.results}>{phyNablJob.result[1]}{"\n"}
+                     {"\n"}
+                     {phyNablJob.result[2] == 0 ? "progess" : phyNablJob.result[2]}{"\n"}
+                     {"\n"}
+                     {phyNablJob.result[3] == 0 ? "progress":phyNablJob.result[3]}{"\n"}</Text>
+                     <Text style={styles.testMethod}>{phyNablJob.testMethod}</Text>
+                     <Text style={styles.requirements}>{phyNablJob.reqmt}</Text>
+                 </View>
+             </View>)
+        }else{
+        return(<View wrap={false}>   
            <View style={styles.row} key={phyNablJob.jobId}>
                 <Text style={styles.siNo}>{siNo, siNo++}</Text>
                 <Text style={styles.testConducted}>{phyNablJob.testName}</Text>
-                <Text style={styles.sample}>{phyNablJob.sample}</Text>
+                {/* <Text style={styles.sample}>{phyNablJob.sample}</Text> */}
                 <Text style={styles.results}>{phyNablJob.result}</Text>
                 <Text style={styles.testMethod}>{phyNablJob.testMethod}</Text>
                 <Text style={styles.requirements}>{phyNablJob.reqmt}</Text>
             </View>
-        </View>
-      )
+        </View>)
+        }
+    })
     return (<Fragment>{rows}</Fragment> ) 
 };
   

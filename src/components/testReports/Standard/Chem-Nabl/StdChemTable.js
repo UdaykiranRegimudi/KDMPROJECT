@@ -14,14 +14,14 @@ const styles = StyleSheet.create({
     },
 });
 
-const StdChemTable = ({chemNablJobs}) => (
+const StdChemTable = ({chemNablJobs,props}) => (
  
     <Fragment>
     {console.log("chemNablJobs in ResultsTables")}
     {console.log(chemNablJobs)}
     <View style={styles.tableContainer} wrap={false}>
         <StdChemTableHeader />
-        <StdChemTableRow chemNablJobs={chemNablJobs} />
+        <StdChemTableRow chemNablJobs={chemNablJobs} props = {props}/>
     </View>
     </Fragment>
   );

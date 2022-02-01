@@ -11,6 +11,7 @@ console.log(props)
 
 console.log("Invoice type selected")
 console.log(props.invTypeSelected)
+console.log(props.FormatTypeSelected)
 
 
 var invData = props.order
@@ -29,10 +30,12 @@ invData.mats.forEach((mat) => {
             console.log(count)
             mat.sampCount = count;
             console.log(mat.sampCount)
-              
+           let ChemNum = 0
+           let PhyNum = 0
            for (let i = 0; i < mat.matParams.length; i++) {
             console.log(i)
             console.log(mat.matParams[i])
+            
             
             const testObj = matObj.tests.find(({testName}) => testName === mat.matParams[i])
             console.log(testObj)
@@ -44,8 +47,24 @@ invData.mats.forEach((mat) => {
                 invDetailsObj.param = mat.matParams[i];
                 invDetailsObj.sampCount = mat.sampCount;
                 invDetailsObj.price = testObj.price;
-
-                mat.invDetails.push(invDetailsObj)  
+              if(testObj.discipline =="Physical" && props.FormatTypeSelected =="Combine" && PhyNum<=0){
+                invDetailsObj.matName = mat.mat;
+                invDetailsObj.param = "Physical Properties";
+                invDetailsObj.sampCount = 1;
+                invDetailsObj.price = "3500";
+                mat.invDetails.push(invDetailsObj)
+                PhyNum = PhyNum+1
+              }
+              else if(testObj.discipline == "Physical" && props.FormatTypeSelected =="Divide" ){
+                mat.invDetails.push(invDetailsObj)
+              }else if(testObj.discipline == "Chemical" && ChemNum<=0){
+                invDetailsObj.matName = mat.mat;
+                invDetailsObj.param = "Chemical Properties";
+                invDetailsObj.sampCount = 1;
+                invDetailsObj.price = "3500";
+                mat.invDetails.push(invDetailsObj)
+                ChemNum = ChemNum+1
+              }
                 console.log("InvoiceDetailsArr")
                 console.log(mat.invDetails)
             }   

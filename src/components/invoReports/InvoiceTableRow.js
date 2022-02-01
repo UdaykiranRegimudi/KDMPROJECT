@@ -51,6 +51,7 @@ const InvoiceTableRow = ({invData}) => {
  var siNo = 1
 
 const rows = invData.mats.map(mat => mat.invDetails.map(invDetail =>
+
        <View style={styles.row} key={invData.orderId}>
             <Text style={styles.siNo}>{siNo, siNo++}</Text>
             <Text style={styles.particulars}>{invDetail.matName}-{invDetail.param}</Text>
@@ -60,6 +61,7 @@ const rows = invData.mats.map(mat => mat.invDetails.map(invDetail =>
         </View>
         ) 
     )
+
     return (<Fragment>{rows}</Fragment> )
 };
   

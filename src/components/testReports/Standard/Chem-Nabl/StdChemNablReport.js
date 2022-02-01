@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
                     {console.log("chemNablJobs")}
                     {console.log(chemNablJobs)}
                     <ReportNo props={props} />
-                    <StdChemTable chemNablJobs={chemNablJobs} />
+                    <StdChemTable chemNablJobs={chemNablJobs} props={props}/>
                     <ReportDisclaimer />
                     <ReportSignature props={props}/>     
                     <View style={[styles.pageFooter, {height: 40}]} fixed>
@@ -75,4 +75,5 @@ const styles = StyleSheet.create({
 
         );
   
-  export default StdChemNablReport
+                    
+     export default StdChemNablReport

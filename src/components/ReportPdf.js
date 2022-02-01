@@ -21,13 +21,15 @@ const ReportPdf = (props) => {
 
 console.log("props in ReportPdf")
 console.log(props)
+const material = props.materialSelected.split("(")
+console.log(material)
 console.log(props.materialSelected)
-var matJobs = ((props.orderJobs).filter((orderJob) => orderJob.parentMat === props.materialSelected))
+var matJobs = ((props.orderJobs).filter((orderJob) => orderJob.parentMat === material[0]))
 console.log("matJobs")
 console.log(matJobs)
 
 var phyJobs = ((matJobs).filter((matJob) => matJob.discipline === "Physical"))
-var chemJobs = ((matJobs).filter((matJob) => matJob.discipline === "Chemical"))
+var chemJobs = ((matJobs).filter((matJob) => matJob.discipline === "Chemical" && matJob.sample == material[1]))
 console.log("PhyJobs")
 console.log(phyJobs)
 console.log("ChemJobs")
@@ -37,6 +39,7 @@ var phyNablJobs = ((phyJobs).filter((phyJob) => phyJob.nabl === true))
 var phyNonNablJobs = ((phyJobs).filter((phyJob) => phyJob.nabl === false))
 console.log("phyJobs-Nabl")
 console.log(phyNablJobs)
+console.log(phyNablJobs[0])
 console.log("phyJobs-Non Nabl")
 console.log(phyNonNablJobs)
 
@@ -47,10 +50,7 @@ console.log(chemNablJobs)
 console.log("ChemJobs-Non Nabl")
 console.log(chemNonNablJobs)
 
-if ((props.materialSelected === "Cement - OPC 43G") || (props.materialSelected === "Cement - OPC 53G") || (props.materialSelected==="Bitumen Emulsion") 
-|| (props.materialSelected === "Bitumen Mix Design - BC") || (props.materialSelected === "Bitumen Mix Design - BM") || 
-(props.materialSelected === "Bitumen Mix Design - DBM") || (props.materialSelected==="Bitumen Mix Design - SDBC") || 
-(props.materialSelected==="Bitumen VG-10")){
+if ((material[0] === "Cement - OPC 43G") || (material[0] === "Cement - OPC 53G") || (material[0].startsWith("Bit"))){
 return (
       <Fragment>  
         {chemNablJobs!= "" ?
@@ -87,7 +87,7 @@ return (
       </Fragment>)
 
     } else { 
-  if ((props.materialSelected === "Reinforcement Steel") || (props.materialSelected === "Structural Steel")) {
+  if ((material[0]=== "Reinforcement Steel") || (material[0] === "Structural Steel")) {
    return (
 
       <Fragment>

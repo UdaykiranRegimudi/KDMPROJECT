@@ -40,9 +40,10 @@ const styles = StyleSheet.create({
 
 
 const InvoiceTableFooter = ({invData}) => {
-
-    const total = invData.mats.map(mat => mat.invDetails.map(invDetail => invDetail.sampCount * invDetail.price)
-        .reduce((accumulator, currentValue) => accumulator + currentValue , 0)  )
+    let total = invData.mats.map(mat => mat.invDetails.map(invDetail => invDetail.sampCount * invDetail.price).reduce((accumulator, currentValue) => parseFloat(accumulator) + parseFloat(currentValue) , 0) )
+console.log(total)
+     total =   total.reduce((accumulator, currentValue) => parseFloat(accumulator) + parseFloat(currentValue) , 0)  
+     console.log(total)
     const subTotal = Number.parseFloat(total).toFixed(2)
     var subTotal1 = Number.parseFloat(subTotal - (10/100 * subTotal)).toFixed(2)
       console.log("subTotal1")
