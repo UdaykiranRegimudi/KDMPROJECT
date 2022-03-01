@@ -1,3 +1,4 @@
+//imports are done
 import { config } from './config';
 import firebase from 'firebase';
 import "firebase/storage"
