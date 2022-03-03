@@ -1,0 +1,52 @@
+.background {
+    background-image: url('https://eskipaper.com/images/colorful-3d-backgrounds-1.jpg');
+    height: 100%;
+    background-size: cover;
+    padding: 2vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .uday {
+    color: yellow;
+    font-size: 16px;
+    font-weight: bold;
+    
+  }
+  .uday2{
+    color:#f20a48;
+    font-size: 16px;
+  }
+  .background1 {
+    background-color: red;
+  }
+  .uday1 {
+    color: red;
+    background-color: yellow;
+  }
+  .logo {
+    height: 20vh;
+    background-color: yellow;
+    border-radius: 8px;
+    margin-right: 80px;
+  }
+  .headCard {
+    background-color: yellow;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    width: 50vw;
+    align-self: center;
+  }
+  .head {
+    align-self: center;
+    color: red;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+  }
+  .logoSmall {
+    height: 4vh;
+    background-color: yellow;
+    color: yellow;
+    border-radius: 2px;
+    margin-right: 5px;
+  }

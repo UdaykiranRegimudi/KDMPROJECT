@@ -30,14 +30,7 @@ address {
   color: floralwhite;
 }
 
-.navbar {
-  background-color: #b0e0e6;
-  padding-left: 30px;
-  padding-right: 30px;
-  flex-direction: row;
-  justify-content: space-around;
-  flex-wrap: nowrap;
-}
+
 
 .page-enter {
   opacity: 0.01;
@@ -62,8 +55,11 @@ address {
 }
 
 .modal .modal-content {
-  background-color: #b0e0e6;
+  background-image: url("https://th.bing.com/th/id/OIP.fHAN2JIxc5ZuxNE_9wKr3wHaE7?w=289&h=191&c=7&r=0&o=5&dpr=1.25&pid=1.7");
+  background-size: cover;
+  padding: 60px;
 }
+
 
 .modal-header {
   justify-content: center;
